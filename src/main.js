@@ -2,10 +2,18 @@ import './assets/main.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import 'jquery';
-import 'apexcharts';
-import 'datatables.net';
-import 'datatables.net-buttons';
+
+function buildChart(selector, options) {
+    const chart = new ApexCharts(document.querySelector(selector), options);
+    chart.render();
+    return chart;
+}
+
+window.buildChart = window.buildChart || function(selector, options) {
+    const chart = new ApexCharts(document.querySelector(selector), options);
+    chart.render();
+    return chart;
+};
 
 import App from './App.vue'
 import router from './router'
