@@ -14,7 +14,6 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-  base: '/app/',
   /*server: {
     host: true, // <-- permite conexión LAN
     port: 5173 // (puedes cambiarlo si necesitas)
