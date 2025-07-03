@@ -1,0 +1,6 @@
+@import './base.css';
+
+#overlay-navigation-example-backdrop {
+  z-index: -2 !important;
+  background-color: white;
+}

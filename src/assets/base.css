@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+@plugin "flyonui";
+@plugin "@iconify/tailwind4";
+
+@import '../../node_modules/flyonui/variants.css';
+@import '../../node_modules/flyonui/src/vendor/fullcalendar.css';
+@import '../../node_modules/flyonui/src/vendor/fullcalendar.css';
+@import '../../node_modules/flyonui/src/vendor/datatables.css';
+@import '../../node_modules/flyonui/src/vendor/apexcharts.css';
+
+@source "../../node_modules/flyonui/dist/index.js";
