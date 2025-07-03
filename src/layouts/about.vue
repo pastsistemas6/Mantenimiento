@@ -15,7 +15,7 @@
           <h3 class="font-semibold text-xl text-[#545386] shadow-sm rounded-lg p-2 px-4">
             Soporte electrico y automatización
           </h3>
-          <img src="../components/Icons/dashboard-morado-32px-03.svg" alt="" class="w-20" />
+          <img src="#" alt="" class="w-20" />
           <div class="w-full flex justify-evenly items-center">
             <div class="card w-md">
               <div class="card-header text-center">
