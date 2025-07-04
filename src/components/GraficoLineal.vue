@@ -7,6 +7,8 @@
 
 <script setup>
 import { onMounted } from 'vue'
+import { buildChart } from '@/assets/js/helpers/apexcharts'
+import { buildTooltipCompareTwoAlt } from '@/assets/js/helpers/apexcharts'
 
 onMounted(async () => {
   ;(function () {

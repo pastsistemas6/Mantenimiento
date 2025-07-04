@@ -9,6 +9,8 @@
 
 <script setup>
 import { onMounted } from 'vue'
+import { buildChart } from '@/assets/js/helpers/apexcharts'
+import { buildTooltip } from '@/assets/js/helpers/apexcharts'
 
 onMounted(() => {
   buildChart('#apex-column-bar-chart', (mode) => ({

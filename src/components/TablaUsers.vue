@@ -991,37 +991,28 @@
 <script setup>
 import { onMounted } from 'vue'
 
-onMounted(async () => {
-  // 1. Mostrar los selects (eliminar la clase 'hidden')
-  document.querySelectorAll('select.hidden').forEach((select) => {
-    select.classList.remove('hidden')
-  })
-
-  // 2. Inicializar los selects personalizados (si usas una librería como Choices.js o similar)
-  // Ejemplo genérico (ajusta según tu implementación real):
-  const selects = document.querySelectorAll('[data-select]')
-  selects.forEach((select) => {
-    // Aquí iría tu lógica para inicializar el select personalizado
-    // Por ejemplo, si usas Choices.js:
-    // new Choices(select, JSON.parse(select.dataset.select));
-    console.log('Inicializando select:', select.id)
-  })
-
-  // 3. Inicializar DataTables
+onMounted(() => {
   const available = document.querySelector('#select-stock')
+
+  // Filtro personalizado global para DataTables
+  $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+    const isAvailable = available?.value === 'all' ? '' : available?.value
+
+    const parser = new DOMParser()
+    const stockColumn = data[8] // Asegúrate que sea el índice correcto
+    const name = parser.parseFromString(stockColumn, 'text/html').body.textContent.trim()
+
+    return isAvailable === '' || name === isAvailable
+  })
+
   const dataTable = $('#datatable-filter table').DataTable({
     pageLength: 5,
   })
 
-  // Configurar la búsqueda personalizada
-  dataTable.search.fixed('stock', (searchStr, data, index) => {
-    const isAvaiable = available.value === 'all' ? '' : available.value
-    const parser = new DOMParser()
-    const name = parser.parseFromString(data[8], 'text/html').body.textContent.trim()
-    return isAvaiable === name || isAvaiable === ''
-  })
+  // Redibujar al cambiar el select
+  available?.addEventListener('change', () => dataTable.draw())
 
-  // Configurar eventos
+  // Búsqueda general
   const searchInput = document.querySelector('[data-datatable-search]')
   if (searchInput) {
     searchInput.addEventListener('input', function () {
@@ -1029,13 +1020,12 @@ onMounted(async () => {
     })
   }
 
+  // Cambio de cantidad de elementos por página
   const pageLengthSelect = document.querySelector('[data-datatable-page-entities]')
   if (pageLengthSelect) {
     pageLengthSelect.addEventListener('change', function () {
       dataTable.page.len(this.value).draw()
     })
   }
-
-  available.addEventListener('change', () => dataTable.draw())
 })
 </script>

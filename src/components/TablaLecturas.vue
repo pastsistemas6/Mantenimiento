@@ -408,21 +408,28 @@
 <script setup>
 import { onMounted } from 'vue'
 
-onMounted(async () => {
+onMounted(() => {
   const available = document.querySelector('#select-stock')
+
+  // Filtro personalizado global para DataTables
+  $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+    const isAvailable = available?.value === 'all' ? '' : available?.value
+
+    const parser = new DOMParser()
+    const stockColumn = data[1] // Asegúrate que sea el índice correcto
+    const name = parser.parseFromString(stockColumn, 'text/html').body.textContent.trim()
+
+    return isAvailable === '' || name === isAvailable
+  })
+
   const dataTable = $('#datatable-filter table').DataTable({
     pageLength: 5,
   })
 
-  dataTable.search.fixed('stock', (searchStr, data, index) => {
-    const isAvaiable = available.value === 'all' ? '' : available.value
-    const parser = new DOMParser()
-    const name = parser.parseFromString(data[1], 'text/html').body.textContent.trim()
+  // Redibujar al cambiar el select
+  available?.addEventListener('change', () => dataTable.draw())
 
-    return isAvaiable === name || isAvaiable === ''
-  })
-  available.addEventListener('change', () => dataTable.draw())
-
+  // Búsqueda general
   const searchInput = document.querySelector('[data-datatable-search]')
   if (searchInput) {
     searchInput.addEventListener('input', function () {
@@ -430,7 +437,7 @@ onMounted(async () => {
     })
   }
 
-  // Conectar el select de cantidad de elementos
+  // Cambio de cantidad de elementos por página
   const pageLengthSelect = document.querySelector('[data-datatable-page-entities]')
   if (pageLengthSelect) {
     pageLengthSelect.addEventListener('change', function () {
