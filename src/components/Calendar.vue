@@ -106,7 +106,9 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import FullCalendar from '../../lib/@fullcalendar/vue3/dist/FullCalendar'
+import { Calendar } from '@fullcalendar/core'
+import dayGridPlugin from '@fullcalendar/daygrid'
+
 
 const calendarRef = ref(null)
 let calendarInstance = null
@@ -237,7 +239,8 @@ onMounted(async () => {
     },
   ]
 
-  calendarInstance = new FullCalendar.Calendar(calendarEl, {
+  calendarInstance = new Calendar(calendarEl, {
+    plugins: [dayGridPlugin], 
     initialView: 'dayGridMonth',
     initialDate: today.toISOString().split('T')[0],
     editable: true,
