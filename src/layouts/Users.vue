@@ -77,7 +77,7 @@
           </div>
         </div>
         <div>
-          <TablaUsers></TablaUsers>
+          <Datatable2></Datatable2>
         </div>
       </div>
     </div>
@@ -85,5 +85,5 @@
 </template>
 
 <script setup>
-import TablaUsers from '@/components/TablaUsers.vue'
+import Datatable2 from '@/components/Datatable2.vue';
 </script>

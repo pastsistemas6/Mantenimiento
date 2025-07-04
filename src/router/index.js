@@ -12,11 +12,11 @@ import Lecturas from '@/layouts/Lecturas.vue'
 import Sgmwin from '@/layouts/Sgmwin.vue'
 import Fdim from '@/layouts/Fdim.vue'
 import Notas from '@/layouts/Notas.vue'
-import TablaLecturas from '@/components/TablaLecturas.vue'
 import Page404 from '@/views/Page4041.vue'
 import Users from '@/layouts/Users.vue'
 import Map from '@/layouts/Map.vue'
 import About from '@/layouts/about.vue'
+import Datatable2 from '@/components/Datatable2.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -72,9 +72,9 @@ const router = createRouter({
               component: Calendar,
             },
             {
-              path: '/tabla-lecturas',
-              name: 'TablaLecturas',
-              component: TablaLecturas,
+              path: '/data-tabla',
+              name: 'Data-tabla',
+              component: Datatable2,
             },
           ],
         },

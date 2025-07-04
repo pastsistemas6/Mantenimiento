@@ -4,7 +4,7 @@
       <div class="flex flex-col place-content-center shadow px-4 pb-4 rounded-lg">
         <div class="flex justify-start">
           <button
-            @click="enviar('TablaLecturas')"
+            @click="enviar('Data-tabla')"
             class="btn bg-white hover:bg-base-content/10 border-0 shadow-none text-[#545386] font-bold text-md"
           >
             Gestión de lecturas

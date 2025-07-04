@@ -201,7 +201,7 @@ const handleMouseLeave = () => {
           @mouseleave="handleMouseLeave"
         >
           <RouterLink
-            to="tabla-lecturas"
+            to="data-tabla"
             :class="['flex items-center', !isExpanded && 'justify-center px-2']"
           >
             <span>
