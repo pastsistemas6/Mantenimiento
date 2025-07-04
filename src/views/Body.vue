@@ -28,6 +28,7 @@
             aria-haspopup="menu"
             aria-expanded="false"
             aria-label="Dropdown"
+            @click.stop="showDropdown = !showDropdown"
           >
             <span>
               <img
@@ -38,13 +39,15 @@
               />
             </span>
             Usuario
-            <span class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4"></span>
+            <span class="icon-[tabler--chevron-down] size-4" :class="{ 'rotate-180': showDropdown }"></span>
           </button>
           <ul
-            class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60 shadow"
+            class="dropdown-menu absolute min-w-60 shadow bg-white z-50"
+            :class="[showDropdown ? 'opacity-100 fixed top-14 left-auto right-3 bottom-auto m-0' : 'hidden']"
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="dropdown-header"
+            data-placement="bottom-end"
           >
             <li>
               <a class="dropdown-item hover:bg-white" title="Rol">
@@ -96,7 +99,7 @@
 
 <script setup>
 import { RouterView } from 'vue-router'
-import { ref, provide } from 'vue'
+import { ref, provide, onMounted, onUnmounted } from 'vue'
 import Drawer from '@/components/Drawer.vue'
 
 // Estado del drawer
@@ -111,5 +114,22 @@ const toggleDrawer = () => {
 provide('drawerState', {
   isExpanded,
   toggleDrawer,
+})
+
+const showDropdown = ref(false)
+
+// Cierra el dropdown al hacer clic fuera
+const closeDropdown = (e) => {
+  if (!e.target.closest('.dropdown')) {
+    showDropdown.value = false
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('click', closeDropdown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('click', closeDropdown)
 })
 </script>

@@ -98,4 +98,16 @@
 
 <script setup>
 import CardNotas from '@/components/CardNotas.vue'
+import { ref } from 'vue'
+
+const isModalOpen = ref(false)
+
+const openModal = () => {
+  isModalOpen.value = true
+}
+
+const closeModal = () => {
+  isModalOpen.value = false
+}
+
 </script>
