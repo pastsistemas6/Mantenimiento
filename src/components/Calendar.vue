@@ -106,6 +106,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import FullCalendar from '../../lib/@fullcalendar/vue3/dist/FullCalendar'
 
 const calendarRef = ref(null)
 let calendarInstance = null
