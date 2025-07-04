@@ -2,10 +2,10 @@
 @plugin "flyonui";
 @plugin "@iconify/tailwind4";
 
-@import '../../lib/flyonui/variants.css';
-@import '../../lib/flyonui/src/vendor/fullcalendar.css';
-@import '../../lib/flyonui/src/vendor/fullcalendar.css';
-@import '../../lib/flyonui/src/vendor/datatables.css';
-@import '../../lib/flyonui/src/vendor/apexcharts.css';
+@import './variants.css';
+@import './vendor/fullcalendar.css';
+@import './vendor/datatables.css';
+@import './vendor/apexcharts.css';
 
-@source "../../lib/flyonui/dist/index.js";
+
+@source "/lib/flyonui/dist/index.js";
