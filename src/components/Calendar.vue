@@ -108,6 +108,8 @@
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { Calendar } from '@fullcalendar/core'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import listPlugin from '@fullcalendar/list'
 
 
 const calendarRef = ref(null)
@@ -240,7 +242,7 @@ onMounted(async () => {
   ]
 
   calendarInstance = new Calendar(calendarEl, {
-    plugins: [dayGridPlugin], 
+    plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
     initialView: 'dayGridMonth',
     initialDate: today.toISOString().split('T')[0],
     editable: true,
