@@ -20,7 +20,7 @@
           v-model="searchTerm"
           type="text"
           placeholder="Search for items"
-          class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent"
         />
       </div>
 
@@ -29,7 +29,7 @@
         <!-- Page Size -->
         <select
           v-model="pageSize"
-          class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent target:border-r-2"
         >
           <option value="5">5</option>
           <option value="10">10</option>
@@ -40,7 +40,7 @@
         <!-- Status Filter -->
         <select
           v-model="statusFilter"
-          class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent target:border-b-2"
         >
           <option value="All">All</option>
           <option value="In Stock">In Stock</option>
@@ -59,7 +59,7 @@
               <input
                 v-model="selectAll"
                 type="checkbox"
-                class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                class="h-4 w-4 text-[#545386] border-gray-300 rounded focus:ring-[#545386]"
                 @change="toggleSelectAll"
               />
             </th>
@@ -101,7 +101,7 @@
                 v-model="selectedItems"
                 :value="item.id"
                 type="checkbox"
-                class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                class="h-4 w-4 text-[#545386] border-gray-300 rounded focus:ring-[#545386]"
               />
             </td>
             <td class="px-4 py-4 text-sm text-gray-900">{{ item.productName }}</td>
@@ -179,7 +179,7 @@
           :class="[
             'px-3 py-1 text-sm border rounded-md',
             page === currentPage
-              ? 'bg-blue-600 text-white border-blue-600'
+              ? 'bg-[#545386] text-white border-[#545386]'
               : 'border-gray-300 hover:bg-gray-50'
           ]"
         >

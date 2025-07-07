@@ -17,6 +17,7 @@ import Users from '@/layouts/Users.vue'
 import Map from '@/layouts/Map.vue'
 import About from '@/layouts/about.vue'
 import Datatable2 from '@/components/Datatable2.vue'
+import Support from '@/layouts/Support.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -97,6 +98,11 @@ const router = createRouter({
           path: '/fdim',
           name: 'Fdim',
           component: Fdim,
+        },
+        {
+          path: '/support',
+          name: 'Support',
+          component: Support,
         },
         {
           path: '/about',

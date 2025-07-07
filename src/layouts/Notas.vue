@@ -18,19 +18,17 @@
             class="btn bg-[#545386]"
             aria-haspopup="dialog"
             aria-expanded="false"
+            @click="openModal"
             aria-controls="form-modal"
-            data-overlay="#form-modal"
           >
             Nueva nota
           </button>
 
           <div
             id="form-modal"
-            class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 hidden"
-            role="dialog"
-            tabindex="-1"
+            :class="!isModalOpen ? 'modal hidden' : 'modal opacity-100 duration-300 open w-full h-full bg-base-content/50'"
           >
-            <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300">
+            <div :class="!isModalOpen ? 'modal-dialog hidden' : 'modal-dialog top-40 opacity-100 duration-300'">
               <div class="modal-content">
                 <div class="modal-header">
                   <h3 class="modal-title text-[#545386]">Nota</h3>
@@ -38,9 +36,8 @@
                     type="button"
                     class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
                     aria-label="Close"
-                    data-overlay="#form-modal"
                   >
-                    <span class="icon-[tabler--x] size-4"></span>
+                    <span class="icon-[tabler--x] size-4" @click="closeModal"></span>
                   </button>
                 </div>
                 <form>
@@ -75,11 +72,11 @@
                     <button
                       type="button"
                       class="btn btn-soft btn-secondary"
-                      data-overlay="#form-modal"
+                      @click="closeModal"
                     >
                       Cancelar
                     </button>
-                    <button type="submit" class="btn bg-[#545386]">Guardar nota</button>
+                    <button type="submit" class="btn bg-[#545386]" @click="closeModal">Guardar nota</button>
                   </div>
                 </form>
               </div>
@@ -96,9 +93,10 @@
   </div>
 </template>
 
+
 <script setup>
 import CardNotas from '@/components/CardNotas.vue'
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 const isModalOpen = ref(false)
 
@@ -109,5 +107,5 @@ const openModal = () => {
 const closeModal = () => {
   isModalOpen.value = false
 }
-
 </script>
+

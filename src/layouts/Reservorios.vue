@@ -3,8 +3,11 @@
     <div class="py-3 pr-5 pb-6">
       <div class="grid grid-cols-2 gap-4 place-content-center shadow p-4 rounded-lg">
         <h2 class="text-[#545386] font-bold text-2xl">Control de reservorios</h2>
-        <button type="button" class="w-40 ml-auto bg-[rgb(84,83,134)] rounded-md text-white">
-          Agregar reservorio
+        <button type="button" class="btn ml-auto bg-[rgb(84,83,134)] rounded-md text-white py-2 shadow-none">
+          <span class="flex items-center gap-3">
+            <span class="icon-[mingcute--add-line] size-4"></span>
+            <span class="max-sm:hidden">Agregar reservorio</span>
+          </span>
         </button>
         <div class="divider text-base-content/50 py-1 col-span-full"></div>
         <div class="flex flex-col gap-4">

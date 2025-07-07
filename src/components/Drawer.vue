@@ -348,7 +348,7 @@ const handleMouseLeave = () => {
           @mouseenter="(e) => handleMouseEnter(e, 'Support')"
           @mouseleave="handleMouseLeave"
         >
-          <RouterLink to="404" :class="['flex items-center', !isExpanded && 'justify-center px-2']">
+          <RouterLink to="support" :class="['flex items-center', !isExpanded && 'justify-center px-2']">
             <span class="icon-[tabler--users-group] size-5"></span>
             <span v-if="isExpanded" class="ml-2">Support</span>
           </RouterLink>
@@ -369,7 +369,7 @@ const handleMouseLeave = () => {
           @mouseenter="(e) => handleMouseEnter(e, 'Documentation')"
           @mouseleave="handleMouseLeave"
         >
-          <RouterLink to="#" :class="['flex items-center', !isExpanded && 'justify-center px-2']">
+          <RouterLink to="404" :class="['flex items-center', !isExpanded && 'justify-center px-2']">
             <span class="icon-[tabler--files] size-5"></span>
             <span v-if="isExpanded" class="ml-2">Documentation</span>
           </RouterLink>

@@ -63,7 +63,7 @@
               </a>
             </li>
             <li>
-              <RouterLink class="dropdown-item" to="users">
+              <RouterLink class="dropdown-item" to="users" @click.stop="showDropdown = !showDropdown">
                 <span>
                   <img
                     src="../components/icons/icons8-admin-settings-male-100.png"
