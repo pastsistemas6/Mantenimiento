@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-xl pt-4">
+  <div class="flex flex-col w-xl items-center">
     <div class="w-full flex flex-col justify-center items-center mb-8">
       <h2 class="text-[#545386] text-6xl font-bold mb-5">MANTENIMIENTO</h2>
       <h3 class="text-[#545386] text-2xl">Sistema de gestión</h3>

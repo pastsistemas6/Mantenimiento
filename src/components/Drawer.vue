@@ -57,20 +57,20 @@ const handleMouseLeave = () => {
 
       <ul class="menu space-y-0.5 pb-6 p-0">
         <li
-          class="relative"
+          class="relative hover:bg-white cursor-default"
           @mouseenter="(e) => handleMouseEnter(e, 'Elite Flower')"
           @mouseleave="handleMouseLeave"
         >
           <RouterLink
             to="BodyLayout"
-            :class="['flex flex-col justify-center items-center gap-0', !isExpanded && 'px-2']"
+            :class="['flex flex-col justify-center items-center gap-0 hover:bg-white cursor-default list-none', !isExpanded && 'px-2']"
           >
             <img
               src="./icons/elite flower-morado-64px-05.svg"
-              :class="isExpanded ? 'h-10 mb-3' : 'h-8 mb-1'"
+              :class="isExpanded ? 'h-10 mb-3 cursor-default' : 'h-8 mb-1'"
             />
-            <h3 v-if="isExpanded" class="font-semibold">Elite Flower</h3>
-            <p v-if="isExpanded" class="text-gray-500! text-xs">Finca Productora</p>
+            <h3 v-if="isExpanded" class="font-semibold cursor-default">Elite Flower</h3>
+            <p v-if="isExpanded" class="text-gray-500! text-xs cursor-default">Finca Productora</p>
           </RouterLink>
 
           <Teleport to="#tooltip-container">
@@ -413,8 +413,8 @@ const handleMouseLeave = () => {
 
         <div v-if="isExpanded" class="w-full divider text-base-content/50 py-1"></div>
 
-        <li v-if="isExpanded" class="hover:bg-white cursor-none list-none">
-          <span class="text-start hover:bg-white text-xs">© 2025 Prototipo web. v0.1.0</span>
+        <li v-if="isExpanded" class="hover:bg-white cursor-default list-none">
+          <span class="text-start hover:bg-white text-xs cursor-default">© 2025 Prototipo web. v0.1.0</span>
         </li>
       </ul>
     </div>

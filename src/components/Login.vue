@@ -1,7 +1,7 @@
 <template>
-  <div class="flex min-h-full flex-col justify-center lg:px-4 w-lg">
-    <div class="sm:mx-auto sm:w-full pt-7">
-      <h2 class="mt-8 text-center text-5xl font-bold tracking-tight text-[#545386]">
+  <div class="flex min-h-full flex-col justify-center items-center lg:px-4 w-lg">
+    <div class="sm:mx-auto sm:w-full ">
+      <h2 class="text-center text-5xl font-bold tracking-tight text-[#545386]">
         Iniciar sesión
       </h2>
       <p class="text-center mt-4 text-lg text-gray-600">
