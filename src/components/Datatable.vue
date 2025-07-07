@@ -117,7 +117,7 @@
         <div class="dropdown relative inline-flex">
           <button
             type="button"
-            class="dropdown-toggle max-sm:btn-square btn btn-soft btn-sm"
+            class="dropdown-toggle max-sm:btn-square btn bg-white text-base-content/100 border-gray-400 btn-sm shadow-none"
             @click="showExportDropdown = !showExportDropdown"
           >
             <span class="flex items-center gap-3">
@@ -291,7 +291,7 @@
             @click="goToPage(page)"
             type="button"
             class="btn btn-text btn-circle btn-sm"
-            :class="{ 'bg-primary text-white': page === currentPage }"
+            :class="{ 'bg-[#545386] text-white': page === currentPage }"
           >
             {{ page }}
           </button>
@@ -528,6 +528,135 @@ const exportData = (format) => {
       link.click()
       document.body.removeChild(link)
       break
+
+    case 'excel':
+      // Crear contenido HTML para Excel
+      const excelContent = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+          <head>
+            <!--[if gte mso 9]>
+            <xml>
+              <x:ExcelWorkbook>
+                <x:ExcelWorksheets>
+                  <x:ExcelWorksheet>
+                    <x:Name>Plásticos</x:Name>
+                    <x:WorksheetOptions>
+                      <x:DisplayGridlines/>
+                    </x:WorksheetOptions>
+                  </x:ExcelWorksheet>
+                </x:ExcelWorksheets>
+              </x:ExcelWorkbook>
+            </xml>
+            <![endif]-->
+            <meta charset="UTF-8">
+          </head>
+          <body>
+            <table>
+              <tr>
+                <th>ID</th>
+                <th>Tipo</th>
+                <th>Bloque</th>
+                <th>Cultivo</th>
+                <th>Estado</th>
+              </tr>
+              ${exportableData.map(item => `
+                <tr>
+                  <td>${item.id}</td>
+                  <td>${item.tipo}</td>
+                  <td>${item.bloque}</td>
+                  <td>${item.cultivo}</td>
+                  <td>${item.estado}</td>
+                </tr>
+              `).join('')}
+            </table>
+          </body>
+        </html>
+      `
+
+      // Crear blob y descargar
+      const excelBlob = new Blob([excelContent], { type: 'application/vnd.ms-excel' })
+      const excelLink = document.createElement('a')
+      const excelUrl = URL.createObjectURL(excelBlob)
+      excelLink.setAttribute('href', excelUrl)
+      excelLink.setAttribute('download', 'plasticos.xls')
+      document.body.appendChild(excelLink)
+      excelLink.click()
+      document.body.removeChild(excelLink)
+      break
+
+    case 'pdf':
+    // Usaremos jsPDF para generar el PDF directamente sin html2canvas
+    import('jspdf').then((jsPDFModule) => {
+      const { jsPDF } = jsPDFModule;
+
+      // Crear un nuevo documento PDF
+      const pdf = new jsPDF('p', 'pt', 'a4');
+
+      // Configuración del documento
+      const margin = 40;
+      const pageWidth = pdf.internal.pageSize.getWidth() - 2 * margin;
+      let yPos = margin;
+
+      // Título del documento
+      pdf.setFontSize(18);
+      pdf.text('Gestión de Plásticos', margin, yPos);
+      yPos += 30;
+
+      // Encabezados de la tabla
+      pdf.setFontSize(12);
+      pdf.setFont(undefined, 'bold');
+
+      // Definir columnas
+      const headers = [
+        { header: 'ID', width: 40 },
+        { header: 'Tipo', width: 100 },
+        { header: 'Bloque', width: 80 },
+        { header: 'Cultivo', width: 100 },
+        { header: 'Estado', width: 80 }
+      ];
+
+      // Dibujar encabezados
+      let xPos = margin;
+      headers.forEach(col => {
+        pdf.text(col.header, xPos, yPos);
+        xPos += col.width;
+      });
+      yPos += 20;
+
+      // Contenido de la tabla
+      pdf.setFont(undefined, 'normal');
+      exportableData.forEach(item => {
+        // Verificar si necesitamos una nueva página
+        if (yPos > pdf.internal.pageSize.getHeight() - margin) {
+          pdf.addPage();
+          yPos = margin;
+        }
+
+        xPos = margin;
+        pdf.text(item.id.toString(), xPos, yPos);
+        xPos += headers[0].width;
+
+        pdf.text(item.tipo, xPos, yPos);
+        xPos += headers[1].width;
+
+        pdf.text(item.bloque, xPos, yPos);
+        xPos += headers[2].width;
+
+        pdf.text(item.cultivo, xPos, yPos);
+        xPos += headers[3].width;
+
+        pdf.text(item.estado, xPos, yPos);
+
+        yPos += 20;
+      });
+
+      // Guardar el PDF
+      pdf.save('plasticos.pdf');
+    }).catch(err => {
+      console.error('Error al generar PDF:', err);
+      alert('Error al generar el PDF. Inténtalo de nuevo.');
+    });
+    break;
 
     case 'print':
       const printContent = `
