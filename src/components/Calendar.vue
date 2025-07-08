@@ -44,8 +44,8 @@
           <div class="modal-body pt-0 flex flex-col gap-2">
             <div class="w-full">
               <label class="label-text">Seleccione una cuenta</label>
-              <select class="select" required>
-                <option disabled>Seleccione una cuenta...</option>
+              <select id="accountSelect" class="select" required>
+                <option disabled selected>Seleccione una cuenta...</option>
                 <option value="EMGESA 635">EMGESA 635</option>
                 <option value="RUITOQUE 6188">RUITOQUE 6188</option>
                 <option value="RUITOQUE SUSCRIPTOR: 6189">RUITOQUE SUSCRIPTOR: 6189</option>
@@ -62,32 +62,31 @@
             </div>
             <div>
               <label class="label-text"> Código del operador </label>
-              <input type="text" class="input" placeholder="Ej: OP001" required />
+              <input id="operatorCode" type="text" class="input" placeholder="Ej: OP001" required />
             </div>
             <div>
               <label class="label-text"> Nombre del operador </label>
-              <input type="text" class="input" placeholder="Event title" required />
+              <input id="operatorName" type="text" class="input" placeholder="Nombre operador" required />
             </div>
             <div>
               <label class="label-text"> Lectura (kWh) </label>
-              <input type="number" class="input" placeholder="0.00" required />
+              <input id="reading" type="number" class="input" placeholder="0.00" required />
             </div>
             <div>
               <label class="label-text"> Observaciones </label>
               <textarea
+                id="observations"
                 class="input pt-1"
                 placeholder="Observaciones adicionales (opcional)"
-                name=""
-                id=""
               ></textarea>
             </div>
             <div class="mb-4">
-              <label class="label-text" for="evenTitle">Información</label>
+              <label class="label-text" for="eventTitle">Información</label>
               <input
                 type="text"
                 id="eventTitle"
                 class="input"
-                placeholder="No hay un evento"
+                placeholder="Resumen del evento"
                 disabled
               />
             </div>
@@ -111,7 +110,6 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 
-
 const calendarRef = ref(null)
 let calendarInstance = null
 let selectedEvent = null
@@ -127,13 +125,22 @@ const closeModal = () => {
   }
 }
 
+const updateEventTitle = () => {
+  const account = document.getElementById('accountSelect').value
+  const code = document.getElementById('operatorCode').value
+  const name = document.getElementById('operatorName').value
+  const reading = document.getElementById('reading').value
+
+  const title = `${account} | ${code} - ${name} | Lectura: ${reading}kWh`
+  document.getElementById('eventTitle').value = title
+}
+
 onMounted(async () => {
   await nextTick()
 
   const calendarEl = calendarRef.value
   const today = new Date()
 
-  // Inicializar HSOverlay manualmente si existe
   if (window.HSOverlay) {
     const overlays = document.querySelectorAll('[data-hs-overlay]')
     if (overlays.length) {
@@ -254,13 +261,13 @@ onMounted(async () => {
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
     },
     buttonText: {
-      month: 'Month',
-      week: 'Week',
-      day: 'Day',
-      list: 'List',
+      month: 'Mes',
+      week: 'Semana',
+      day: 'Día',
+      list: 'Lista',
     },
     events: events,
-    select: async function (info) {
+    select: function (info) {
       const blockedStart = addDays(today, 17).getTime()
       const blockedEnd = addDays(today, 20).getTime()
       const selectedStart = info.start.getTime()
@@ -279,22 +286,24 @@ onMounted(async () => {
       selectedDateInfo = info
       document.getElementById('modalTitle').textContent = `${formatDate(info.start)}`
       document.getElementById('eventForm').reset()
+      document.getElementById('eventTitle').value = ''
 
-      // Abrir el modal directamente
+      // Abrir el modal
       const modal = document.getElementById('calendar-event-modal')
       if (modal) {
-        modal.classList.add('hidden')
+        modal.classList.remove('hidden')
         if (window.HSOverlay) {
           new HSOverlay(modal).open()
         }
       }
     },
-    eventClick: async function (info) {
+    eventClick: function (info) {
       selectedEvent = info.event
+      selectedDateInfo = { startStr: info.event.startStr, endStr: info.event.endStr }
       document.getElementById('modalTitle').textContent = `${formatDate(info.event.start)}`
       document.getElementById('eventTitle').value = info.event.title
 
-      // Abrir el modal directamente
+      // Abrir el modal
       const modal = document.getElementById('calendar-event-modal')
       if (modal) {
         modal.classList.add('hidden')
@@ -313,21 +322,31 @@ onMounted(async () => {
 
   calendarInstance.render()
 
+  // Agregar event listeners para actualizar el título
+  document.getElementById('accountSelect').addEventListener('change', updateEventTitle)
+  document.getElementById('operatorCode').addEventListener('input', updateEventTitle)
+  document.getElementById('operatorName').addEventListener('input', updateEventTitle)
+  document.getElementById('reading').addEventListener('input', updateEventTitle)
+
   document.getElementById('eventForm').addEventListener('submit', function (e) {
     e.preventDefault()
     const title = document.getElementById('eventTitle').value
+
     if (title) {
       if (selectedEvent) {
+        // Actualizar evento existente
         selectedEvent.setProp('title', title)
-      } else {
+      } else if (selectedDateInfo) {
+        // Crear nuevo evento
         calendarInstance.addEvent({
           title: title,
           start: selectedDateInfo.startStr,
           end: selectedDateInfo.endStr,
           allDay: true,
+          classNames: ['fc-event-info']
         })
       }
-      closeModal() // Usamos la misma función para cerrar
+      closeModal()
     }
   })
 })

@@ -76,17 +76,17 @@
               <div class="flex flex-col gap-2">
                 <h5 class="font-semibold">Controles</h5>
                 <button id="add-block" class="btn bg-[#545386] border-0 text-sm">
-                  <i class="fas fa-plus"></i> Agregar Bloque
+                  <i class="icon-[mingcute--add-fill] size-4"></i> Agregar Bloque
                 </button>
                 <button
                   id="edit-block"
                   class="btn bg-[#C2DFEA] text-black border-0 text-sm"
                   disabled
                 >
-                  <i class="fas fa-edit"></i> Editar Bloque
+                  <i class="icon-[lucide--edit] size-4"></i> Editar Bloque
                 </button>
                 <button id="delete-block" class="btn btn-danger border-0 text-sm" disabled>
-                  <i class="fas fa-trash"></i> Eliminar Bloque
+                  <i class="icon-[ic--baseline-delete] size-4"></i> Eliminar Bloque
                 </button>
               </div>
               <div class="p-3 bg-[#D8D2C4] rounded-md flex flex-col gap-2">
@@ -158,7 +158,7 @@ onMounted(async () => {
   fullscreenButton.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'leaflet-bar leaflet-control')
     div.innerHTML =
-      '<a href="#" title="Pantalla completa" style="width: 36px; height: 36px; line-height: 36px; display: block; text-align: center; text-decoration: none; color: #333; background: white; border-radius: 4px;"><i class="fas fa-expand"></i></a>'
+      '<a href="#" title="Pantalla completa" class="text-[#333] pt-1" style="width: 34px; height: 34px; text-decoration: none; border-radius: 4px;"><span class="icon-[basil--expand-outline] size-6"></span></a>'
 
     div.onclick = function (e) {
       e.preventDefault()
