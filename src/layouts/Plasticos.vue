@@ -3,6 +3,7 @@
     <Datatable></Datatable>
     <MapsFinca></MapsFinca>
   </div>
+  <router-view></router-view>
 </template>
 
 <script setup>

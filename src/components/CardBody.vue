@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row items-start gap-4 mt-6">
+  <div class="flex flex-row items-start gap-4">
     <div class="bg-[#545386] p-0 rounded-lg">
       <h2 class="text-2xl text-white font-semibold m-3 ml-5">Resumen de la compañia</h2>
       <div class="stats">

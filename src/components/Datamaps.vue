@@ -1,52 +1,50 @@
 <template>
+  <h2 class="text-3xl font-bold text-[#383A35] mb-3">Bienvenido al sistema de mantenimiento</h2>
+  <p class="mb-5">
+    Elite Flower es una empresa líder en la industria de las flores, dedicada a producir flores de
+    alta calidad para exportación. Este sistema de mantenimiento ayuda a gestionar recursos y
+    realizar seguimiento a las actividades de mantenimiento en todas las fincas.
+  </p>
 
-    <h2 class="text-3xl font-bold text-[#383A35] mb-3">Bienvenido al sistema de mantenimiento</h2>
-    <p class="mb-5">
-      Elite Flower es una empresa líder en la industria de las flores, dedicada a producir flores de
-      alta calidad para exportación. Este sistema de mantenimiento ayuda a gestionar recursos y
-      realizar seguimiento a las actividades de mantenimiento en todas las fincas.
-    </p>
+  <!-- Controles de navegación -->
+  <div class="map-controls mb-4" v-if="currentView === 'colombia'">
+    <button
+      @click="resetToWorld"
+      class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors"
+    >
+      ← Volver al mapa mundial
+    </button>
+    <span class="ml-4 text-gray-600">Vista: Colombia - Ciudades y Regiones</span>
+  </div>
 
-    <!-- Controles de navegación -->
-    <div class="map-controls mb-4" v-if="currentView === 'colombia'">
-      <button
-        @click="resetToWorld"
-        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors"
-      >
-        ← Volver al mapa mundial
-      </button>
-      <span class="ml-4 text-gray-600">Vista: Colombia - Ciudades y Regiones</span>
-    </div>
+  <div class="map-controls mb-4" v-if="currentView === 'world'">
+    <span class="text-gray-600">Haz clic en Colombia para ver el detalle de ciudades</span>
+  </div>
 
-    <div class="map-controls mb-4" v-if="currentView === 'world'">
-      <span class="text-gray-600">Haz clic en Colombia para ver el detalle de ciudades</span>
-    </div>
+  <div id="countries-datamap" style="width: 100%"></div>
 
-    <div id="countries-datamap" style="width: 100%"></div>
-
-    <!-- Leyenda para el mapa de Colombia -->
-    <div v-if="currentView === 'colombia'" class="legend mt-4 p-4 bg-gray-50 rounded-lg">
-      <h3 class="font-bold mb-2">Leyenda:</h3>
-      <div class="flex flex-wrap gap-4">
-        <div class="flex items-center gap-2">
-          <div class="w-4 h-4 bg-[#545386] rounded"></div>
-          <span>Fincas Principales</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="w-4 h-4 bg-[#F4C7CE] rounded"></div>
-          <span>Fincas Secundarias</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="w-4 h-4 bg-[#66BB6A] rounded"></div>
-          <span>Ciudades de Distribución</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="w-4 h-4 bg-[#d3d3d3] rounded"></div>
-          <span>Otras Regiones</span>
-        </div>
+  <!-- Leyenda para el mapa de Colombia -->
+  <div v-if="currentView === 'colombia'" class="legend mt-4 p-4 bg-gray-50 rounded-lg">
+    <h3 class="font-bold mb-2">Leyenda:</h3>
+    <div class="flex flex-wrap gap-4">
+      <div class="flex items-center gap-2">
+        <div class="w-4 h-4 bg-[#545386] rounded"></div>
+        <span>Fincas Principales</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="w-4 h-4 bg-[#F4C7CE] rounded"></div>
+        <span>Fincas Secundarias</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="w-4 h-4 bg-[#66BB6A] rounded"></div>
+        <span>Ciudades de Distribución</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="w-4 h-4 bg-[#d3d3d3] rounded"></div>
+        <span>Otras Regiones</span>
       </div>
     </div>
-
+  </div>
 </template>
 
 <script setup>
@@ -543,12 +541,9 @@ onMounted(async () => {
 
 <style scoped>
 #countries-datamap {
-  height: 500px !important;
+  height: 535px !important;
   overflow: hidden !important;
   padding-bottom: 0 !important;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #f8f9fa;
 }
 
 .map-controls {
@@ -565,6 +560,9 @@ onMounted(async () => {
 
 :global(.datamap) {
   height: 500px !important;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f8f9fa;
   scale: 1 !important;
 }
 

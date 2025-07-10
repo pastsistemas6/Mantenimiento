@@ -18,6 +18,7 @@ import Map from '@/layouts/Map.vue'
 import About from '@/layouts/about.vue'
 import Datatable2 from '@/components/Datatable2.vue'
 import Support from '@/layouts/Support.vue'
+import Detallebloque from '@/views/Detallebloque.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -115,6 +116,12 @@ const router = createRouter({
           component: Users,
         },
       ],
+    },
+    {
+      path: '/detalle-bloque/:id/:categoria',
+      name: 'DetalleBloque',
+      component: Detallebloque,
+      props: true,
     },
     {
       path: '/404',
