@@ -10,7 +10,7 @@
   <div class="map-controls mb-4" v-if="currentView === 'colombia'">
     <button
       @click="resetToWorld"
-      class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors"
+      class="bg-[#545386] text-white px-4 py-2 rounded-md transition-colors"
     >
       ← Volver al mapa mundial
     </button>
@@ -200,13 +200,14 @@ function waitForLibraries() {
 
 function createWorldMap() {
   const container = document.querySelector('#countries-datamap')
- if (!container) {
+  if (!container) {
     console.error('El contenedor del mapa no se encontró.')
     return
   }
 
   // Limpiar contenedor
   container.innerHTML = ''
+  container.className = 'world-map'
 
   // Asegurar que el contenedor tenga dimensiones
   if (container.offsetWidth === 0 || container.offsetHeight === 0) {
@@ -305,6 +306,7 @@ async function createColombiaMap() {
 
   // Limpiar contenedor
   container.innerHTML = ''
+  container.className = 'colombia-map'
 
   // Cargar el TopoJSON de Colombia
   const colombiaTopojson = await loadColombiaTopojson()
@@ -540,8 +542,17 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+#countries-datamap.world-map {
+  height: 555px !important;
+}
+
+/* Mapa de Colombia */
+#countries-datamap.colombia-map {
+  height: 520px !important; /* O la altura que prefieras para Colombia */
+}
+
+/* Mantén estos estilos */
 #countries-datamap {
-  height: 535px !important;
   overflow: hidden !important;
   padding-bottom: 0 !important;
 }
@@ -556,10 +567,11 @@ onMounted(async () => {
 
 .legend {
   border: 1px solid #ddd;
+  margin-bottom: 30px;
 }
 
-:global(.datamap) {
-  height: 500px !important;
+:global(svg) {
+  height: 520px !important;
   border: 1px solid #ddd;
   border-radius: 8px;
   background: #f8f9fa;
