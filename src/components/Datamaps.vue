@@ -214,7 +214,7 @@ function createWorldMap() {
     console.warn('El contenedor no tiene dimensiones visibles')
     // Aplicar dimensiones por defecto
     container.style.width = '100%'
-    container.style.height = '500px'
+    container.style.height = '520px'
   }
 
   currentDataMap = new window.Datamap({
@@ -277,14 +277,6 @@ function createWorldMap() {
 
 async function loadColombiaTopojson() {
   try {
-    // Opción 1: Si tienes el archivo en la carpeta public/assets
-    // const response = await fetch('/assets/colombia.topojson')
-
-    // Opción 2: Si tienes el archivo en la carpeta src/assets (con import)
-    // const colombiaTopojson = await import('@/assets/colombia.topojson')
-
-    // Opción 3: Si tienes el archivo como string/objeto (más común)
-    // Aquí necesitarías pegar el contenido de tu archivo TopoJSON
     const response = await fetch('/lib/colombia.geojson') // Ajusta la ruta según tu estructura
 
     if (!response.ok) {
@@ -294,7 +286,7 @@ async function loadColombiaTopojson() {
     const colombiaTopojson = await response.json()
     return colombiaTopojson
   } catch (error) {
-    console.error('Error cargando TopoJSON de Colombia:', error)
+    console.error('Error cargando geojson de Colombia:', error)
     // Fallback al mapa por defecto si no se puede cargar
     return null
   }
@@ -543,7 +535,7 @@ onMounted(async () => {
 
 <style scoped>
 #countries-datamap.world-map {
-  height: 555px !important;
+  height: 550px !important;
 }
 
 /* Mapa de Colombia */
@@ -575,7 +567,6 @@ onMounted(async () => {
   border: 1px solid #ddd;
   border-radius: 8px;
   background: #f8f9fa;
-  scale: 1 !important;
 }
 
 :global(.datamaps-subunit) {
