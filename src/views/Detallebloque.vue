@@ -56,8 +56,6 @@ async function cargarDatos() {
       }
       if (key === 'FOTO_T') {
         foto_t = String(value)
-        console.log(value);
-
       }
     }
 

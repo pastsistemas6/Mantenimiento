@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <div class="w-full flex justify-between">
-      <h2 class="text-3xl text-black font-semibold mb-6">
+      <h2 class="text-3xl text-[#545386] font-bold mb-6">
         Dashboard de Mantenimiento de Plásticos
       </h2>
       <select class="select w-2/12 appearance-none" aria-label="select">

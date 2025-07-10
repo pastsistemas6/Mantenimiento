@@ -321,6 +321,7 @@ function createCustomColombiaMap(container, topojsonData) {
     .append('svg')
     .attr('width', width)
     .attr('height', height)
+    .classed('datamap', true)
 
   // Configurar proyección para Colombia
   const projection = window.d3.geo.mercator()
@@ -562,7 +563,7 @@ onMounted(async () => {
   margin-bottom: 30px;
 }
 
-:global(svg) {
+:deep(.datamap) {
   height: 520px !important;
   border: 1px solid #ddd;
   border-radius: 8px;
