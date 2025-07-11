@@ -61,10 +61,10 @@
                         >Seleccione la prioridad</label
                       >
                       <select class="select" id="favorite-simpson">
-                        <option disabled>Seleccione una...</option>
-                        <option>Alta</option>
-                        <option>Media</option>
+                        <option selected disabled>Seleccione una...</option>
                         <option>Baja</option>
+                        <option>Media</option>
+                        <option>Alta</option>
                       </select>
                     </div>
                   </div>

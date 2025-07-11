@@ -73,16 +73,17 @@
                   <div class="modal-body pt-0">
                     <div class="mb-4">
                       <label class="label-text" for="fullName"> Usuario </label>
-                      <input type="text" placeholder="John Doe" class="input" id="fullName" />
+                      <input type="text" placeholder="John Doe" class="input" id="fullName" required/>
                     </div>
                     <div class="mb-4 flex gap-4 max-sm:flex-col">
                       <div class="w-full">
                         <label class="label-text" for="email"> Correo </label>
-                        <input type="email" placeholder="johndoe@123@eliteflower.com" class="input" id="email" />
+                        <input type="email" placeholder="johndoe@123@eliteflower.com" class="input" id="email" required/>
                       </div>
                       <div class="w-full">
                         <label class="label-text" for="favorite-simpson">Rol</label>
-                        <select class="select" id="favorite-simpson">
+                        <select class="select" id="favorite-simpson" required>
+                          <option selected disabled>Seleccione un rol...</option>
                           <option>Admin</option>
                           <option>Asistente zona</option>
                           <option>Operario</option>
@@ -94,7 +95,8 @@
                     </div>
                     <div>
                       <label class="label-text" for="favorite-simpson">Ubicación</label>
-                      <select class="select" id="favorite-simpson">
+                      <select class="select" id="favorite-simpson" required>
+                        <option selected disabled>Seleccione una finca...</option>
                         <option>Finca la nena</option>
                         <option>Finca santa maria</option>
                         <option>Finca el morado</option>
@@ -104,7 +106,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-soft btn-secondary" @click="closeModal">Cancelar</button>
-                    <button type="submit" class="btn bg-[rgb(84,83,134)]" @click="closeModal">Guardar usuario</button>
+                    <button type="submit" class="btn bg-[rgb(84,83,134)]">Guardar usuario</button>
                   </div>
                 </form>
               </div>

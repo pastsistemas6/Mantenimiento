@@ -18,11 +18,11 @@
 
   <div
     id="calendar-event-modal"
-    class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 hidden"
+    class="overlay modal opacity-100 duration-300 bg-base-content/50 w-full h-dvh hidden"
     role="dialog"
     tabindex="-1"
   >
-    <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300">
+    <div class="modal-dialog opacity-100 duration-300">
       <div class="modal-content overflow-y-auto">
         <div class="modal-header pb-2 flex flex-col items-start">
           <h2 class="font-semibold text-lg">Gestionar lecturas del día</h2>
@@ -118,7 +118,7 @@ let selectedDateInfo = null
 const closeModal = () => {
   const modal = document.getElementById('calendar-event-modal')
   if (modal) {
-    modal.classList.remove('hidden')
+    modal.classList.add('hidden')
     if (window.HSOverlay) {
       new HSOverlay(modal).close()
     }
@@ -253,9 +253,10 @@ onMounted(async () => {
     initialView: 'dayGridMonth',
     initialDate: today.toISOString().split('T')[0],
     editable: true,
-    selectable: true,
-    eventResizableFromStart: true,
+    dragScroll: true,
     dayMaxEvents: 2,
+    eventResizableFromStart: true,
+    selectable: true,
     headerToolbar: {
       left: 'prev,next title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
@@ -268,11 +269,11 @@ onMounted(async () => {
     },
     events: events,
     select: function (info) {
+      // Check if the selected range overlaps with the blocked range
       const blockedStart = addDays(today, 17).getTime()
       const blockedEnd = addDays(today, 20).getTime()
       const selectedStart = info.start.getTime()
       const selectedEnd = info.end ? info.end.getTime() : selectedStart
-
       if (
         (selectedStart < blockedEnd && selectedEnd > blockedStart) ||
         (selectedEnd > blockedStart && selectedStart < blockedEnd)
@@ -282,6 +283,7 @@ onMounted(async () => {
         return
       }
 
+      // Resetear siempre para creación de nuevo evento
       selectedEvent = null
       selectedDateInfo = info
       document.getElementById('modalTitle').textContent = `${formatDate(info.start)}`
@@ -306,7 +308,7 @@ onMounted(async () => {
       // Abrir el modal
       const modal = document.getElementById('calendar-event-modal')
       if (modal) {
-        modal.classList.add('hidden')
+        modal.classList.remove('hidden')
         if (window.HSOverlay) {
           new HSOverlay(modal).open()
         }
@@ -336,14 +338,14 @@ onMounted(async () => {
       if (selectedEvent) {
         // Actualizar evento existente
         selectedEvent.setProp('title', title)
-      } else if (selectedDateInfo) {
-        // Crear nuevo evento
+
+      } else {
+        // Siempre crear nuevo evento cuando no hay selección
         calendarInstance.addEvent({
           title: title,
           start: selectedDateInfo.startStr,
           end: selectedDateInfo.endStr,
-          allDay: true,
-          classNames: ['fc-event-info']
+          allDay: true, // Si no hay endStr, es allDay
         })
       }
       closeModal()
