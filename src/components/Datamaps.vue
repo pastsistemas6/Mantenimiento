@@ -7,24 +7,24 @@
   </p>
 
   <!-- Controles de navegación -->
-  <div class="map-controls mb-4" v-if="currentView === 'colombia'">
+  <div class="map-controls mb-4" v-if="currentView !== 'world'">
     <button
       @click="resetToWorld"
       class="bg-[#545386] text-white px-4 py-2 rounded-md transition-colors"
     >
       ← Volver al mapa mundial
     </button>
-    <span class="ml-4 text-gray-600">Vista: Colombia - Ciudades y Regiones</span>
+    <span class="ml-4 text-gray-600">Vista: {{ currentViewLabel }}</span>
   </div>
 
   <div class="map-controls mb-4" v-if="currentView === 'world'">
-    <span class="text-gray-600">Haz clic en Colombia para ver el detalle de ciudades</span>
+    <span class="text-gray-600">Haz clic en un país para ver el detalle de regiones</span>
   </div>
 
   <div id="countries-datamap" style="width: 100%"></div>
 
-  <!-- Leyenda para el mapa de Colombia -->
-  <div v-if="currentView === 'colombia'" class="legend mt-4 p-4 bg-gray-50 rounded-lg">
+  <!-- Leyenda dinámica según el país -->
+  <div v-if="currentView !== 'world'" class="legend mt-4 p-4 bg-gray-50 rounded-lg">
     <h3 class="font-bold mb-2">Leyenda:</h3>
     <div class="flex flex-wrap gap-4">
       <div class="flex items-center gap-2">
@@ -48,9 +48,18 @@
 </template>
 
 <script setup>
-import { onMounted, nextTick, ref } from 'vue'
+import { onMounted, nextTick, ref, computed } from 'vue'
 
-const currentView = ref('world')
+const currentView = ref('world') // 'world', 'colombia', 'ecuador', 'kenya'
+const currentViewLabel = computed(() => {
+  switch(currentView.value) {
+    case 'colombia': return 'Colombia - Ciudades y Regiones'
+    case 'ecuador': return 'Ecuador - Ciudades y Regiones'
+    case 'kenya': return 'Kenya - Ciudades y Regiones'
+    default: return ''
+  }
+})
+
 let currentDataMap = null
 
 // Datos del mapa mundial
@@ -110,13 +119,12 @@ const worldDataSet = {
       isGrown: true,
     },
     fillKey: 'MAJOR',
-    short: 'co',
+    short: 'ken',
   },
 }
 
-// Datos específicos para Colombia (simulando datos de ciudades/regiones)
+// Datos específicos para Colombia
 const colombiaDataSet = {
-  // Cundinamarca (donde está Facatativá)
   'CUNDINAMARCA': {
     name: 'Cundinamarca',
     fincas: 8,
@@ -124,7 +132,6 @@ const colombiaDataSet = {
     ciudad: 'Facatativá, Bogotá',
     fillKey: 'PRIMARY_FARM',
   },
-  // Antioquia
   'ANTIOQUIA': {
     name: 'Antioquia',
     fincas: 5,
@@ -132,7 +139,6 @@ const colombiaDataSet = {
     ciudad: 'Medellín, Rionegro',
     fillKey: 'PRIMARY_FARM',
   },
-  // Valle del Cauca
   'VALLE DEL CAUCA': {
     name: 'Valle del Cauca',
     fincas: 3,
@@ -140,7 +146,6 @@ const colombiaDataSet = {
     ciudad: 'Cali, Palmira',
     fillKey: 'SECONDARY_FARM',
   },
-  // Boyacá
   'BOYACÁ': {
     name: 'Boyacá',
     fincas: 2,
@@ -148,7 +153,6 @@ const colombiaDataSet = {
     ciudad: 'Tunja, Duitama',
     fillKey: 'SECONDARY_FARM',
   },
-  // Quindío
   'QUINDÍO': {
     name: 'Quindío',
     fincas: 1,
@@ -156,7 +160,6 @@ const colombiaDataSet = {
     ciudad: 'Armenia',
     fillKey: 'DISTRIBUTION',
   },
-  // Caldas
   'CALDAS': {
     name: 'Caldas',
     fincas: 1,
@@ -164,6 +167,56 @@ const colombiaDataSet = {
     ciudad: 'Manizales',
     fillKey: 'DISTRIBUTION',
   },
+}
+
+// Datos específicos para Ecuador
+const ecuadorDataSet = {
+  'PICHINCHA': {
+    name: 'Pichincha',
+    fincas: 1,
+    tipo: 'Principal',
+    ciudad: 'Quito',
+    fillKey: 'PRIMARY_FARM',
+  },
+  'LATACUNGA': {
+    name: 'Latacunga',
+    fincas: 1,
+    tipo: 'Secundaria',
+    ciudad: 'Latacunga',
+    fillKey: 'SECONDARY_FARM',
+  },
+  'IBARRA': {
+    name: 'Ibarra',
+    fincas: 4,
+    tipo: 'Distribución',
+    ciudad: 'Ibarra',
+    fillKey: 'DISTRIBUTION',
+  }
+}
+
+// Datos específicos para Kenya
+const kenyaDataSet = {
+  'NAIROBI': {
+    name: 'Nairobi',
+    fincas: 1,
+    tipo: 'Principal',
+    ciudad: 'Nairobi',
+    fillKey: 'PRIMARY_FARM',
+  },
+  'BARINGO': {
+    name: 'Baringo',
+    fincas: 2,
+    tipo: 'Distribución',
+    ciudad: 'Baringo',
+    fillKey: 'DISTRIBUTION',
+  },
+  'MARSABIT': {
+    name: 'Marsabit',
+    fincas: 3,
+    tipo: 'Distribución',
+    ciudad: 'Marsabit',
+    fillKey: 'DISTRIBUTION',
+  }
 }
 
 function loadScripts(sources) {
@@ -205,14 +258,10 @@ function createWorldMap() {
     return
   }
 
-  // Limpiar contenedor
   container.innerHTML = ''
   container.className = 'world-map'
 
-  // Asegurar que el contenedor tenga dimensiones
   if (container.offsetWidth === 0 || container.offsetHeight === 0) {
-    console.warn('El contenedor no tiene dimensiones visibles')
-    // Aplicar dimensiones por defecto
     container.style.width = '100%'
     container.style.height = '520px'
   }
@@ -227,9 +276,15 @@ function createWorldMap() {
     },
     data: worldDataSet,
     done: function(datamap) {
-      // Agregar evento click para Colombia
-      datamap.svg.selectAll('.datamaps-subunit.COL').on('click', function(geography) {
-        zoomToColombia()
+      // Agregar eventos click para los 3 países
+      datamap.svg.selectAll('.datamaps-subunit.COL').on('click', function() {
+        zoomToCountry('colombia')
+      })
+      datamap.svg.selectAll('.datamaps-subunit.ECU').on('click', function() {
+        zoomToCountry('ecuador')
+      })
+      datamap.svg.selectAll('.datamaps-subunit.KEN').on('click', function() {
+        zoomToCountry('kenya')
       })
     },
     geographyConfig: {
@@ -268,85 +323,104 @@ function createWorldMap() {
                 </span>
               </div>
             </div>
-            ${geo.id === 'COL' ? '<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee; font-size: 11px; color: #007bff;">🖱️ Haz clic para ver detalle</div>' : ''}
+            ${['COL', 'ECU', 'KEN'].includes(geo.id) ?
+              '<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee; font-size: 11px; color: #007bff;">🖱️ Haz clic para ver detalle</div>' : ''}
           </div>`
       },
     },
   })
 }
 
-async function loadColombiaTopojson() {
+async function loadCountryTopojson(country) {
   try {
-    const response = await fetch('/lib/colombia.geojson') // Ajusta la ruta según tu estructura
+    const response = await fetch(`/lib/${country}.geojson`) // Ajusta la ruta según tu estructura
 
     if (!response.ok) {
-      throw new Error('No se pudo cargar el archivo TopoJSON de Colombia')
+      throw new Error(`No se pudo cargar el archivo TopoJSON de ${country}`)
     }
 
-    const colombiaTopojson = await response.json()
-    return colombiaTopojson
+    return await response.json()
   } catch (error) {
-    console.error('Error cargando geojson de Colombia:', error)
-    // Fallback al mapa por defecto si no se puede cargar
+    console.error(`Error cargando geojson de ${country}:`, error)
     return null
   }
 }
 
-async function createColombiaMap() {
-  const container = document.querySelector('#countries-datamap')
-  if (!container) return
-
-  // Limpiar contenedor
-  container.innerHTML = ''
-  container.className = 'colombia-map'
-
-  // Cargar el TopoJSON de Colombia
-  const colombiaTopojson = await loadColombiaTopojson()
-
-  if (colombiaTopojson) {
-    // Crear mapa personalizado con tu TopoJSON
-    createCustomColombiaMap(container, colombiaTopojson)
-  } else {
-    // Usar el mapa por defecto si no se puede cargar el TopoJSON
-    createDefaultColombiaMap(container)
+function getCountryDataSet(country) {
+  switch(country) {
+    case 'colombia': return colombiaDataSet
+    case 'ecuador': return ecuadorDataSet
+    case 'kenya': return kenyaDataSet
+    default: return {}
   }
 }
 
-function createCustomColombiaMap(container, topojsonData) {
+async function createCountryMap(country) {
+  const container = document.querySelector('#countries-datamap')
+  if (!container) return
+
+  container.innerHTML = ''
+  container.className = `${country}-map`
+
+  const topojsonData = await loadCountryTopojson(country)
+  const countryDataSet = getCountryDataSet(country)
+
+  if (topojsonData) {
+    createCustomCountryMap(container, topojsonData, countryDataSet)
+  } else {
+    createDefaultCountryMap(container, country, countryDataSet)
+  }
+}
+
+function createCustomCountryMap(container, topojsonData, countryDataSet) {
   const width = container.offsetWidth || 800
   const height = 500
 
-  // Crear SVG
   const svg = window.d3.select(container)
     .append('svg')
     .attr('width', width)
     .attr('height', height)
     .classed('datamap', true)
 
-  // Configurar proyección para Colombia
-  const projection = window.d3.geo.mercator()
-    .scale(1700)
-    .center([-74, 4.5]) // Centrar en Colombia
-    .translate([width / 2, height / 2])
+  // Ajustar la proyección según el país
+  let projection
+  switch(currentView.value) {
+    case 'colombia':
+      projection = window.d3.geo.mercator()
+        .scale(1700)
+        .center([-74, 4.5])
+        .translate([width / 2, height / 2])
+      break
+    case 'ecuador':
+      projection = window.d3.geo.mercator()
+        .scale(4200)
+        .center([-78.5, -1.5])
+        .translate([width / 2, height / 2])
+      break
+    case 'kenya':
+      projection = window.d3.geo.mercator()
+        .scale(2800)
+        .center([37.8, 0.5])
+        .translate([width / 2, height / 2])
+      break
+    default:
+      projection = window.d3.geo.mercator()
+        .scale(1700)
+        .translate([width / 2, height / 2])
+  }
 
-  const path = window.d3.geo.path()
-    .projection(projection)
+  const path = window.d3.geo.path().projection(projection)
 
-  // Convertir TopoJSON a GeoJSON
-  const features = topojsonData
-
-  // Dibujar los departamentos
   svg.selectAll('path')
-    .data(features.features)
+    .data(topojsonData.features)
     .enter()
     .append('path')
     .attr('d', path)
-    .attr('class', 'department')
+    .attr('class', 'region')
     .style('fill', function(d) {
-      // Buscar datos para este departamento
-      const deptData = colombiaDataSet[d.properties.DPTO_CNMBR] || colombiaDataSet[d.properties.NAME_1] || colombiaDataSet[d.id]
-      if (deptData) {
-        switch(deptData.fillKey) {
+      const regionData = countryDataSet[d.properties.DPTO_CNMBR] || countryDataSet[d.properties.COUNTY_NAM] || countryDataSet[d.properties.DPA_DESCAN] || countryDataSet[d.id]
+      if (regionData) {
+        switch(regionData.fillKey) {
           case 'PRIMARY_FARM': return '#545386'
           case 'SECONDARY_FARM': return '#F4C7CE'
           case 'DISTRIBUTION': return '#66BB6A'
@@ -360,13 +434,13 @@ function createCustomColombiaMap(container, topojsonData) {
     .style('cursor', 'pointer')
     .on('mouseover', function(d) {
       window.d3.select(this).style('fill', '#c2dfea')
-      showTooltip(d, window.d3.event)
+      showTooltip(d, window.d3.event, countryDataSet)
     })
     .on('mouseout', function(d) {
-      window.d3.select(this).style('fill', function(d) {
-        const deptData = colombiaDataSet[d.properties.DPTO_CNMBR] || colombiaDataSet[d.properties.NAME_1] || colombiaDataSet[d.id]
-        if (deptData) {
-          switch(deptData.fillKey) {
+      window.d3.select(this).style('fill', function() {
+        const regionData = countryDataSet[d.properties.DPTO_CNMBR] || countryDataSet[d.properties.COUNTY_NAM] || countryDataSet[d.properties.DPA_DESCAN] || countryDataSet[d.id]
+        if (regionData) {
+          switch(regionData.fillKey) {
             case 'PRIMARY_FARM': return '#545386'
             case 'SECONDARY_FARM': return '#F4C7CE'
             case 'DISTRIBUTION': return '#66BB6A'
@@ -378,15 +452,14 @@ function createCustomColombiaMap(container, topojsonData) {
       hideTooltip()
     })
 
-  // Función para mostrar tooltip
-  function showTooltip(d, event) {
-    const deptData = colombiaDataSet[d.properties.DPTO_CNMBR] || colombiaDataSet[d.properties.NAME_1] || colombiaDataSet[d.id]
-    const name = d.properties.DPTO_CNMBR || d.properties.NAME_1 || d.properties.name || 'Región'
+  function showTooltip(d, event, dataSet) {
+    const regionData = dataSet[d.properties.DPTO_CNMBR] || dataSet[d.properties.COUNTY_NAM] || dataSet[d.properties.DPA_DESCAN] || dataSet[d.id]
+    const name = d.properties.DPTO_CNMBR || d.properties.COUNTY_NAM || d.properties.DPA_DESCAN || 'Región'
 
     let content = `<div class="datamap-hoverover" style="background: white; border: 1px solid #ccc; border-radius: 8px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
       <div style="font-weight: bold; color: #333;">${name}</div>`
 
-    if (deptData) {
+    if (regionData) {
       const iconMap = {
         'Principal': '🏭',
         'Secundaria': '🏪',
@@ -396,13 +469,13 @@ function createCustomColombiaMap(container, topojsonData) {
       content += `
         <div style="font-size: 12px; color: #666; margin-top: 8px;">
           <div style="margin-bottom: 4px;">
-            <span>${iconMap[deptData.tipo] || '📍'} Tipo: <strong style="color: #007bff;">${deptData.tipo}</strong></span>
+            <span>${iconMap[regionData.tipo] || '📍'} Tipo: <strong style="color: #007bff;">${regionData.tipo}</strong></span>
           </div>
           <div style="margin-bottom: 4px;">
-            <span>Fincas: <strong>${deptData.fincas}</strong></span>
+            <span>Fincas: <strong>${regionData.fincas}</strong></span>
           </div>
           <div style="margin-bottom: 4px;">
-            <span>Ciudades: <strong>${deptData.ciudad}</strong></span>
+            <span>Ciudades: <strong>${regionData.ciudad}</strong></span>
           </div>
         </div>`
     }
@@ -424,10 +497,8 @@ function createCustomColombiaMap(container, topojsonData) {
     window.d3.selectAll('.datamap-tooltip').remove()
   }
 
-  // Almacenar referencia para redimensionamiento
   currentDataMap = {
     resize: function() {
-      // Implementar redimensionamiento si es necesario
       const newWidth = container.offsetWidth || 800
       svg.attr('width', newWidth)
       projection.translate([newWidth / 2, height / 2])
@@ -436,11 +507,10 @@ function createCustomColombiaMap(container, topojsonData) {
   }
 }
 
-function createDefaultColombiaMap(container) {
-  // Mapa por defecto usando Datamaps
+function createDefaultCountryMap(container, country, countryDataSet) {
   currentDataMap = new window.Datamap({
     element: container,
-    scope: 'colombia',
+    scope: country,
     projection: 'mercator',
     responsive: true,
     fills: {
@@ -449,7 +519,7 @@ function createDefaultColombiaMap(container) {
       SECONDARY_FARM: '#F4C7CE',
       DISTRIBUTION: '#66BB6A',
     },
-    data: colombiaDataSet,
+    data: countryDataSet,
     geographyConfig: {
       borderColor: '#000',
       borderWidth: 1,
@@ -488,10 +558,10 @@ function createDefaultColombiaMap(container) {
   })
 }
 
-function zoomToColombia() {
-  currentView.value = 'colombia'
+function zoomToCountry(country) {
+  currentView.value = country
   nextTick(() => {
-    createColombiaMap()
+    createCountryMap(country)
   })
 }
 
@@ -513,10 +583,8 @@ onMounted(async () => {
     await waitForLibraries()
     await nextTick()
 
-    // Crear el mapa mundial inicialmente
     createWorldMap()
 
-    // Configurar responsividad
     let resizeTimeout
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimeout)
@@ -539,14 +607,14 @@ onMounted(async () => {
   height: 550px !important;
 }
 
-/* Mapa de Colombia */
-#countries-datamap.colombia-map {
-  height: 520px !important; /* O la altura que prefieras para Colombia */
+#countries-datamap.colombia-map,
+#countries-datamap.ecuador-map,
+#countries-datamap.kenya-map {
+  height: 520px !important;
 }
 
-/* Mantén estos estilos */
 #countries-datamap {
-  overflow: hidden !important;
+
   padding-bottom: 0 !important;
 }
 
@@ -578,15 +646,9 @@ onMounted(async () => {
   stroke-width: 1px !important;
 }
 
-:global(.datamaps-subunit.COL) {
-  fill: #545386 !important;
-}
-
-:global(.datamaps-subunit[class*='KEN']) {
-  fill: #545386 !important;
-}
-
-:global(.datamaps-subunit[class*='ECU']) {
+:global(.datamaps-subunit.COL),
+:global(.datamaps-subunit.ECU),
+:global(.datamaps-subunit.KEN) {
   fill: #545386 !important;
 }
 
@@ -606,13 +668,16 @@ onMounted(async () => {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Estilos específicos para el mapa de Colombia */
-:global(.datamaps-subunit[data-id*='CO-']) {
+:global(.datamaps-subunit[data-id*='CO-'],
+        .datamaps-subunit[data-id*='EC-'],
+        .datamaps-subunit[data-id*='KE-']) {
   stroke: #000 !important;
   stroke-width: 1px !important;
 }
 
-:global(.datamaps-subunit[data-id*='CO-']:hover) {
+:global(.datamaps-subunit[data-id*='CO-']:hover,
+        .datamaps-subunit[data-id*='EC-']:hover,
+        .datamaps-subunit[data-id*='KE-']:hover) {
   stroke: #007bff !important;
   stroke-width: 2px !important;
 }
