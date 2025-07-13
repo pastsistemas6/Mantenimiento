@@ -115,13 +115,21 @@ let calendarInstance = null
 let selectedEvent = null
 let selectedDateInfo = null
 
+const openModal = () => {
+  const modal = document.getElementById('calendar-event-modal')
+  if (modal) {
+    modal.classList.remove('hidden')
+    modal.style.display = 'flex'
+    document.body.style.overflow = 'hidden'
+  }
+}
+
 const closeModal = () => {
   const modal = document.getElementById('calendar-event-modal')
   if (modal) {
     modal.classList.add('hidden')
-    if (window.HSOverlay) {
-      new HSOverlay(modal).close()
-    }
+    modal.style.display = 'none'
+    document.body.style.overflow = 'auto'
   }
 }
 
@@ -140,13 +148,6 @@ onMounted(async () => {
 
   const calendarEl = calendarRef.value
   const today = new Date()
-
-  if (window.HSOverlay) {
-    const overlays = document.querySelectorAll('[data-hs-overlay]')
-    if (overlays.length) {
-      new HSOverlay(overlays[0]).init()
-    }
-  }
 
   function addDays(date, days) {
     const result = new Date(date)
@@ -268,6 +269,41 @@ onMounted(async () => {
       list: 'Lista',
     },
     events: events,
+    dayCellDidMount: function(info) {
+      // Agregar event listener a cada celda del día
+      info.el.addEventListener('click', function(e) {
+        // Solo si no se hizo clic en un evento
+        if (e.target.closest('.fc-event')) {
+          return
+        }
+
+        const clickedDate = info.date
+
+        // Check if the clicked date is in the blocked range
+        const blockedStart = addDays(today, 17).getTime()
+        const blockedEnd = addDays(today, 20).getTime()
+        const clickedDateTime = clickedDate.getTime()
+
+        if (clickedDateTime >= blockedStart && clickedDateTime < blockedEnd) {
+          alert('Events cannot be added in the blocked date range.')
+          return
+        }
+
+        // Resetear siempre para creación de nuevo evento
+        selectedEvent = null
+        selectedDateInfo = {
+          startStr: info.date.toISOString().split('T')[0],
+          endStr: info.date.toISOString().split('T')[0],
+          start: info.date
+        }
+        document.getElementById('modalTitle').textContent = `${formatDate(info.date)}`
+        document.getElementById('eventForm').reset()
+        document.getElementById('eventTitle').value = ''
+
+        // Abrir el modal
+        openModal()
+      })
+    },
     select: function (info) {
       // Check if the selected range overlaps with the blocked range
       const blockedStart = addDays(today, 17).getTime()
@@ -291,13 +327,7 @@ onMounted(async () => {
       document.getElementById('eventTitle').value = ''
 
       // Abrir el modal
-      const modal = document.getElementById('calendar-event-modal')
-      if (modal) {
-        modal.classList.remove('hidden')
-        if (window.HSOverlay) {
-          new HSOverlay(modal).open()
-        }
-      }
+      openModal()
     },
     eventClick: function (info) {
       selectedEvent = info.event
@@ -306,13 +336,7 @@ onMounted(async () => {
       document.getElementById('eventTitle').value = info.event.title
 
       // Abrir el modal
-      const modal = document.getElementById('calendar-event-modal')
-      if (modal) {
-        modal.classList.remove('hidden')
-        if (window.HSOverlay) {
-          new HSOverlay(modal).open()
-        }
-      }
+      openModal()
     },
     eventTimeFormat: {
       hour: '2-digit',
@@ -365,5 +389,18 @@ onBeforeUnmount(() => {
 .modal-title {
   font-size: 16px;
   font-weight: inherit;
+}
+
+/* Hacer que las fechas del calendario sean clickeables */
+:deep(.fc-daygrid-day) {
+  cursor: pointer;
+}
+
+:deep(.fc-daygrid-day:hover) {
+  background-color: rgba(84, 83, 134, 0.1);
+}
+
+:deep(.fc-daygrid-day-number) {
+  cursor: pointer;
 }
 </style>
