@@ -50,12 +50,13 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
     const dataOptions: IStepperOptions = data ? JSON.parse(data) : {}
     const concatOptions = {
       ...dataOptions,
-      ...options
+      ...options,
     }
 
     this.currentIndex = concatOptions?.currentIndex || 1
     this.mode = concatOptions?.mode || 'linear'
-    this.isCompleted = typeof concatOptions?.isCompleted !== 'undefined' ? concatOptions?.isCompleted : false
+    this.isCompleted =
+      typeof concatOptions?.isCompleted !== 'undefined' ? concatOptions?.isCompleted : false
 
     this.totalSteps = 1
 
@@ -160,12 +161,12 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
 
   private getUncompletedSteps(inIncludedSkipped: boolean = false) {
     return this.navItems.filter(({ isCompleted, isSkip }) =>
-      inIncludedSkipped ? !isCompleted || isSkip : !isCompleted && !isSkip
+      inIncludedSkipped ? !isCompleted || isSkip : !isCompleted && !isSkip,
     )
   }
 
   private setTotalSteps() {
-    this.navItems.forEach(item => {
+    this.navItems.forEach((item) => {
       const { index } = item
 
       if (index > this.totalSteps) this.totalSteps = index
@@ -174,9 +175,11 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
 
   // Nav
   private buildNav() {
-    this.el.querySelectorAll('[data-stepper-nav-item]').forEach(el => this.addNavItem(el as HTMLElement))
+    this.el
+      .querySelectorAll('[data-stepper-nav-item]')
+      .forEach((el) => this.addNavItem(el as HTMLElement))
 
-    this.navItems.forEach(item => this.buildNavItem(item))
+    this.navItems.forEach((item) => this.buildNavItem(item))
   }
 
   private buildNavItem(item: IStepperItem) {
@@ -187,10 +190,13 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
     if (this.mode !== 'linear' || isDisabled) {
       this.onNavItemClickListener.push({
         el,
-        fn: () => this.navItemClick(item)
+        fn: () => this.navItemClick(item),
       })
 
-      el.addEventListener('click', this.onNavItemClickListener.find(navItem => navItem.el === el).fn)
+      el.addEventListener(
+        'click',
+        this.onNavItemClickListener.find((navItem) => navItem.el === el).fn,
+      )
     }
   }
 
@@ -203,7 +209,7 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
       isOptional = false,
       isDisabled = false,
       isProcessed = false,
-      isInvalid = false
+      isInvalid = false,
     } = JSON.parse(el.getAttribute('data-stepper-nav-item'))
 
     if (isCompleted) el.classList.add('is-valid')
@@ -224,12 +230,12 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
       isDisabled,
       isProcessed,
       isInvalid,
-      el: el as HTMLElement
+      el: el as HTMLElement,
     })
   }
 
   private setCurrentNavItem() {
-    this.navItems.forEach(item => {
+    this.navItems.forEach((item) => {
       const { index, el } = item
 
       if (index === this.currentIndex) this.setCurrentNavItemActions(el)
@@ -277,9 +283,11 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
 
   // Content
   private buildContent() {
-    this.el.querySelectorAll('[data-stepper-content-item]').forEach(el => this.addContentItem(el as HTMLElement))
+    this.el
+      .querySelectorAll('[data-stepper-content-item]')
+      .forEach((el) => this.addContentItem(el as HTMLElement))
 
-    this.navItems.forEach(item => this.buildContentItem(item))
+    this.navItems.forEach((item) => this.buildContentItem(item))
   }
 
   private buildContentItem(item: IStepperItem) {
@@ -293,7 +301,7 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
       index,
       isFinal = false,
       isCompleted = false,
-      isSkip = false
+      isSkip = false,
     } = JSON.parse(el.getAttribute('data-stepper-content-item'))
 
     if (isCompleted) el.classList.add('is-valid')
@@ -304,7 +312,7 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
       isFinal,
       isCompleted,
       isSkip,
-      el: el as HTMLElement
+      el: el as HTMLElement,
     })
   }
 
@@ -318,7 +326,7 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
       return false
     }
 
-    this.contentItems.forEach(item => {
+    this.contentItems.forEach((item) => {
       const { index, el } = item
 
       if (index === this.currentIndex) this.setCurrentContentItemActions(el)
@@ -506,7 +514,9 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
 
   private setSkipItem(n?: number) {
     const targetNavItem = this.navItems.find(({ index }) => index === (n || this.currentIndex))
-    const targetContentItem = this.contentItems.find(({ index }) => index === (n || this.currentIndex))
+    const targetContentItem = this.contentItems.find(
+      ({ index }) => index === (n || this.currentIndex),
+    )
 
     if (!targetNavItem || !targetContentItem) return
 
@@ -550,7 +560,9 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
 
   private changeTextAndDisableCompleteButtonIfStepCompleted() {
     const currentNavItem = this.navItems.find(({ index }) => index === this.currentIndex)
-    const { completedText } = JSON.parse(this.completeStepBtn.getAttribute('data-stepper-complete-step-btn'))
+    const { completedText } = JSON.parse(
+      this.completeStepBtn.getAttribute('data-stepper-complete-step-btn'),
+    )
 
     if (!currentNavItem) return
 
@@ -567,7 +579,9 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
 
   private setCompleteItem(n?: number) {
     const targetNavItem = this.navItems.find(({ index }) => index === (n || this.currentIndex))
-    const targetContentItem = this.contentItems.find(({ index }) => index === (n || this.currentIndex))
+    const targetContentItem = this.contentItems.find(
+      ({ index }) => index === (n || this.currentIndex),
+    )
 
     if (!targetNavItem || !targetContentItem) return
 
@@ -639,7 +653,8 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
     const uncompletedOrSkipSteps = this.getUncompletedSteps(true)
     const { el } = this.contentItems.find(({ isFinal }) => isFinal)
 
-    if (uncompletedSteps.length) uncompletedSteps.forEach(({ index }) => this.setCompleteItem(index))
+    if (uncompletedSteps.length)
+      uncompletedSteps.forEach(({ index }) => this.setCompleteItem(index))
 
     this.currentIndex = this.totalSteps
 
@@ -688,7 +703,7 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
     }
     if (this.resetBtn) this.resetBtn.style.display = 'none'
 
-    this.navItems.forEach(item => {
+    this.navItems.forEach((item) => {
       const { el } = item
       item.isSkip = false
       item.isCompleted = false
@@ -697,7 +712,7 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
       el.classList.remove('is-valid', 'skipped')
     })
 
-    this.contentItems.forEach(item => {
+    this.contentItems.forEach((item) => {
       const { el } = item
       item.isSkip = false
       item.isCompleted = false
@@ -771,12 +786,12 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
   public destroy() {
     // Remove classes
     this.el.classList.remove('completed')
-    this.el.querySelectorAll('[data-stepper-nav-item]').forEach(el => {
+    this.el.querySelectorAll('[data-stepper-nav-item]').forEach((el) => {
       el.classList.remove('active', 'is-valid', 'skipped', 'disabled', 'is-invalid')
 
       if (el.tagName === 'BUTTON' || el.tagName === 'INPUT') el.removeAttribute('disabled')
     })
-    this.el.querySelectorAll('[data-stepper-content-item]').forEach(el => {
+    this.el.querySelectorAll('[data-stepper-content-item]').forEach((el) => {
       el.classList.remove('is-valid', 'skipped')
     })
     if (this.backBtn) this.backBtn.classList.remove('disabled')
@@ -798,17 +813,21 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
     if (this.backBtn) this.backBtn.removeEventListener('click', this.onBackClickListener)
     if (this.nextBtn) this.nextBtn.removeEventListener('click', this.onNextClickListener)
     if (this.skipBtn) this.skipBtn.removeEventListener('click', this.onSkipClickListener)
-    if (this.completeStepBtn) this.completeStepBtn.removeEventListener('click', this.onCompleteStepBtnClickListener)
+    if (this.completeStepBtn)
+      this.completeStepBtn.removeEventListener('click', this.onCompleteStepBtnClickListener)
     if (this.finishBtn) this.finishBtn.removeEventListener('click', this.onFinishBtnClickListener)
     if (this.resetBtn) this.resetBtn.removeEventListener('click', this.onResetBtnClickListener)
 
-    window.$hsStepperCollection = window.$hsStepperCollection.filter(({ element }) => element.el !== this.el)
+    window.$hsStepperCollection = window.$hsStepperCollection.filter(
+      ({ element }) => element.el !== this.el,
+    )
   }
 
   // Static methods
   static getInstance(target: HTMLElement | string, isInstance?: boolean) {
     const elInCollection = window.$hsStepperCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element) : null
@@ -818,11 +837,16 @@ class HSStepper extends HSBasePlugin<{}> implements IStepper {
     if (!window.$hsStepperCollection) window.$hsStepperCollection = []
 
     if (window.$hsStepperCollection)
-      window.$hsStepperCollection = window.$hsStepperCollection.filter(({ element }) => document.contains(element.el))
+      window.$hsStepperCollection = window.$hsStepperCollection.filter(({ element }) =>
+        document.contains(element.el),
+      )
 
-    document.querySelectorAll('[data-stepper]:not(.--prevent-on-load-init)').forEach((el: HTMLElement) => {
-      if (!window.$hsStepperCollection.find(elC => (elC?.element?.el as HTMLElement) === el)) new HSStepper(el)
-    })
+    document
+      .querySelectorAll('[data-stepper]:not(.--prevent-on-load-init)')
+      .forEach((el: HTMLElement) => {
+        if (!window.$hsStepperCollection.find((elC) => (elC?.element?.el as HTMLElement) === el))
+          new HSStepper(el)
+      })
   }
 }
 

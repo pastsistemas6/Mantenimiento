@@ -28,18 +28,18 @@ class HSTogglePassword extends HSBasePlugin<ITogglePasswordOptions> implements I
     const dataOptions: ITogglePasswordOptions = data ? JSON.parse(data) : {}
     const concatOptions = {
       ...dataOptions,
-      ...options
+      ...options,
     }
     const targets: HTMLInputElement[] = []
     if (concatOptions?.target && typeof concatOptions?.target === 'string') {
       const ids = concatOptions?.target.split(',')
-      ids.forEach(id => {
+      ids.forEach((id) => {
         targets.push(document.querySelector(id) as HTMLInputElement)
       })
     } else if (concatOptions?.target && typeof concatOptions?.target === 'object') {
-      ;(concatOptions.target as string[]).forEach(el => targets.push(document.querySelector(el)))
+      ;(concatOptions.target as string[]).forEach((el) => targets.push(document.querySelector(el)))
     } else {
-      ;(concatOptions.target as HTMLInputElement[]).forEach(el => targets.push(el))
+      ;(concatOptions.target as HTMLInputElement[]).forEach((el) => targets.push(el))
     }
 
     this.target = targets
@@ -100,7 +100,7 @@ class HSTogglePassword extends HSBasePlugin<ITogglePasswordOptions> implements I
 
       this.el.classList.add('active')
     }
-    ;(this.target as HTMLInputElement[]).forEach(el => {
+    ;(this.target as HTMLInputElement[]).forEach((el) => {
       ;(el as HTMLInputElement).type = 'text'
     })
   }
@@ -117,7 +117,7 @@ class HSTogglePassword extends HSBasePlugin<ITogglePasswordOptions> implements I
 
       this.el.classList.remove('active')
     }
-    ;(this.target as HTMLInputElement[]).forEach(el => {
+    ;(this.target as HTMLInputElement[]).forEach((el) => {
       ;(el as HTMLInputElement).type = 'password'
     })
   }
@@ -131,7 +131,7 @@ class HSTogglePassword extends HSBasePlugin<ITogglePasswordOptions> implements I
     }
 
     // Remove attributes
-    ;(this.target as HTMLInputElement[]).forEach(el => {
+    ;(this.target as HTMLInputElement[]).forEach((el) => {
       ;(el as HTMLInputElement).type = 'password'
     })
 
@@ -141,14 +141,15 @@ class HSTogglePassword extends HSBasePlugin<ITogglePasswordOptions> implements I
     this.isShown = false
 
     window.$hsTogglePasswordCollection = window.$hsTogglePasswordCollection.filter(
-      ({ element }) => element.el !== this.el
+      ({ element }) => element.el !== this.el,
     )
   }
 
   // Static methods
   static getInstance(target: HTMLElement | string, isInstance?: boolean) {
     const elInCollection = window.$hsTogglePasswordCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element) : null
@@ -158,14 +159,20 @@ class HSTogglePassword extends HSBasePlugin<ITogglePasswordOptions> implements I
     if (!window.$hsTogglePasswordCollection) window.$hsTogglePasswordCollection = []
 
     if (window.$hsTogglePasswordCollection)
-      window.$hsTogglePasswordCollection = window.$hsTogglePasswordCollection.filter(({ element }) =>
-        document.contains(element.el)
+      window.$hsTogglePasswordCollection = window.$hsTogglePasswordCollection.filter(
+        ({ element }) => document.contains(element.el),
       )
 
-    document.querySelectorAll('[data-toggle-password]:not(.--prevent-on-load-init)').forEach((el: HTMLInputElement) => {
-      if (!window.$hsTogglePasswordCollection.find(elC => (elC?.element?.el as HTMLElement) === el))
-        new HSTogglePassword(el)
-    })
+    document
+      .querySelectorAll('[data-toggle-password]:not(.--prevent-on-load-init)')
+      .forEach((el: HTMLInputElement) => {
+        if (
+          !window.$hsTogglePasswordCollection.find(
+            (elC) => (elC?.element?.el as HTMLElement) === el,
+          )
+        )
+          new HSTogglePassword(el)
+      })
   }
 }
 

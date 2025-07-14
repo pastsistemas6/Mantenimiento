@@ -38,7 +38,7 @@ class HSInputNumber extends HSBasePlugin<IInputNumberOptions> implements IInputN
     const dataOptions: IInputNumberOptions = data ? JSON.parse(data) : { step: 1 }
     const concatOptions = {
       ...dataOptions,
-      ...options
+      ...options,
     }
 
     this.minInputValue = 'min' in concatOptions ? concatOptions.min : 0
@@ -83,7 +83,7 @@ class HSInputNumber extends HSBasePlugin<IInputNumberOptions> implements IInputN
     const cleanedArray: string[] = []
     let decimalFound = false
 
-    value.split('').forEach(char => {
+    value.split('').forEach((char) => {
       if (char >= '0' && char <= '9') cleanedArray.push(char)
       else if (char === '.' && !decimalFound) {
         cleanedArray.push(char)
@@ -141,13 +141,17 @@ class HSInputNumber extends HSBasePlugin<IInputNumberOptions> implements IInputN
       case 'increment':
         const incrementedResult = this.inputValue + this.step
         this.inputValue =
-          incrementedResult >= minInputValue && incrementedResult <= maxInputValue ? incrementedResult : maxInputValue
+          incrementedResult >= minInputValue && incrementedResult <= maxInputValue
+            ? incrementedResult
+            : maxInputValue
         this.input.value = this.inputValue.toString()
         break
       case 'decrement':
         const decrementedResult = this.inputValue - this.step
         this.inputValue =
-          decrementedResult >= minInputValue && decrementedResult <= maxInputValue ? decrementedResult : minInputValue
+          decrementedResult >= minInputValue && decrementedResult <= maxInputValue
+            ? decrementedResult
+            : minInputValue
         this.input.value = this.inputValue.toString()
         break
       default:
@@ -227,13 +231,16 @@ class HSInputNumber extends HSBasePlugin<IInputNumberOptions> implements IInputN
     this.increment.removeEventListener('click', this.onIncrementClickListener)
     this.decrement.removeEventListener('click', this.onDecrementClickListener)
 
-    window.$hsInputNumberCollection = window.$hsInputNumberCollection.filter(({ element }) => element.el !== this.el)
+    window.$hsInputNumberCollection = window.$hsInputNumberCollection.filter(
+      ({ element }) => element.el !== this.el,
+    )
   }
 
   // Global method
   static getInstance(target: HTMLElement | string, isInstance?: boolean) {
     const elInCollection = window.$hsInputNumberCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element) : null
@@ -244,12 +251,17 @@ class HSInputNumber extends HSBasePlugin<IInputNumberOptions> implements IInputN
 
     if (window.$hsInputNumberCollection)
       window.$hsInputNumberCollection = window.$hsInputNumberCollection.filter(({ element }) =>
-        document.contains(element.el)
+        document.contains(element.el),
       )
 
-    document.querySelectorAll('[data-input-number]:not(.--prevent-on-load-init)').forEach((el: HTMLElement) => {
-      if (!window.$hsInputNumberCollection.find(elC => (elC?.element?.el as HTMLElement) === el)) new HSInputNumber(el)
-    })
+    document
+      .querySelectorAll('[data-input-number]:not(.--prevent-on-load-init)')
+      .forEach((el: HTMLElement) => {
+        if (
+          !window.$hsInputNumberCollection.find((elC) => (elC?.element?.el as HTMLElement) === el)
+        )
+          new HSInputNumber(el)
+      })
   }
 }
 

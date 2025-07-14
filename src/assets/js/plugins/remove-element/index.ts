@@ -27,7 +27,7 @@ class HSRemoveElement extends HSBasePlugin<IRemoveElementOptions> implements IRe
     const dataOptions: IRemoveElementOptions = data ? JSON.parse(data) : {}
     const concatOptions = {
       ...dataOptions,
-      ...options
+      ...options,
     }
 
     this.removeTargetId = this.el.getAttribute('data-remove-element')
@@ -66,16 +66,16 @@ class HSRemoveElement extends HSBasePlugin<IRemoveElementOptions> implements IRe
     this.el.removeEventListener('click', this.onElementClickListener)
 
     window.$hsRemoveElementCollection = window.$hsRemoveElementCollection.filter(
-      ({ element }) => element.el !== this.el
+      ({ element }) => element.el !== this.el,
     )
   }
 
   // Static method
   static getInstance(target: HTMLElement, isInstance?: boolean) {
     const elInCollection = window.$hsRemoveElementCollection.find(
-      el =>
+      (el) =>
         el.element.el === (typeof target === 'string' ? document.querySelector(target) : target) ||
-        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element.el) : null
@@ -86,13 +86,17 @@ class HSRemoveElement extends HSBasePlugin<IRemoveElementOptions> implements IRe
 
     if (window.$hsRemoveElementCollection)
       window.$hsRemoveElementCollection = window.$hsRemoveElementCollection.filter(({ element }) =>
-        document.contains(element.el)
+        document.contains(element.el),
       )
 
-    document.querySelectorAll('[data-remove-element]:not(.--prevent-on-load-init)').forEach((el: HTMLElement) => {
-      if (!window.$hsRemoveElementCollection.find(elC => (elC?.element?.el as HTMLElement) === el))
-        new HSRemoveElement(el)
-    })
+    document
+      .querySelectorAll('[data-remove-element]:not(.--prevent-on-load-init)')
+      .forEach((el: HTMLElement) => {
+        if (
+          !window.$hsRemoveElementCollection.find((elC) => (elC?.element?.el as HTMLElement) === el)
+        )
+          new HSRemoveElement(el)
+      })
   }
 }
 

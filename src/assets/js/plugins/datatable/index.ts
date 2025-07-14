@@ -87,13 +87,15 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
 
     // Exclude columns from ordering
     const columnDefs: IColumnDef[] = []
-    Array.from(this.el.querySelectorAll('thead th, thead td')).forEach((th: HTMLElement, ind: number) => {
-      if (th.classList.contains('--exclude-from-ordering'))
-        columnDefs.push({
-          targets: ind,
-          orderable: false
-        })
-    })
+    Array.from(this.el.querySelectorAll('thead th, thead td')).forEach(
+      (th: HTMLElement, ind: number) => {
+        if (th.classList.contains('--exclude-from-ordering'))
+          columnDefs.push({
+            targets: ind,
+            orderable: false,
+          })
+      },
+    )
 
     const data = this.el.getAttribute('data-datatable')
     const dataOptions: IDataTableOptions = data ? JSON.parse(data) : {}
@@ -104,19 +106,23 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
       order: [],
       columnDefs: [...columnDefs],
       ...dataOptions,
-      ...options
+      ...options,
     }
 
     this.table = this.el.querySelector('table')
 
     this.searches = Array.from(this.el.querySelectorAll('[data-datatable-search]')) ?? null
 
-    this.pageEntitiesList = Array.from(this.el.querySelectorAll('[data-datatable-page-entities]')) ?? null
+    this.pageEntitiesList =
+      Array.from(this.el.querySelectorAll('[data-datatable-page-entities]')) ?? null
 
     this.pagingList = Array.from(this.el.querySelectorAll('[data-datatable-paging]')) ?? null
-    this.pagingPagesList = Array.from(this.el.querySelectorAll('[data-datatable-paging-pages]')) ?? null
-    this.pagingPrevList = Array.from(this.el.querySelectorAll('[data-datatable-paging-prev]')) ?? null
-    this.pagingNextList = Array.from(this.el.querySelectorAll('[data-datatable-paging-next]')) ?? null
+    this.pagingPagesList =
+      Array.from(this.el.querySelectorAll('[data-datatable-paging-pages]')) ?? null
+    this.pagingPrevList =
+      Array.from(this.el.querySelectorAll('[data-datatable-paging-prev]')) ?? null
+    this.pagingNextList =
+      Array.from(this.el.querySelectorAll('[data-datatable-paging-next]')) ?? null
 
     this.infoList = Array.from(this.el.querySelectorAll('[data-datatable-info]')) ?? null
 
@@ -131,7 +137,8 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
         '[data-datatable-row-selecting-individual]' ??
         null
 
-    if (this.pageEntitiesList.length) this.concatOptions.pageLength = parseInt(this.pageEntitiesList[0].value)
+    if (this.pageEntitiesList.length)
+      this.concatOptions.pageLength = parseInt(this.pageEntitiesList[0].value)
 
     this.maxPagesToShow = 3
     this.isRowSelecting = !!this.concatOptions?.rowSelectingOptions
@@ -174,7 +181,7 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
       if (this.isRowSelecting) this.updateSelectAllCheckbox()
       if (this.isRowSelecting) this.triggerChangeEventToRow()
       this.updateInfo()
-      this.pagingPagesList.forEach(el => this.updatePaging(el))
+      this.pagingPagesList.forEach((el) => this.updatePaging(el))
     })
   }
 
@@ -183,7 +190,10 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
   }
 
   private pageEntitiesChange(evt: Event) {
-    this.onEntitiesChange(parseInt((evt.target as HTMLSelectElement).value), evt.target as HTMLSelectElement)
+    this.onEntitiesChange(
+      parseInt((evt.target as HTMLSelectElement).value),
+      evt.target as HTMLSelectElement,
+    )
   }
 
   private pagingPrevClick() {
@@ -204,13 +214,13 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
 
   // Search
   private initSearch() {
-    this.searches.forEach(el => {
+    this.searches.forEach((el) => {
       this.onSearchInputListener.push({
         el,
-        fn: debounce((evt: InputEvent) => this.searchInput(evt))
+        fn: debounce((evt: InputEvent) => this.searchInput(evt)),
       })
 
-      el.addEventListener('input', this.onSearchInputListener.find(search => search.el === el).fn)
+      el.addEventListener('input', this.onSearchInputListener.find((search) => search.el === el).fn)
     })
   }
 
@@ -220,21 +230,24 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
 
   // Page entities
   private initPageEntities() {
-    this.pageEntitiesList.forEach(el => {
+    this.pageEntitiesList.forEach((el) => {
       this.onPageEntitiesChangeListener.push({
         el,
-        fn: evt => this.pageEntitiesChange(evt)
+        fn: (evt) => this.pageEntitiesChange(evt),
       })
 
-      el.addEventListener('change', this.onPageEntitiesChangeListener.find(pageEntity => pageEntity.el === el).fn)
+      el.addEventListener(
+        'change',
+        this.onPageEntitiesChangeListener.find((pageEntity) => pageEntity.el === el).fn,
+      )
     })
   }
 
   private onEntitiesChange(entities: number, target: HTMLSelectElement) {
-    const otherEntities = this.pageEntitiesList.filter(el => el !== target)
+    const otherEntities = this.pageEntitiesList.filter((el) => el !== target)
 
     if (otherEntities.length)
-      otherEntities.forEach(el => {
+      otherEntities.forEach((el) => {
         if (window.HSSelect) {
           // @ts-ignore
           const hsSelectInstance = window.HSSelect.getInstance(el, true)
@@ -247,7 +260,7 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
 
   // Info
   private initInfo() {
-    this.infoList.forEach(el => {
+    this.infoList.forEach((el) => {
       this.initInfoFrom(el)
       this.initInfoTo(el)
       this.initInfoLength(el)
@@ -281,7 +294,7 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
 
   // Paging
   private initPaging() {
-    this.pagingList.forEach(el => this.hidePagingIfSinglePage(el))
+    this.pagingList.forEach((el) => this.hidePagingIfSinglePage(el))
   }
 
   private hidePagingIfSinglePage(el: HTMLElement) {
@@ -297,13 +310,16 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
   }
 
   private initPagingPrev() {
-    this.pagingPrevList.forEach(el => {
+    this.pagingPrevList.forEach((el) => {
       this.onPagingPrevClickListener.push({
         el,
-        fn: () => this.pagingPrevClick()
+        fn: () => this.pagingPrevClick(),
       })
 
-      el.addEventListener('click', this.onPagingPrevClickListener.find(pagingPrev => pagingPrev.el === el).fn)
+      el.addEventListener(
+        'click',
+        this.onPagingPrevClickListener.find((pagingPrev) => pagingPrev.el === el).fn,
+      )
     })
   }
 
@@ -322,13 +338,16 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
   }
 
   private initPagingNext() {
-    this.pagingNextList.forEach(el => {
+    this.pagingNextList.forEach((el) => {
       this.onPagingNextClickListener.push({
         el,
-        fn: () => this.pagingNextClick()
+        fn: () => this.pagingNextClick(),
       })
 
-      el.addEventListener('click', this.onPagingNextClickListener.find(pagingNext => pagingNext.el === el).fn)
+      el.addEventListener(
+        'click',
+        this.onPagingNextClickListener.find((pagingNext) => pagingNext.el === el).fn,
+      )
     })
   }
 
@@ -337,7 +356,7 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
   }
 
   private buildPagingPages() {
-    this.pagingPagesList.forEach(el => this.updatePaging(el))
+    this.pagingPagesList.forEach((el) => this.updatePaging(el))
   }
 
   private updatePaging(pagingPages: HTMLElement) {
@@ -366,15 +385,16 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
     }
 
     if (endPage < totalPages) {
-      if (endPage < totalPages - 1) pagingPages.appendChild(htmlToElement(`<span class="ellipsis">...</span>`))
+      if (endPage < totalPages - 1)
+        pagingPages.appendChild(htmlToElement(`<span class="ellipsis">...</span>`))
 
       this.buildPagingPage(totalPages, pagingPages)
     }
 
-    this.pagingPrevList.forEach(el => this.disablePagingArrow(el, page === 0))
-    this.pagingNextList.forEach(el => this.disablePagingArrow(el, page === pages - 1))
+    this.pagingPrevList.forEach((el) => this.disablePagingArrow(el, page === 0))
+    this.pagingNextList.forEach((el) => this.disablePagingArrow(el, page === pages - 1))
 
-    this.pagingList.forEach(el => this.hidePagingIfSinglePage(el))
+    this.pagingList.forEach((el) => this.hidePagingIfSinglePage(el))
   }
 
   private buildPagingPage(counter: number, target: HTMLElement) {
@@ -387,12 +407,12 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
 
     this.onSinglePagingClickListener.push({
       el: pageEl,
-      fn: () => this.singlePagingClick(counter)
+      fn: () => this.singlePagingClick(counter),
     })
 
     pageEl.addEventListener(
       'click',
-      this.onSinglePagingClickListener.find(singlePaging => singlePaging.el === pageEl).fn
+      this.onSinglePagingClickListener.find((singlePaging) => singlePaging.el === pageEl).fn,
     )
 
     target.append(pageEl)
@@ -410,7 +430,7 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
   }
 
   private triggerChangeEventToRow() {
-    this.table.querySelectorAll(`tbody ${this.rowSelectingIndividual}`).forEach(el => {
+    this.table.querySelectorAll(`tbody ${this.rowSelectingIndividual}`).forEach((el) => {
       el.addEventListener('change', () => {
         this.updateSelectAllCheckbox()
       })
@@ -419,9 +439,11 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
 
   private onSelectAllChange() {
     let isChecked = (this.rowSelectingAll as HTMLInputElement).checked
-    const visibleRows = Array.from(this.dataTable.rows({ page: 'current', search: 'applied' }).nodes())
+    const visibleRows = Array.from(
+      this.dataTable.rows({ page: 'current', search: 'applied' }).nodes(),
+    )
 
-    visibleRows.forEach(el => {
+    visibleRows.forEach((el) => {
       const checkbox = el.querySelector(this.rowSelectingIndividual)
 
       if (checkbox) checkbox.checked = isChecked
@@ -444,12 +466,12 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
       this.dataTable
         .rows({
           page: 'current',
-          search: 'applied'
+          search: 'applied',
         })
-        .nodes()
+        .nodes(),
     )
 
-    visibleRows.forEach(el => {
+    visibleRows.forEach((el) => {
       const checkbox = el.querySelector(this.rowSelectingIndividual)
 
       if (checkbox && !checkbox.checked) {
@@ -469,30 +491,36 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
       // this.searches = null;
     }
     if (this.pageEntitiesList)
-      this.onPageEntitiesChangeListener.forEach(({ el, fn }) => el.removeEventListener('change', fn))
+      this.onPageEntitiesChangeListener.forEach(({ el, fn }) =>
+        el.removeEventListener('change', fn),
+      )
     if (this.pagingPagesList.length) {
       this.onSinglePagingClickListener.forEach(({ el, fn }) => el.removeEventListener('click', fn))
 
-      this.pagingPagesList.forEach(el => (el.innerHTML = ''))
+      this.pagingPagesList.forEach((el) => (el.innerHTML = ''))
     }
     if (this.pagingPrevList.length)
       this.onPagingPrevClickListener.forEach(({ el, fn }) => el.removeEventListener('click', fn))
     if (this.pagingNextList.length)
       this.onPagingNextClickListener.forEach(({ el, fn }) => el.removeEventListener('click', fn))
-    if (this.rowSelectingAll) this.rowSelectingAll.removeEventListener('change', this.onRowSelectingAllChangeListener)
+    if (this.rowSelectingAll)
+      this.rowSelectingAll.removeEventListener('change', this.onRowSelectingAllChangeListener)
 
     this.dataTable.destroy()
 
     this.rowSelectingAll = null
     this.rowSelectingIndividual = null
 
-    window.$hsDataTableCollection = window.$hsDataTableCollection.filter(({ element }) => element.el !== this.el)
+    window.$hsDataTableCollection = window.$hsDataTableCollection.filter(
+      ({ element }) => element.el !== this.el,
+    )
   }
 
   // Static methods
   static getInstance(target: HTMLElement | string, isInstance?: boolean) {
     const elInCollection = window.$hsDataTableCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element.el) : null
@@ -503,12 +531,15 @@ class HSDataTable extends HSBasePlugin<IDataTableOptions> implements IDataTable 
 
     if (window.$hsDataTableCollection)
       window.$hsDataTableCollection = window.$hsDataTableCollection.filter(({ element }) =>
-        document.contains(element.el)
+        document.contains(element.el),
       )
 
-    document.querySelectorAll('[data-datatable]:not(.--prevent-on-load-init)').forEach((el: HTMLElement) => {
-      if (!window.$hsDataTableCollection.find(elC => (elC?.element?.el as HTMLElement) === el)) new HSDataTable(el)
-    })
+    document
+      .querySelectorAll('[data-datatable]:not(.--prevent-on-load-init)')
+      .forEach((el: HTMLElement) => {
+        if (!window.$hsDataTableCollection.find((elC) => (elC?.element?.el as HTMLElement) === el))
+          new HSDataTable(el)
+      })
   }
 }
 
@@ -521,7 +552,8 @@ declare global {
 
 window.addEventListener('load', () => {
   if (document.querySelectorAll('[data-datatable]:not(.--prevent-on-load-init)').length) {
-    if (typeof jQuery === 'undefined') console.error('HSDataTable: jQuery is not available, please add it to the page.')
+    if (typeof jQuery === 'undefined')
+      console.error('HSDataTable: jQuery is not available, please add it to the page.')
     if (typeof DataTable === 'undefined')
       console.error('HSDataTable: DataTable is not available, please add it to the page.')
   }

@@ -16,7 +16,7 @@ const getClassProperty = (el: HTMLElement, prop: string, val = '') => {
 const getClassPropertyAlt = (el: HTMLElement, prop?: string, val: string = '') => {
   let targetClass = ''
 
-  el.classList.forEach(c => {
+  el.classList.forEach((c) => {
     if (c.includes(prop)) {
       targetClass = c
     }
@@ -35,7 +35,7 @@ const getZIndex = (el: HTMLElement) => {
 const getHighestZIndex = (arr: HTMLElement[]) => {
   let highestZIndex = Number.NEGATIVE_INFINITY
 
-  arr.forEach(el => {
+  arr.forEach((el) => {
     let zIndex: string | number = getZIndex(el)
 
     if (zIndex !== 'auto') {
@@ -63,7 +63,7 @@ const isEnoughSpace = (
   toggle: HTMLElement,
   preferredPosition: 'top' | 'bottom' | 'auto' = 'auto',
   space = 10,
-  wrapper: HTMLElement | null = null
+  wrapper: HTMLElement | null = null,
 ) => {
   const referenceRect = toggle.getBoundingClientRect()
   const wrapperRect = wrapper ? wrapper.getBoundingClientRect() : null
@@ -87,7 +87,9 @@ const isFocused = (target: HTMLElement) => {
 
 const isFormElement = (target: HTMLElement) => {
   return (
-    target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement
+    target instanceof HTMLInputElement ||
+    target instanceof HTMLTextAreaElement ||
+    target instanceof HTMLSelectElement
   )
 }
 
@@ -95,12 +97,18 @@ const isIOS = () => {
   if (/iPad|iPhone|iPod/.test(navigator.platform)) {
     return true
   } else {
-    return navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /MacIntel/.test(navigator.platform)
+    return (
+      navigator.maxTouchPoints &&
+      navigator.maxTouchPoints > 2 &&
+      /MacIntel/.test(navigator.platform)
+    )
   }
 }
 
 const isIpadOS = () => {
-  return navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /MacIntel/.test(navigator.platform)
+  return (
+    navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /MacIntel/.test(navigator.platform)
+  )
 }
 
 const isJson = (str: string) => {
@@ -136,8 +144,10 @@ const isScrollable = (el: HTMLElement) => {
   const style = window.getComputedStyle(el)
   const overflowY = style.overflowY
   const overflowX = style.overflowX
-  const canScrollVertically = (overflowY === 'scroll' || overflowY === 'auto') && el.scrollHeight > el.clientHeight
-  const canScrollHorizontally = (overflowX === 'scroll' || overflowX === 'auto') && el.scrollWidth > el.clientWidth
+  const canScrollVertically =
+    (overflowY === 'scroll' || overflowY === 'auto') && el.scrollHeight > el.clientHeight
+  const canScrollHorizontally =
+    (overflowX === 'scroll' || overflowX === 'auto') && el.scrollWidth > el.clientWidth
 
   return canScrollVertically || canScrollHorizontally
 }
@@ -159,7 +169,7 @@ const dispatch = (evt: string, element: any, payload: any = null) => {
     detail: { payload },
     bubbles: true,
     cancelable: true,
-    composed: false
+    composed: false,
   })
 
   element.dispatchEvent(event)
@@ -189,9 +199,16 @@ const htmlToElement = (html: string): HTMLElement => {
   return template.content.firstChild as HTMLElement
 }
 
-const classToClassList = (classes: string, target: HTMLElement, splitter = ' ', action: 'add' | 'remove' = 'add') => {
+const classToClassList = (
+  classes: string,
+  target: HTMLElement,
+  splitter = ' ',
+  action: 'add' | 'remove' = 'add',
+) => {
   const classesToArray = classes.split(splitter)
-  classesToArray.forEach(cl => (action === 'add' ? target.classList.add(cl) : target.classList.remove(cl)))
+  classesToArray.forEach((cl) =>
+    action === 'add' ? target.classList.add(cl) : target.classList.remove(cl),
+  )
 }
 
 const menuSearchHistory = {
@@ -207,7 +224,7 @@ const menuSearchHistory = {
 
   clearHistory() {
     this.historyIndex = -1
-  }
+  },
 }
 
 export {
@@ -230,5 +247,5 @@ export {
   afterTransition,
   htmlToElement,
   classToClassList,
-  menuSearchHistory
+  menuSearchHistory,
 }

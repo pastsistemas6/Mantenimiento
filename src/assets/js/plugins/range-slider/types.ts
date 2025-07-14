@@ -1,1 +1,4 @@
-export type TRangeSliderOptionsFormatterType = 'integer' | 'thousandsSeparatorAndDecimalPoints' | null
+export type TRangeSliderOptionsFormatterType =
+  | 'integer'
+  | 'thousandsSeparatorAndDecimalPoints'
+  | null

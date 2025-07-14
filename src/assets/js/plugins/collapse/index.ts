@@ -53,7 +53,7 @@ class HSCollapse extends HSBasePlugin<{}> implements ICollapse {
   }
 
   private hideAllMegaMenuItems() {
-    this.content.querySelectorAll('.mega-menu-content.block').forEach(el => {
+    this.content.querySelectorAll('.mega-menu-content.block').forEach((el) => {
       el.classList.remove('block')
       el.classList.add('hidden')
     })
@@ -65,7 +65,10 @@ class HSCollapse extends HSBasePlugin<{}> implements ICollapse {
     const dropdowns = this.content.querySelectorAll('.dropdown')
     dropdowns.forEach((el: Element) => {
       try {
-        const instance = HSDropdown.getInstance(el as HTMLElement, true) as ICollectionItem<HSDropdown> | null
+        const instance = HSDropdown.getInstance(
+          el as HTMLElement,
+          true,
+        ) as ICollectionItem<HSDropdown> | null
 
         if (!instance?.element) return
 
@@ -145,13 +148,17 @@ class HSCollapse extends HSBasePlugin<{}> implements ICollapse {
     this.content = null
     this.animationInProcess = false
 
-    window.$hsCollapseCollection = window.$hsCollapseCollection.filter(({ element }) => element.el !== this.el)
+    window.$hsCollapseCollection = window.$hsCollapseCollection.filter(
+      ({ element }) => element.el !== this.el,
+    )
   }
 
   // Static methods
-  private static findInCollection(target: HSCollapse | HTMLElement | string): ICollectionItem<HSCollapse> | null {
+  private static findInCollection(
+    target: HSCollapse | HTMLElement | string,
+  ): ICollectionItem<HSCollapse> | null {
     return (
-      window.$hsCollapseCollection.find(el => {
+      window.$hsCollapseCollection.find((el) => {
         if (target instanceof HSCollapse) return el.element.el === target.el
         else if (typeof target === 'string') return el.element.el === document.querySelector(target)
         else return el.element.el === target
@@ -161,7 +168,8 @@ class HSCollapse extends HSBasePlugin<{}> implements ICollapse {
 
   static getInstance(target: HTMLElement, isInstance = false) {
     const elInCollection = window.$hsCollapseCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element.el) : null
@@ -171,11 +179,16 @@ class HSCollapse extends HSBasePlugin<{}> implements ICollapse {
     if (!window.$hsCollapseCollection) window.$hsCollapseCollection = []
 
     if (window.$hsCollapseCollection)
-      window.$hsCollapseCollection = window.$hsCollapseCollection.filter(({ element }) => document.contains(element.el))
+      window.$hsCollapseCollection = window.$hsCollapseCollection.filter(({ element }) =>
+        document.contains(element.el),
+      )
 
-    document.querySelectorAll('.collapse-toggle:not(.--prevent-on-load-init)').forEach((el: HTMLElement) => {
-      if (!window.$hsCollapseCollection.find(elC => (elC?.element?.el as HTMLElement) === el)) new HSCollapse(el)
-    })
+    document
+      .querySelectorAll('.collapse-toggle:not(.--prevent-on-load-init)')
+      .forEach((el: HTMLElement) => {
+        if (!window.$hsCollapseCollection.find((elC) => (elC?.element?.el as HTMLElement) === el))
+          new HSCollapse(el)
+      })
   }
 
   static show(target: HSCollapse | HTMLElement | string) {

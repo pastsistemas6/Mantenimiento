@@ -72,17 +72,23 @@ export const COLLECTIONS: ISpaCollectionItem[] = [
   { key: 'carousel', fn: HSCarousel, collection: '$hsCarouselCollection' },
   { key: 'collapse', fn: HSCollapse, collection: '$hsCollapseCollection' },
   { key: 'combobox', fn: HSComboBox, collection: '$hsComboBoxCollection' },
-  ...(HSDataTable ? [{ key: 'datatable', fn: HSDataTable, collection: '$hsDataTableCollection' }] : []),
+  ...(HSDataTable
+    ? [{ key: 'datatable', fn: HSDataTable, collection: '$hsDataTableCollection' }]
+    : []),
   { key: 'dropdown', fn: HSDropdown, collection: '$hsDropdownCollection' },
-  ...(HSFileUpload ? [{ key: 'file-upload', fn: HSFileUpload, collection: '$hsFileUploadCollection' }] : []),
+  ...(HSFileUpload
+    ? [{ key: 'file-upload', fn: HSFileUpload, collection: '$hsFileUploadCollection' }]
+    : []),
   { key: 'input-number', fn: HSInputNumber, collection: '$hsInputNumberCollection' },
   { key: 'overlay', fn: HSOverlay, collection: '$hsOverlayCollection' },
   { key: 'pin-input', fn: HSPinInput, collection: '$hsPinInputCollection' },
-  ...(HSRangeSlider ? [{ key: 'range-slider', fn: HSRangeSlider, collection: '$hsRangeSliderCollection' }] : []),
+  ...(HSRangeSlider
+    ? [{ key: 'range-slider', fn: HSRangeSlider, collection: '$hsRangeSliderCollection' }]
+    : []),
   {
     key: 'remove-element',
     fn: HSRemoveElement,
-    collection: '$hsRemoveElementCollection'
+    collection: '$hsRemoveElementCollection',
   },
   { key: 'scrollspy', fn: HSScrollspy, collection: '$hsScrollspyCollection' },
   { key: 'select', fn: HSSelect, collection: '$hsSelectCollection' },
@@ -92,5 +98,5 @@ export const COLLECTIONS: ISpaCollectionItem[] = [
   { key: 'toggle-count', fn: HSToggleCount, collection: '$hsToggleCountCollection' },
   { key: 'toggle-password', fn: HSTogglePassword, collection: '$hsTogglePasswordCollection' },
   { key: 'tooltip', fn: HSTooltip, collection: '$hsTooltipCollection' },
-  { key: 'tree-view', fn: HSTreeView, collection: '$hsTreeViewCollection' }
+  { key: 'tree-view', fn: HSTreeView, collection: '$hsTreeViewCollection' },
 ]

@@ -33,7 +33,7 @@ class HSCopyMarkup extends HSBasePlugin<ICopyMarkupOptions> implements ICopyMark
     const dataOptions: ICopyMarkupOptions = data ? JSON.parse(data) : {}
     const concatOptions = {
       ...dataOptions,
-      ...options
+      ...options,
     }
 
     this.targetSelector = concatOptions?.targetSelector || null
@@ -102,7 +102,9 @@ class HSCopyMarkup extends HSBasePlugin<ICopyMarkupOptions> implements ICopyMark
 
   private setWrapper() {
     this.wrapper =
-      typeof this.wrapperSelector === 'string' ? document.querySelector(this.wrapperSelector) : this.wrapperSelector
+      typeof this.wrapperSelector === 'string'
+        ? document.querySelector(this.wrapperSelector)
+        : this.wrapperSelector
   }
 
   private addToItems(item: HTMLElement) {
@@ -143,7 +145,9 @@ class HSCopyMarkup extends HSBasePlugin<ICopyMarkupOptions> implements ICopyMark
 
     this.el.removeEventListener('click', this.onElementClickListener)
     if (deleteItemButtons.length) {
-      deleteItemButtons.forEach(el => el.removeEventListener('click', this.onDeleteItemButtonClickListener))
+      deleteItemButtons.forEach((el) =>
+        el.removeEventListener('click', this.onDeleteItemButtonClickListener),
+      )
     }
 
     this.el.removeAttribute('disabled')
@@ -152,13 +156,16 @@ class HSCopyMarkup extends HSBasePlugin<ICopyMarkupOptions> implements ICopyMark
     this.wrapper = null
     this.items = null
 
-    window.$hsCopyMarkupCollection = window.$hsCopyMarkupCollection.filter(({ element }) => element.el !== this.el)
+    window.$hsCopyMarkupCollection = window.$hsCopyMarkupCollection.filter(
+      ({ element }) => element.el !== this.el,
+    )
   }
 
   // Static method
   static getInstance(target: HTMLElement | string, isInstance?: boolean) {
     const elInCollection = window.$hsCopyMarkupCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element) : null
@@ -169,17 +176,21 @@ class HSCopyMarkup extends HSBasePlugin<ICopyMarkupOptions> implements ICopyMark
 
     if (window.$hsCopyMarkupCollection)
       window.$hsCopyMarkupCollection = window.$hsCopyMarkupCollection.filter(({ element }) =>
-        document.contains(element.el)
+        document.contains(element.el),
       )
 
-    document.querySelectorAll('[data-copy-markup]:not(.--prevent-on-load-init)').forEach((el: HTMLElement) => {
-      if (!window.$hsCopyMarkupCollection.find(elC => (elC?.element?.el as HTMLElement) === el)) {
-        const data = el.getAttribute('data-copy-markup')
-        const options: ICopyMarkupOptions = data ? JSON.parse(data) : {}
+    document
+      .querySelectorAll('[data-copy-markup]:not(.--prevent-on-load-init)')
+      .forEach((el: HTMLElement) => {
+        if (
+          !window.$hsCopyMarkupCollection.find((elC) => (elC?.element?.el as HTMLElement) === el)
+        ) {
+          const data = el.getAttribute('data-copy-markup')
+          const options: ICopyMarkupOptions = data ? JSON.parse(data) : {}
 
-        new HSCopyMarkup(el, options)
-      }
-    })
+          new HSCopyMarkup(el, options)
+        }
+      })
   }
 }
 

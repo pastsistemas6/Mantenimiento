@@ -39,10 +39,11 @@ class HSScrollspy extends HSBasePlugin<IScrollspyOptions> implements IScrollspy 
     const dataOptions: IScrollspyOptions = data ? JSON.parse(data) : {}
     const concatOptions: IScrollspyOptions = {
       ...dataOptions,
-      ...options
+      ...options,
     }
 
-    this.ignoreScrollUp = typeof concatOptions.ignoreScrollUp !== 'undefined' ? concatOptions.ignoreScrollUp : false
+    this.ignoreScrollUp =
+      typeof concatOptions.ignoreScrollUp !== 'undefined' ? concatOptions.ignoreScrollUp : false
 
     this.links = this.el.querySelectorAll('[href]')
     this.sections = []
@@ -57,7 +58,8 @@ class HSScrollspy extends HSBasePlugin<IScrollspyOptions> implements IScrollspy 
   }
 
   private scrollableScroll(evt: Event) {
-    const currentScrollTop = this.scrollable instanceof HTMLElement ? this.scrollable.scrollTop : window.scrollY
+    const currentScrollTop =
+      this.scrollable instanceof HTMLElement ? this.scrollable.scrollTop : window.scrollY
     this.isScrollingDown = currentScrollTop > this.lastScrollTop
     this.lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop
 
@@ -71,21 +73,21 @@ class HSScrollspy extends HSBasePlugin<IScrollspyOptions> implements IScrollspy 
   private init() {
     this.createCollection(window.$hsScrollspyCollection, this)
 
-    this.links.forEach(el => {
+    this.links.forEach((el) => {
       this.sections.push(this.scrollable.querySelector(el.getAttribute('href')))
     })
 
-    this.onScrollableScrollListener = evt => this.scrollableScroll(evt)
+    this.onScrollableScrollListener = (evt) => this.scrollableScroll(evt)
 
     this.scrollable.addEventListener('scroll', this.onScrollableScrollListener)
 
-    this.links.forEach(el => {
+    this.links.forEach((el) => {
       this.onLinkClickListener.push({
         el,
-        fn: (evt: Event) => this.linkClick(evt, el)
+        fn: (evt: Event) => this.linkClick(evt, el),
       })
 
-      el.addEventListener('click', this.onLinkClickListener.find(link => link.el === el).fn)
+      el.addEventListener('click', this.onLinkClickListener.find((link) => link.el === el).fn)
     })
   }
 
@@ -124,8 +126,11 @@ class HSScrollspy extends HSBasePlugin<IScrollspyOptions> implements IScrollspy 
     const globalOffset = parseInt(getClassProperty(this.el, '--scrollspy-offset', '0'))
     const userOffset = parseInt(getClassProperty(section, '--scrollspy-offset')) || globalOffset
     const scrollableParentOffset =
-      evt.target === document ? 0 : parseInt(String((evt.target as HTMLElement).getBoundingClientRect().top))
-    const topOffset = parseInt(String(section.getBoundingClientRect().top)) - userOffset - scrollableParentOffset
+      evt.target === document
+        ? 0
+        : parseInt(String((evt.target as HTMLElement).getBoundingClientRect().top))
+    const topOffset =
+      parseInt(String(section.getBoundingClientRect().top)) - userOffset - scrollableParentOffset
     const height = section.offsetHeight
     const statement = this.ignoreScrollUp
       ? topOffset <= 0 && topOffset + height > 0
@@ -134,7 +139,7 @@ class HSScrollspy extends HSBasePlugin<IScrollspyOptions> implements IScrollspy 
         : topOffset <= 0 && topOffset < height
 
     if (statement) {
-      this.links.forEach(el => el.classList.remove('active'))
+      this.links.forEach((el) => el.classList.remove('active'))
 
       const current = this.el.querySelector(`[href="#${section.getAttribute('id')}"]`)
 
@@ -160,7 +165,8 @@ class HSScrollspy extends HSBasePlugin<IScrollspyOptions> implements IScrollspy 
     const target: HTMLElement = document.querySelector(targetId)
     const globalOffset = parseInt(getClassProperty(this.el, '--scrollspy-offset', '0'))
     const userOffset = parseInt(getClassProperty(target, '--scrollspy-offset')) || globalOffset
-    const scrollableParentOffset = this.scrollable === document ? 0 : (this.scrollable as HTMLElement).offsetTop
+    const scrollableParentOffset =
+      this.scrollable === document ? 0 : (this.scrollable as HTMLElement).offsetTop
     const topOffset = target.offsetTop - userOffset - scrollableParentOffset
     const view = this.scrollable === document ? window : this.scrollable
     const scrollFn = () => {
@@ -170,7 +176,7 @@ class HSScrollspy extends HSBasePlugin<IScrollspyOptions> implements IScrollspy 
         view.scrollTo({
           top: topOffset,
           left: 0,
-          behavior: 'smooth'
+          behavior: 'smooth',
         })
       }
     }
@@ -195,13 +201,16 @@ class HSScrollspy extends HSBasePlugin<IScrollspyOptions> implements IScrollspy 
         el.removeEventListener('click', fn)
       })
 
-    window.$hsScrollspyCollection = window.$hsScrollspyCollection.filter(({ element }) => element.el !== this.el)
+    window.$hsScrollspyCollection = window.$hsScrollspyCollection.filter(
+      ({ element }) => element.el !== this.el,
+    )
   }
 
   // Static methods
   static getInstance(target: HTMLElement, isInstance = false) {
     const elInCollection = window.$hsScrollspyCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element.el) : null
@@ -212,12 +221,15 @@ class HSScrollspy extends HSBasePlugin<IScrollspyOptions> implements IScrollspy 
 
     if (window.$hsScrollspyCollection)
       window.$hsScrollspyCollection = window.$hsScrollspyCollection.filter(({ element }) =>
-        document.contains(element.el)
+        document.contains(element.el),
       )
 
-    document.querySelectorAll('[data-scrollspy]:not(.--prevent-on-load-init)').forEach((el: HTMLElement) => {
-      if (!window.$hsScrollspyCollection.find(elC => (elC?.element?.el as HTMLElement) === el)) new HSScrollspy(el)
-    })
+    document
+      .querySelectorAll('[data-scrollspy]:not(.--prevent-on-load-init)')
+      .forEach((el: HTMLElement) => {
+        if (!window.$hsScrollspyCollection.find((elC) => (elC?.element?.el as HTMLElement) === el))
+          new HSScrollspy(el)
+      })
   }
 }
 

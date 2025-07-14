@@ -27,7 +27,7 @@ class HSToggleCount extends HSBasePlugin<IToggleCountOptions> implements IToggle
     const dataOptions: IToggleCountOptions = data ? JSON.parse(data) : {}
     const concatOptions = {
       ...dataOptions,
-      ...options
+      ...options,
     }
 
     this.target = concatOptions?.target
@@ -93,13 +93,16 @@ class HSToggleCount extends HSBasePlugin<IToggleCountOptions> implements IToggle
     // Remove listeners
     this.target.removeEventListener('change', this.onToggleChangeListener)
 
-    window.$hsToggleCountCollection = window.$hsToggleCountCollection.filter(({ element }) => element.el !== this.el)
+    window.$hsToggleCountCollection = window.$hsToggleCountCollection.filter(
+      ({ element }) => element.el !== this.el,
+    )
   }
 
   // Static methods
   static getInstance(target: HTMLElement | string, isInstance?: boolean) {
     const elInCollection = window.$hsToggleCountCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element) : null
@@ -110,12 +113,17 @@ class HSToggleCount extends HSBasePlugin<IToggleCountOptions> implements IToggle
 
     if (window.$hsToggleCountCollection)
       window.$hsToggleCountCollection = window.$hsToggleCountCollection.filter(({ element }) =>
-        document.contains(element.el)
+        document.contains(element.el),
       )
 
-    document.querySelectorAll('[data-toggle-count]:not(.--prevent-on-load-init)').forEach((el: HTMLElement) => {
-      if (!window.$hsToggleCountCollection.find(elC => (elC?.element?.el as HTMLElement) === el)) new HSToggleCount(el)
-    })
+    document
+      .querySelectorAll('[data-toggle-count]:not(.--prevent-on-load-init)')
+      .forEach((el: HTMLElement) => {
+        if (
+          !window.$hsToggleCountCollection.find((elC) => (elC?.element?.el as HTMLElement) === el)
+        )
+          new HSToggleCount(el)
+      })
   }
 }
 

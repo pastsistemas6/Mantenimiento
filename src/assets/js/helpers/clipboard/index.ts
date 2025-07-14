@@ -23,10 +23,14 @@ window.addEventListener('load', () => {
         const $element: HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement =
           document.querySelector(clipboardTarget)
 
-        if ($element.tagName === 'SELECT' || $element.tagName === 'INPUT' || $element.tagName === 'TEXTAREA')
+        if (
+          $element.tagName === 'SELECT' ||
+          $element.tagName === 'INPUT' ||
+          $element.tagName === 'TEXTAREA'
+        )
           return $element.value
         else return $element.textContent
-      }
+      },
     })
     clipboard.on('success', () => {
       const $default: HTMLElement = el.querySelector('.js-clipboard-default')

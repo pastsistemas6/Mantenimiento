@@ -89,7 +89,7 @@ const HSStaticMethods: IStaticMethods = {
         }
       })
     }
-  }
+  },
 }
 
 if (typeof window !== 'undefined') {

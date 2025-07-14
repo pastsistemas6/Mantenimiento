@@ -40,7 +40,7 @@ class HSTreeView extends HSBasePlugin<ITreeViewOptions> implements ITreeView {
     const dataOptions: ITreeView = data ? JSON.parse(data) : {}
     const concatOptions = {
       ...dataOptions,
-      ...options
+      ...options,
     }
 
     this.controlBy = concatOptions?.controlBy || 'button'
@@ -63,11 +63,11 @@ class HSTreeView extends HSBasePlugin<ITreeViewOptions> implements ITreeView {
 
     this.fireEvent('click', {
       el,
-      data: data
+      data: data,
     })
     dispatch('click.treeView', this.el, {
       el,
-      data: data
+      data: data,
     })
   }
 
@@ -95,7 +95,7 @@ class HSTreeView extends HSBasePlugin<ITreeViewOptions> implements ITreeView {
         ...data,
         id: data.id ?? el.id,
         path: this.getPath(el),
-        isSelected: data.isSelected ?? false
+        isSelected: data.isSelected ?? false,
       }
 
       this.items.push(concatData)
@@ -108,10 +108,10 @@ class HSTreeView extends HSBasePlugin<ITreeViewOptions> implements ITreeView {
   private controlByButton(el: Element, data: ITreeViewItem) {
     this.onElementClickListener.push({
       el,
-      fn: (evt: PointerEvent) => this.elementClick(evt, el, data)
+      fn: (evt: PointerEvent) => this.elementClick(evt, el, data),
     })
 
-    el.addEventListener('click', this.onElementClickListener.find(elI => elI.el === el).fn)
+    el.addEventListener('click', this.onElementClickListener.find((elI) => elI.el === el).fn)
   }
 
   private controlByCheckbox(el: Element, data: ITreeViewItem) {
@@ -120,15 +120,18 @@ class HSTreeView extends HSBasePlugin<ITreeViewOptions> implements ITreeView {
     if (!!control) {
       this.onControlChangeListener.push({
         el: control,
-        fn: () => this.controlChange(el, data)
+        fn: () => this.controlChange(el, data),
       })
 
-      control.addEventListener('change', this.onControlChangeListener.find(elI => elI.el === control).fn)
+      control.addEventListener(
+        'change',
+        this.onControlChangeListener.find((elI) => elI.el === control).fn,
+      )
     }
   }
 
   private getItem(id: string) {
-    return this.items.find(el => el.id === id)
+    return this.items.find((el) => el.id === id)
   }
 
   private getPath(el: Element) {
@@ -148,10 +151,10 @@ class HSTreeView extends HSBasePlugin<ITreeViewOptions> implements ITreeView {
 
   private unselectItem(exception: ITreeViewItem | null = null) {
     let selectedItems = this.getSelectedItems()
-    if (exception) selectedItems = selectedItems.filter(el => el.id !== exception.id)
+    if (exception) selectedItems = selectedItems.filter((el) => el.id !== exception.id)
 
     if (selectedItems.length) {
-      selectedItems.forEach(el => {
+      selectedItems.forEach((el) => {
         const selectedElement = document.querySelector(`#${el.id}`)
 
         selectedElement.classList.remove('selected')
@@ -174,8 +177,8 @@ class HSTreeView extends HSBasePlugin<ITreeViewOptions> implements ITreeView {
     const items = el.querySelectorAll('[data-tree-view-item]')
 
     Array.from(items)
-      .filter(elI => !elI.classList.contains('disabled'))
-      .forEach(elI => {
+      .filter((elI) => !elI.classList.contains('disabled'))
+      .forEach((elI) => {
         const initialItemData = elI.id ? this.getItem(elI.id) : null
 
         if (!initialItemData) return false
@@ -189,7 +192,9 @@ class HSTreeView extends HSBasePlugin<ITreeViewOptions> implements ITreeView {
         }
 
         const currentItemData = this.getItem(elI.id)
-        const control: HTMLFormElement = elI.querySelector(`input[value="${currentItemData.value}"]`)
+        const control: HTMLFormElement = elI.querySelector(
+          `input[value="${currentItemData.value}"]`,
+        )
 
         if (this.isIndeterminate) control.indeterminate = false
 
@@ -208,7 +213,7 @@ class HSTreeView extends HSBasePlugin<ITreeViewOptions> implements ITreeView {
       let hasUnchecked = false
       let checkedItems = 0
 
-      items.forEach(elI => {
+      items.forEach((elI) => {
         const dataI = this.getItem(elI.id)
 
         if (dataI.isSelected) checkedItems += 1
@@ -246,11 +251,11 @@ class HSTreeView extends HSBasePlugin<ITreeViewOptions> implements ITreeView {
   }
 
   public getSelectedItems() {
-    return this.items.filter(el => el.isSelected)
+    return this.items.filter((el) => el.isSelected)
   }
 
   public changeItemProp(id: string, prop: string, val: any) {
-    this.items.map(el => {
+    this.items.map((el) => {
       // @ts-ignore
       if (el.id === id) el[prop] = val
 
@@ -272,15 +277,19 @@ class HSTreeView extends HSBasePlugin<ITreeViewOptions> implements ITreeView {
 
     this.items = []
 
-    window.$hsTreeViewCollection = window.$hsTreeViewCollection.filter(({ element }) => element.el !== this.el)
+    window.$hsTreeViewCollection = window.$hsTreeViewCollection.filter(
+      ({ element }) => element.el !== this.el,
+    )
 
     HSTreeView.group -= 1
   }
 
   // Static methods
-  private static findInCollection(target: HSTreeView | HTMLElement | string): ICollectionItem<HSTreeView> | null {
+  private static findInCollection(
+    target: HSTreeView | HTMLElement | string,
+  ): ICollectionItem<HSTreeView> | null {
     return (
-      window.$hsTreeViewCollection.find(el => {
+      window.$hsTreeViewCollection.find((el) => {
         if (target instanceof HSTreeView) return el.element.el === target.el
         else if (typeof target === 'string') return el.element.el === document.querySelector(target)
         else return el.element.el === target
@@ -290,7 +299,8 @@ class HSTreeView extends HSBasePlugin<ITreeViewOptions> implements ITreeView {
 
   static getInstance(target: HTMLElement | string, isInstance?: boolean) {
     const elInCollection = window.$hsTreeViewCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element.el) : null
@@ -300,11 +310,16 @@ class HSTreeView extends HSBasePlugin<ITreeViewOptions> implements ITreeView {
     if (!window.$hsTreeViewCollection) window.$hsTreeViewCollection = []
 
     if (window.$hsTreeViewCollection)
-      window.$hsTreeViewCollection = window.$hsTreeViewCollection.filter(({ element }) => document.contains(element.el))
+      window.$hsTreeViewCollection = window.$hsTreeViewCollection.filter(({ element }) =>
+        document.contains(element.el),
+      )
 
-    document.querySelectorAll('[data-tree-view]:not(.--prevent-on-load-init)').forEach((el: HTMLElement) => {
-      if (!window.$hsTreeViewCollection.find(elC => (elC?.element?.el as HTMLElement) === el)) new HSTreeView(el)
-    })
+    document
+      .querySelectorAll('[data-tree-view]:not(.--prevent-on-load-init)')
+      .forEach((el: HTMLElement) => {
+        if (!window.$hsTreeViewCollection.find((elC) => (elC?.element?.el as HTMLElement) === el))
+          new HSTreeView(el)
+      })
   }
 
   // Backward compatibility

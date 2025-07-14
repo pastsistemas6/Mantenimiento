@@ -2,7 +2,7 @@
   <div class="flex flex-col">
     <div class="w-full flex justify-between">
       <h2 class="text-3xl text-[#545386] font-bold mb-6">
-        Dashboard de Mantenimiento de Plásticos
+        Dashboard de mantenimiento de plásticos
       </h2>
       <select class="select w-2/12 appearance-none" aria-label="select">
         <option disabled selected>Últimos 30 días</option>

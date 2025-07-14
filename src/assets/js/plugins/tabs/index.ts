@@ -45,7 +45,7 @@ class HSTabs extends HSBasePlugin<ITabsOptions> implements ITabs {
     const dataOptions: ITabsOptions = data ? JSON.parse(data) : {}
     const concatOptions = {
       ...dataOptions,
-      ...options
+      ...options,
     }
 
     this.eventType = concatOptions.eventType ?? 'click'
@@ -56,11 +56,15 @@ class HSTabs extends HSBasePlugin<ITabsOptions> implements ITabs {
 
     this.toggles = this.el.querySelectorAll('[data-tab]')
     this.extraToggleId = this.el.getAttribute('data-tab-select')
-    this.extraToggle = this.extraToggleId ? (document.querySelector(this.extraToggleId) as HTMLSelectElement) : null
+    this.extraToggle = this.extraToggleId
+      ? (document.querySelector(this.extraToggleId) as HTMLSelectElement)
+      : null
 
-    this.current = Array.from(this.toggles).find(el => el.classList.contains('active'))
+    this.current = Array.from(this.toggles).find((el) => el.classList.contains('active'))
     this.currentContentId = this.current?.getAttribute('data-tab') || null
-    this.currentContent = this.currentContentId ? document.querySelector(this.currentContentId) : null
+    this.currentContent = this.currentContentId
+      ? document.querySelector(this.currentContentId)
+      : null
 
     this.prev = null
     this.prevContentId = null
@@ -82,7 +86,7 @@ class HSTabs extends HSBasePlugin<ITabsOptions> implements ITabs {
   private init() {
     this.createCollection(window.$hsTabsCollection, this)
 
-    this.toggles.forEach(el => {
+    this.toggles.forEach((el) => {
       const fn = (evt: Event) => {
         if (
           this.eventType === 'click' &&
@@ -93,7 +97,10 @@ class HSTabs extends HSBasePlugin<ITabsOptions> implements ITabs {
         this.toggle(el)
       }
       const preventClickFn = (evt: Event) => {
-        if (this.preventNavigationResolution && document.body.clientWidth <= +this.preventNavigationResolution)
+        if (
+          this.preventNavigationResolution &&
+          document.body.clientWidth <= +this.preventNavigationResolution
+        )
           evt.preventDefault()
       }
 
@@ -107,7 +114,7 @@ class HSTabs extends HSBasePlugin<ITabsOptions> implements ITabs {
     })
 
     if (this.extraToggle) {
-      this.onExtraToggleChangeListener = evt => this.extraToggleChange(evt)
+      this.onExtraToggleChangeListener = (evt) => this.extraToggleChange(evt)
       this.extraToggle.addEventListener('change', this.onExtraToggleChangeListener)
     }
   }
@@ -119,7 +126,9 @@ class HSTabs extends HSBasePlugin<ITabsOptions> implements ITabs {
 
     this.current = el
     this.currentContentId = el.getAttribute('data-tab')
-    this.currentContent = this.currentContentId ? document.querySelector(this.currentContentId) : null
+    this.currentContent = this.currentContentId
+      ? document.querySelector(this.currentContentId)
+      : null
 
     if (this?.prev?.ariaSelected) {
       this.prev.ariaSelected = 'false'
@@ -137,18 +146,20 @@ class HSTabs extends HSBasePlugin<ITabsOptions> implements ITabs {
       el,
       prev: this.prevContentId,
       current: this.currentContentId,
-      tabsId: this.el.id
+      tabsId: this.el.id,
     } as ITabsOnChangePayload)
     dispatch('change.tab', el, {
       el,
       prev: this.prevContentId,
       current: this.currentContentId,
-      tabsId: this.el.id
+      tabsId: this.el.id,
     } as ITabsOnChangePayload)
   }
 
   private change(evt: Event) {
-    const toggle: HTMLElement = document.querySelector(`[data-tab="${(evt.target as HTMLSelectElement).value}"]`)
+    const toggle: HTMLElement = document.querySelector(
+      `[data-tab="${(evt.target as HTMLSelectElement).value}"]`,
+    )
 
     if (toggle) {
       if (this.eventType === 'hover') toggle.dispatchEvent(new Event('mouseenter'))
@@ -158,7 +169,7 @@ class HSTabs extends HSBasePlugin<ITabsOptions> implements ITabs {
 
   // Public methods
   public destroy() {
-    this.toggles.forEach(toggle => {
+    this.toggles.forEach((toggle) => {
       const _toggle = this.onToggleHandler?.find(({ el }) => el === toggle)
 
       if (_toggle) {
@@ -176,13 +187,16 @@ class HSTabs extends HSBasePlugin<ITabsOptions> implements ITabs {
       this.extraToggle.removeEventListener('change', this.onExtraToggleChangeListener)
     }
 
-    window.$hsTabsCollection = window.$hsTabsCollection.filter(({ element }) => element.el !== this.el)
+    window.$hsTabsCollection = window.$hsTabsCollection.filter(
+      ({ element }) => element.el !== this.el,
+    )
   }
 
   // Static methods
   static getInstance(target: HTMLElement | string, isInstance?: boolean) {
     const elInCollection = window.$hsTabsCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element) : null
@@ -192,29 +206,33 @@ class HSTabs extends HSBasePlugin<ITabsOptions> implements ITabs {
     if (!window.$hsTabsCollection) {
       window.$hsTabsCollection = []
 
-      document.addEventListener('keydown', evt => HSTabs.accessibility(evt))
+      document.addEventListener('keydown', (evt) => HSTabs.accessibility(evt))
     }
 
     if (window.$hsTabsCollection)
-      window.$hsTabsCollection = window.$hsTabsCollection.filter(({ element }) => document.contains(element.el))
+      window.$hsTabsCollection = window.$hsTabsCollection.filter(({ element }) =>
+        document.contains(element.el),
+      )
 
     document
       .querySelectorAll('[role="tablist"]:not(select):not(.--prevent-on-load-init)')
       .forEach((el: HTMLElement) => {
-        if (!window.$hsTabsCollection.find(elC => (elC?.element?.el as HTMLElement) === el)) {
+        if (!window.$hsTabsCollection.find((elC) => (elC?.element?.el as HTMLElement) === el)) {
           new HSTabs(el)
         }
       })
   }
 
   static open(target: HTMLElement) {
-    const elInCollection = window.$hsTabsCollection.find(el =>
-      Array.from(el.element.toggles).includes(typeof target === 'string' ? document.querySelector(target) : target)
+    const elInCollection = window.$hsTabsCollection.find((el) =>
+      Array.from(el.element.toggles).includes(
+        typeof target === 'string' ? document.querySelector(target) : target,
+      ),
     )
 
     const targetInCollection = elInCollection
       ? Array.from(elInCollection.element.toggles).find(
-          el => el === (typeof target === 'string' ? document.querySelector(target) : target)
+          (el) => el === (typeof target === 'string' ? document.querySelector(target) : target),
         )
       : null
 
@@ -254,13 +272,13 @@ class HSTabs extends HSBasePlugin<ITabsOptions> implements ITabs {
     const target = document.querySelector('[data-tab]:focus')?.closest('[role="tablist"]')
     if (!target) return
 
-    const targetInCollection = window.$hsTabsCollection.find(el => el.element.el === target)
+    const targetInCollection = window.$hsTabsCollection.find((el) => el.element.el === target)
 
     if (targetInCollection) {
       const toggles = isOpposite
         ? Array.from(targetInCollection.element.toggles).reverse()
         : Array.from(targetInCollection.element.toggles)
-      const focused = toggles.find(el => document.activeElement === el)
+      const focused = toggles.find((el) => document.activeElement === el)
       let focusedInd = toggles.findIndex((el: any) => el === focused)
       focusedInd = focusedInd + 1 < toggles.length ? focusedInd + 1 : 0
 
@@ -273,7 +291,7 @@ class HSTabs extends HSBasePlugin<ITabsOptions> implements ITabs {
     const target = document.querySelector('[data-tab]:focus')?.closest('[role="tablist"]')
     if (!target) return
 
-    const targetInCollection = window.$hsTabsCollection.find(el => el.element.el === target)
+    const targetInCollection = window.$hsTabsCollection.find((el) => el.element.el === target)
 
     if (targetInCollection) {
       const toggles = isOpposite
@@ -289,8 +307,10 @@ class HSTabs extends HSBasePlugin<ITabsOptions> implements ITabs {
 
   // Backward compatibility
   static on(evt: string, target: HTMLElement, cb: Function) {
-    const elInCollection = window.$hsTabsCollection.find(el =>
-      Array.from(el.element.toggles).includes(typeof target === 'string' ? document.querySelector(target) : target)
+    const elInCollection = window.$hsTabsCollection.find((el) =>
+      Array.from(el.element.toggles).includes(
+        typeof target === 'string' ? document.querySelector(target) : target,
+      ),
     )
 
     if (elInCollection) elInCollection.element.events[evt] = cb

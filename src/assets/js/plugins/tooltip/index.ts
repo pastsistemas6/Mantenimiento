@@ -135,7 +135,10 @@ class HSTooltip extends HSBasePlugin<{}> implements ITooltip {
       this.content?.addEventListener('click', handleClickInsidePopover)
 
       const handleClickOutsidePopover = (event: MouseEvent) => {
-        if (!this.content?.contains(event.target as Node) && !this.el.contains(event.target as Node)) {
+        if (
+          !this.content?.contains(event.target as Node) &&
+          !this.el.contains(event.target as Node)
+        ) {
           this.hide()
         }
       }
@@ -153,24 +156,35 @@ class HSTooltip extends HSBasePlugin<{}> implements ITooltip {
   private buildFloatingUI() {
     if (this.scope === 'window') document.body.appendChild(this.content)
     const position = POSITIONS[this.placement] ?? 'top'
-    const verticalPositions = new Set(['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'])
+    const verticalPositions = new Set([
+      'top',
+      'top-start',
+      'top-end',
+      'bottom',
+      'bottom-start',
+      'bottom-end',
+    ])
     const isVerticalPosition = verticalPositions.has(position)
 
     const isFloatingAllowed = this.preventFloatingUI === 'false'
     const shouldApplyShift = isFloatingAllowed && isVerticalPosition
     const shouldApplyFlip = isFloatingAllowed
 
-    const middleware = [offset(0), ...(shouldApplyShift ? [shift()] : []), ...(shouldApplyFlip ? [flip()] : [])]
+    const middleware = [
+      offset(0),
+      ...(shouldApplyShift ? [shift()] : []),
+      ...(shouldApplyFlip ? [flip()] : []),
+    ]
 
     computePosition(this.toggle, this.content, {
       placement: POSITIONS[this.placement] || 'top',
       strategy: this.strategy || 'fixed',
-      middleware: middleware
+      middleware: middleware,
     }).then(({ x, y }: { x: number; y: number }) => {
       Object.assign(this.content.style, {
         position: this.strategy || 'fixed',
         left: `${x}px`,
-        top: `${y}px`
+        top: `${y}px`,
       })
     })
 
@@ -178,11 +192,11 @@ class HSTooltip extends HSBasePlugin<{}> implements ITooltip {
       computePosition(this.toggle, this.content, {
         placement: POSITIONS[this.placement] || 'top',
         strategy: this.strategy || 'fixed',
-        middleware: middleware
+        middleware: middleware,
       }).then(({ x, y }: { x: number; y: number }) => {
         Object.assign(this.content.style, {
           left: `${x}px`,
-          top: `${y}px`
+          top: `${y}px`,
         })
       })
     })
@@ -264,13 +278,17 @@ class HSTooltip extends HSBasePlugin<{}> implements ITooltip {
       this.cleanupAutoUpdate = null
     }
 
-    window.$hsTooltipCollection = window.$hsTooltipCollection.filter(({ element }) => element.el !== this.el)
+    window.$hsTooltipCollection = window.$hsTooltipCollection.filter(
+      ({ element }) => element.el !== this.el,
+    )
   }
 
   // Static methods
-  private static findInCollection(target: HSTooltip | HTMLElement | string): ICollectionItem<HSTooltip> | null {
+  private static findInCollection(
+    target: HSTooltip | HTMLElement | string,
+  ): ICollectionItem<HSTooltip> | null {
     return (
-      window.$hsTooltipCollection.find(el => {
+      window.$hsTooltipCollection.find((el) => {
         if (target instanceof HSTooltip) return el.element.el === target.el
         else if (typeof target === 'string') return el.element.el === document.querySelector(target)
         else return el.element.el === target
@@ -280,7 +298,8 @@ class HSTooltip extends HSBasePlugin<{}> implements ITooltip {
 
   static getInstance(target: HTMLElement | string, isInstance = false) {
     const elInCollection = window.$hsTooltipCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element.el) : null
@@ -290,11 +309,16 @@ class HSTooltip extends HSBasePlugin<{}> implements ITooltip {
     if (!window.$hsTooltipCollection) window.$hsTooltipCollection = []
 
     if (window.$hsTooltipCollection)
-      window.$hsTooltipCollection = window.$hsTooltipCollection.filter(({ element }) => document.contains(element.el))
+      window.$hsTooltipCollection = window.$hsTooltipCollection.filter(({ element }) =>
+        document.contains(element.el),
+      )
 
-    document.querySelectorAll('.tooltip:not(.--prevent-on-load-init)').forEach((el: HTMLElement) => {
-      if (!window.$hsTooltipCollection.find(elC => (elC?.element?.el as HTMLElement) === el)) new HSTooltip(el)
-    })
+    document
+      .querySelectorAll('.tooltip:not(.--prevent-on-load-init)')
+      .forEach((el: HTMLElement) => {
+        if (!window.$hsTooltipCollection.find((elC) => (elC?.element?.el as HTMLElement) === el))
+          new HSTooltip(el)
+      })
   }
 
   static show(target: HSTooltip | HTMLElement | string) {

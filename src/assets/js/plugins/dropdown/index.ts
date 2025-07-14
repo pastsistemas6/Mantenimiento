@@ -14,7 +14,7 @@ import {
   isIOS,
   isIpadOS,
   menuSearchHistory,
-  stringToBoolean
+  stringToBoolean,
 } from '../../utils'
 import { IMenuSearchHistory } from '../../utils/interfaces'
 
@@ -25,7 +25,7 @@ import {
   offset,
   type Placement,
   type Strategy,
-  VirtualElement
+  VirtualElement,
 } from '@floating-ui/dom'
 
 import { IDropdown, IHTMLElementFloatingUI } from '../dropdown/interfaces'
@@ -69,7 +69,9 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
     this.menu = this.el.querySelector(':scope > .dropdown-menu')
     this.eventMode = getClassProperty(this.el, '--trigger', 'click')
     this.closeMode = getClassProperty(this.el, '--auto-close', 'true')
-    this.hasAutofocus = stringToBoolean(getClassProperty(this.el, '--has-autofocus', 'true') || 'true')
+    this.hasAutofocus = stringToBoolean(
+      getClassProperty(this.el, '--has-autofocus', 'true') || 'true',
+    )
     this.animationInProcess = false
 
     this.onCloserClickListener = []
@@ -105,7 +107,7 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
         cancelable: true,
         view: window,
         clientX: touch.clientX,
-        clientY: touch.clientY
+        clientY: touch.clientY,
       })
 
       if (this.toggle) this.toggle.dispatchEvent(contextMenuEvent)
@@ -160,12 +162,12 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
 
       this.toggle.addEventListener('contextmenu', this.onToggleContextMenuListener)
       this.toggle.addEventListener('touchstart', this.onTouchStartListener, {
-        passive: false
+        passive: false,
       })
       this.toggle.addEventListener('touchend', this.onTouchEndListener)
       this.toggle.addEventListener('touchmove', this.onTouchEndListener)
     } else {
-      this.onToggleClickListener = evt => this.toggleClick(evt)
+      this.onToggleClickListener = (evt) => this.toggleClick(evt)
 
       this.toggle.addEventListener('click', this.onToggleClickListener)
     }
@@ -177,18 +179,22 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
     const checkboxes = this.menu.querySelectorAll('[role="menuitemcheckbox"]')
     const radiobuttons = this.menu.querySelectorAll('[role="menuitemradio"]')
 
-    checkboxes.forEach((el: HTMLElement) => el.addEventListener('click', () => this.selectCheckbox(el)))
-    radiobuttons.forEach((el: HTMLElement) => el.addEventListener('click', () => this.selectRadio(el)))
+    checkboxes.forEach((el: HTMLElement) =>
+      el.addEventListener('click', () => this.selectCheckbox(el)),
+    )
+    radiobuttons.forEach((el: HTMLElement) =>
+      el.addEventListener('click', () => this.selectRadio(el)),
+    )
   }
 
   private buildClosers() {
     this.closers.forEach((el: HTMLButtonElement) => {
       this.onCloserClickListener.push({
         el,
-        fn: () => this.closerClick()
+        fn: () => this.closerClick(),
       })
 
-      el.addEventListener('click', this.onCloserClickListener.find(closer => closer.el === el).fn)
+      el.addEventListener('click', this.onCloserClickListener.find((closer) => closer.el === el).fn)
     })
   }
 
@@ -208,7 +214,7 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
 
   private onContextMenuHandler(evt: MouseEvent) {
     const virtualElement: VirtualElement = {
-      getBoundingClientRect: () => new DOMRect()
+      getBoundingClientRect: () => new DOMRect(),
     }
     virtualElement.getBoundingClientRect = () => new DOMRect(evt.clientX, evt.clientY, 0, 0)
 
@@ -238,7 +244,8 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
   private onMouseEnterHandler() {
     if (this.eventMode !== 'hover') return false
 
-    if (!this.el._floatingUI || (this.el._floatingUI && !this.el.classList.contains('open'))) this.forceClearState()
+    if (!this.el._floatingUI || (this.el._floatingUI && !this.el.classList.contains('open')))
+      this.forceClearState()
 
     if (!this.el.classList.contains('open') && this.menu.classList.contains('hidden')) {
       this.open()
@@ -287,8 +294,12 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
     const flipCss = (computedStyle.getPropertyValue('--flip') || 'true').trim()
     const strategyCss = (computedStyle.getPropertyValue('--strategy') || 'fixed').trim()
     const offsetCss = (computedStyle.getPropertyValue('--offset') || '6').trim()
-    const gpuAccelerationCss = (computedStyle.getPropertyValue('--gpu-acceleration') || 'true').trim()
-    const adaptive = (window.getComputedStyle(this.el).getPropertyValue('--adaptive') || 'adaptive').replace(' ', '')
+    const gpuAccelerationCss = (
+      computedStyle.getPropertyValue('--gpu-acceleration') || 'true'
+    ).trim()
+    const adaptive = (
+      window.getComputedStyle(this.el).getPropertyValue('--adaptive') || 'adaptive'
+    ).replace(' ', '')
 
     const strategy = strategyCss as Strategy
     const offsetValue = parseInt(offsetCss, 10)
@@ -299,7 +310,7 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
     const options = {
       placement,
       strategy,
-      middleware
+      middleware,
     }
 
     const checkSpaceAndAdjust = (x: number) => {
@@ -319,19 +330,27 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
 
     const update = () => {
       computePosition(_target, this.menu, options).then(
-        ({ x, y, placement: computedPlacement }: { x: number; y: number; placement: Placement }) => {
+        ({
+          x,
+          y,
+          placement: computedPlacement,
+        }: {
+          x: number
+          y: number
+          placement: Placement
+        }) => {
           const adjustedX = checkSpaceAndAdjust(x)
 
           if (strategy === 'absolute' && adaptive === 'none') {
             Object.assign(this.menu.style, {
               position: strategy,
-              margin: '0'
+              margin: '0',
             })
           } else if (strategy === 'absolute') {
             Object.assign(this.menu.style, {
               position: strategy,
               transform: `translate3d(${x}px, ${y}px, 0px)`,
-              margin: '0'
+              margin: '0',
             })
           } else {
             if (gpuAccelerationCss === 'true') {
@@ -341,7 +360,7 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
                 top: '',
                 inset: '0px auto auto 0px',
                 margin: '0',
-                transform: `translate3d(${adaptive === 'adaptive' ? adjustedX : 0}px, ${y}px, 0)`
+                transform: `translate3d(${adaptive === 'adaptive' ? adjustedX : 0}px, ${y}px, 0)`,
               })
             } else {
               Object.assign(this.menu.style, {
@@ -349,13 +368,13 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
                 left: `${x}px`,
                 top: `${y}px`,
                 margin: '0',
-                transform: ''
+                transform: '',
               })
             }
           }
 
           this.menu.setAttribute('data-placement', computedPlacement)
-        }
+        },
       )
     }
 
@@ -365,7 +384,7 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
 
     return {
       update,
-      destroy: cleanup
+      destroy: cleanup,
     }
   }
 
@@ -377,8 +396,8 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
     if (target.ariaChecked === 'true') return false
     const group = target.closest('.group')
     const items = group.querySelectorAll('[role="menuitemradio"]')
-    const otherItems = Array.from(items).filter(el => el !== target)
-    otherItems.forEach(el => {
+    const otherItems = Array.from(items).filter((el) => el !== target)
+    otherItems.forEach((el) => {
       el.ariaChecked = 'false'
     })
     target.ariaChecked = 'true'
@@ -503,7 +522,10 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
 
     if (this.closers.length) {
       this.closers.forEach((el: HTMLButtonElement) => {
-        el.removeEventListener('click', this.onCloserClickListener.find(closer => closer.el === el).fn)
+        el.removeEventListener(
+          'click',
+          this.onCloserClickListener.find((closer) => closer.el === el).fn,
+        )
       })
 
       this.onCloserClickListener = null
@@ -514,13 +536,17 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
 
     this.destroyFloatingUI()
 
-    window.$hsDropdownCollection = window.$hsDropdownCollection.filter(({ element }) => element.el !== this.el)
+    window.$hsDropdownCollection = window.$hsDropdownCollection.filter(
+      ({ element }) => element.el !== this.el,
+    )
   }
 
   // Static methods
-  private static findInCollection(target: HSDropdown | HTMLElement | string): ICollectionItem<HSDropdown> | null {
+  private static findInCollection(
+    target: HSDropdown | HTMLElement | string,
+  ): ICollectionItem<HSDropdown> | null {
     return (
-      window.$hsDropdownCollection.find(el => {
+      window.$hsDropdownCollection.find((el) => {
         if (target instanceof HSDropdown) return el.element.el === target.el
         else if (typeof target === 'string') {
           return el.element.el === document.querySelector(target)
@@ -531,7 +557,8 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
 
   static getInstance(target: HTMLElement | string, isInstance?: boolean) {
     const elInCollection = window.$hsDropdownCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element.el) : null
@@ -541,9 +568,9 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
     if (!window.$hsDropdownCollection) {
       window.$hsDropdownCollection = []
 
-      document.addEventListener('keydown', evt => HSDropdown.accessibility(evt))
+      document.addEventListener('keydown', (evt) => HSDropdown.accessibility(evt))
 
-      window.addEventListener('click', evt => {
+      window.addEventListener('click', (evt) => {
         const evtTarget = evt.target
 
         HSDropdown.closeCurrentlyOpened(evtTarget as HTMLElement)
@@ -559,14 +586,18 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
     }
 
     if (window.$hsDropdownCollection) {
-      window.$hsDropdownCollection = window.$hsDropdownCollection.filter(({ element }) => document.contains(element.el))
+      window.$hsDropdownCollection = window.$hsDropdownCollection.filter(({ element }) =>
+        document.contains(element.el),
+      )
     }
 
-    document.querySelectorAll('.dropdown:not(.--prevent-on-load-init)').forEach((el: IHTMLElementFloatingUI) => {
-      if (!window.$hsDropdownCollection.find(elC => (elC?.element?.el as HTMLElement) === el)) {
-        new HSDropdown(el)
-      }
-    })
+    document
+      .querySelectorAll('.dropdown:not(.--prevent-on-load-init)')
+      .forEach((el: IHTMLElementFloatingUI) => {
+        if (!window.$hsDropdownCollection.find((elC) => (elC?.element?.el as HTMLElement) === el)) {
+          new HSDropdown(el)
+        }
+      })
   }
 
   static open(target: HSDropdown | HTMLElement | string) {
@@ -585,8 +616,8 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
   static accessibility(evt: KeyboardEvent) {
     this.history = menuSearchHistory
 
-    const target: ICollectionItem<HSDropdown> | null = window.$hsDropdownCollection.find(el =>
-      el.element.el.classList.contains('open')
+    const target: ICollectionItem<HSDropdown> | null = window.$hsDropdownCollection.find((el) =>
+      el.element.el.classList.contains('open'),
     )
 
     if (
@@ -653,8 +684,8 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
   static onEscape(evt: KeyboardEvent) {
     const dropdown = (evt.target as HTMLElement).closest('.dropdown.open')
 
-    if (window.$hsDropdownCollection.find(el => el.element.el === dropdown)) {
-      const target = window.$hsDropdownCollection.find(el => el.element.el === dropdown)
+    if (window.$hsDropdownCollection.find((el) => el.element.el === dropdown)) {
+      const target = window.$hsDropdownCollection.find((el) => el.element.el === dropdown)
 
       if (target) {
         target.element.close()
@@ -667,7 +698,9 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
 
   static onEnter(evt: KeyboardEvent) {
     const target = evt.target as HTMLElement
-    const { element } = window.$hsDropdownCollection.find(el => el.element.el === target.closest('.dropdown')) ?? null
+    const { element } =
+      window.$hsDropdownCollection.find((el) => el.element.el === target.closest('.dropdown')) ??
+      null
 
     if (element && target.classList.contains('dropdown-toggle')) {
       evt.preventDefault()
@@ -684,7 +717,9 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
   }
 
   static onArrow(isArrowUp = true) {
-    const target = window.$hsDropdownCollection.find(el => el.element.el.classList.contains('open'))
+    const target = window.$hsDropdownCollection.find((el) =>
+      el.element.el.classList.contains('open'),
+    )
 
     if (target) {
       const menu = target.element.menu
@@ -694,22 +729,22 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
       const preparedLinks = isArrowUp
         ? Array.from(
             menu.querySelectorAll(
-              'a:not([hidden]), :scope button:not([hidden]), [role="button"]:not([hidden]), [role^="menuitem"]:not([hidden])'
-            )
+              'a:not([hidden]), :scope button:not([hidden]), [role="button"]:not([hidden]), [role^="menuitem"]:not([hidden])',
+            ),
           ).reverse()
         : Array.from(
             menu.querySelectorAll(
-              'a:not([hidden]), :scope button:not([hidden]), [role="button"]:not([hidden]), [role^="menuitem"]:not([hidden], .dropdown-item, form)'
-            )
+              'a:not([hidden]), :scope button:not([hidden]), [role="button"]:not([hidden]), [role^="menuitem"]:not([hidden], .dropdown-item, form)',
+            ),
           )
-      const visiblePreparedLinks = Array.from(preparedLinks).filter(item => {
+      const visiblePreparedLinks = Array.from(preparedLinks).filter((item) => {
         const el = item as HTMLElement
 
         return el.closest('[hidden]') === null && el.offsetParent !== null
       })
       const links = visiblePreparedLinks.filter((el: any) => !el.classList.contains('disabled'))
       const current = menu.querySelector(
-        'a:focus, button:focus, [role="button"]:focus, [role^="menuitem"]:focus, .dropdown-item:focus, button:focus'
+        'a:focus, button:focus, [role="button"]:focus, [role^="menuitem"]:focus, .dropdown-item:focus, button:focus',
       )
       let currentInd = links.findIndex((el: any) => el === current)
 
@@ -726,9 +761,12 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
     const closestDropdown = toggle.closest('.dropdown.open')
     const isRootDropdown = !!closestDropdown && !closestDropdown?.parentElement.closest('.dropdown')
     const menuToOpen =
-      (HSDropdown.getInstance(toggle.closest('.dropdown') as HTMLElement, true) as ICollectionItem<HSDropdown>) ?? null
+      (HSDropdown.getInstance(
+        toggle.closest('.dropdown') as HTMLElement,
+        true,
+      ) as ICollectionItem<HSDropdown>) ?? null
     const firstLink = menuToOpen.element.menu.querySelector(
-      'a, button, [role="button"], [role^="menuitem"]'
+      'a, button, [role="button"], [role^="menuitem"]',
     ) as HTMLButtonElement
 
     if (isRootDropdown && !toggle.classList.contains('dropdown-toggle')) {
@@ -736,8 +774,10 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
     }
 
     const menuToClose =
-      (HSDropdown.getInstance(toggle.closest('.dropdown.open') as HTMLElement, true) as ICollectionItem<HSDropdown>) ??
-      null
+      (HSDropdown.getInstance(
+        toggle.closest('.dropdown.open') as HTMLElement,
+        true,
+      ) as ICollectionItem<HSDropdown>) ?? null
 
     if (
       menuToOpen.element.el.classList.contains('open') &&
@@ -762,7 +802,9 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
   }
 
   static onStartEnd(isStart = true) {
-    const target = window.$hsDropdownCollection.find(el => el.element.el.classList.contains('open'))
+    const target = window.$hsDropdownCollection.find((el) =>
+      el.element.el.classList.contains('open'),
+    )
 
     if (target) {
       const menu = target.element.menu
@@ -771,7 +813,9 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
 
       const preparedLinks = isStart
         ? Array.from(menu.querySelectorAll('a, button, [role="button"], [role^="menuitem"]'))
-        : Array.from(menu.querySelectorAll('a, button, [role="button"], [role^="menuitem"]')).reverse()
+        : Array.from(
+            menu.querySelectorAll('a, button, [role="button"], [role^="menuitem"]'),
+          ).reverse()
       const links = preparedLinks.filter((el: any) => !el.classList.contains('disabled'))
 
       if (links.length) {
@@ -781,7 +825,9 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
   }
 
   static onFirstLetter(code: string) {
-    const target = window.$hsDropdownCollection.find(el => el.element.el.classList.contains('open'))
+    const target = window.$hsDropdownCollection.find((el) =>
+      el.element.el.classList.contains('open'),
+    )
 
     if (target) {
       const menu = target.element.menu
@@ -793,7 +839,7 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
         links.findIndex(
           (el, i) =>
             (el as HTMLElement).innerText.toLowerCase().charAt(0) === code.toLowerCase() &&
-            this.history.existsInHistory(i)
+            this.history.existsInHistory(i),
         )
       let currentInd = getCurrentInd()
 
@@ -811,23 +857,27 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
 
   static closeCurrentlyOpened(evtTarget: HTMLElement | null = null, isAnimated = true) {
     const parent =
-      evtTarget && evtTarget.closest('.dropdown') && evtTarget.closest('.dropdown').parentElement.closest('.dropdown')
+      evtTarget &&
+      evtTarget.closest('.dropdown') &&
+      evtTarget.closest('.dropdown').parentElement.closest('.dropdown')
         ? evtTarget.closest('.dropdown').parentElement.closest('.dropdown')
         : null
     let currentlyOpened = parent
       ? window.$hsDropdownCollection.filter(
-          el =>
+          (el) =>
             el.element.el.classList.contains('open') &&
-            el.element.menu.closest('.dropdown').parentElement.closest('.dropdown') === parent
+            el.element.menu.closest('.dropdown').parentElement.closest('.dropdown') === parent,
         )
-      : window.$hsDropdownCollection.filter(el => el.element.el.classList.contains('open'))
+      : window.$hsDropdownCollection.filter((el) => el.element.el.classList.contains('open'))
 
     if (
       evtTarget &&
       evtTarget.closest('.dropdown') &&
       getClassPropertyAlt(evtTarget.closest('.dropdown'), '--auto-close') === 'inside'
     ) {
-      currentlyOpened = currentlyOpened.filter(el => el.element.el !== evtTarget.closest('.dropdown'))
+      currentlyOpened = currentlyOpened.filter(
+        (el) => el.element.el !== evtTarget.closest('.dropdown'),
+      )
     }
     // This is added in FlyonUI
     if (
@@ -835,14 +885,16 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
       evtTarget.closest('.dropdown') &&
       getClassPropertyAlt(evtTarget.closest('.dropdown'), '--auto-close') === 'outside'
     ) {
-      currentlyOpened = currentlyOpened.filter(el => el.element.el == evtTarget.closest('.dropdown'))
-      currentlyOpened.forEach(el => el.element.close(isAnimated))
+      currentlyOpened = currentlyOpened.filter(
+        (el) => el.element.el == evtTarget.closest('.dropdown'),
+      )
+      currentlyOpened.forEach((el) => el.element.close(isAnimated))
     }
 
     // This condition work when true.
 
     if (currentlyOpened) {
-      currentlyOpened.forEach(el => {
+      currentlyOpened.forEach((el) => {
         if (el.element.closeMode === 'false' || el.element.closeMode === 'outside') {
           return false
         }
@@ -852,7 +904,7 @@ class HSDropdown extends HSBasePlugin<{}, IHTMLElementFloatingUI> implements IDr
     }
 
     if (currentlyOpened) {
-      currentlyOpened.forEach(el => {
+      currentlyOpened.forEach((el) => {
         if (getClassPropertyAlt(el.element.el, '--trigger') !== 'contextmenu') {
           return false
         }
@@ -888,7 +940,7 @@ window.addEventListener('load', () => {
 window.addEventListener('resize', () => {
   if (!window.$hsDropdownCollection) window.$hsDropdownCollection = []
 
-  window.$hsDropdownCollection.forEach(el => el.element.resizeHandler())
+  window.$hsDropdownCollection.forEach((el) => el.element.resizeHandler())
 })
 
 if (typeof window !== 'undefined') {

@@ -52,11 +52,15 @@ import { onMounted, nextTick, ref, computed } from 'vue'
 
 const currentView = ref('world') // 'world', 'colombia', 'ecuador', 'kenya'
 const currentViewLabel = computed(() => {
-  switch(currentView.value) {
-    case 'colombia': return 'Colombia - Ciudades y Regiones'
-    case 'ecuador': return 'Ecuador - Ciudades y Regiones'
-    case 'kenya': return 'Kenya - Ciudades y Regiones'
-    default: return ''
+  switch (currentView.value) {
+    case 'colombia':
+      return 'Colombia - Ciudades y Regiones'
+    case 'ecuador':
+      return 'Ecuador - Ciudades y Regiones'
+    case 'kenya':
+      return 'Kenya - Ciudades y Regiones'
+    default:
+      return ''
   }
 })
 
@@ -125,14 +129,14 @@ const worldDataSet = {
 
 // Datos específicos para Colombia
 const colombiaDataSet = {
-  'CUNDINAMARCA': {
+  CUNDINAMARCA: {
     name: 'Cundinamarca',
     fincas: 8,
     tipo: 'Principal',
     ciudad: 'Facatativá, Bogotá',
     fillKey: 'PRIMARY_FARM',
   },
-  'ANTIOQUIA': {
+  ANTIOQUIA: {
     name: 'Antioquia',
     fincas: 5,
     tipo: 'Principal',
@@ -146,21 +150,21 @@ const colombiaDataSet = {
     ciudad: 'Cali, Palmira',
     fillKey: 'SECONDARY_FARM',
   },
-  'BOYACÁ': {
+  BOYACÁ: {
     name: 'Boyacá',
     fincas: 2,
     tipo: 'Secundaria',
     ciudad: 'Tunja, Duitama',
     fillKey: 'SECONDARY_FARM',
   },
-  'QUINDÍO': {
+  QUINDÍO: {
     name: 'Quindío',
     fincas: 1,
     tipo: 'Distribución',
     ciudad: 'Armenia',
     fillKey: 'DISTRIBUTION',
   },
-  'CALDAS': {
+  CALDAS: {
     name: 'Caldas',
     fincas: 1,
     tipo: 'Distribución',
@@ -171,52 +175,52 @@ const colombiaDataSet = {
 
 // Datos específicos para Ecuador
 const ecuadorDataSet = {
-  'PICHINCHA': {
+  PICHINCHA: {
     name: 'Pichincha',
     fincas: 1,
     tipo: 'Principal',
     ciudad: 'Quito',
     fillKey: 'PRIMARY_FARM',
   },
-  'LATACUNGA': {
+  LATACUNGA: {
     name: 'Latacunga',
     fincas: 1,
     tipo: 'Secundaria',
     ciudad: 'Latacunga',
     fillKey: 'SECONDARY_FARM',
   },
-  'IBARRA': {
+  IBARRA: {
     name: 'Ibarra',
     fincas: 4,
     tipo: 'Distribución',
     ciudad: 'Ibarra',
     fillKey: 'DISTRIBUTION',
-  }
+  },
 }
 
 // Datos específicos para Kenya
 const kenyaDataSet = {
-  'NAIROBI': {
+  NAIROBI: {
     name: 'Nairobi',
     fincas: 1,
     tipo: 'Principal',
     ciudad: 'Nairobi',
     fillKey: 'PRIMARY_FARM',
   },
-  'BARINGO': {
+  BARINGO: {
     name: 'Baringo',
     fincas: 2,
     tipo: 'Distribución',
     ciudad: 'Baringo',
     fillKey: 'DISTRIBUTION',
   },
-  'MARSABIT': {
+  MARSABIT: {
     name: 'Marsabit',
     fincas: 3,
     tipo: 'Distribución',
     ciudad: 'Marsabit',
     fillKey: 'DISTRIBUTION',
-  }
+  },
 }
 
 function loadScripts(sources) {
@@ -275,15 +279,15 @@ function createWorldMap() {
       MAJOR: '#545386',
     },
     data: worldDataSet,
-    done: function(datamap) {
+    done: function (datamap) {
       // Agregar eventos click para los 3 países
-      datamap.svg.selectAll('.datamaps-subunit.COL').on('click', function() {
+      datamap.svg.selectAll('.datamaps-subunit.COL').on('click', function () {
         zoomToCountry('colombia')
       })
-      datamap.svg.selectAll('.datamaps-subunit.ECU').on('click', function() {
+      datamap.svg.selectAll('.datamaps-subunit.ECU').on('click', function () {
         zoomToCountry('ecuador')
       })
-      datamap.svg.selectAll('.datamaps-subunit.KEN').on('click', function() {
+      datamap.svg.selectAll('.datamaps-subunit.KEN').on('click', function () {
         zoomToCountry('kenya')
       })
     },
@@ -323,8 +327,11 @@ function createWorldMap() {
                 </span>
               </div>
             </div>
-            ${['COL', 'ECU', 'KEN'].includes(geo.id) ?
-              '<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee; font-size: 11px; color: #007bff;">🖱️ Haz clic para ver detalle</div>' : ''}
+            ${
+              ['COL', 'ECU', 'KEN'].includes(geo.id)
+                ? '<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee; font-size: 11px; color: #007bff;">🖱️ Haz clic para ver detalle</div>'
+                : ''
+            }
           </div>`
       },
     },
@@ -347,11 +354,15 @@ async function loadCountryTopojson(country) {
 }
 
 function getCountryDataSet(country) {
-  switch(country) {
-    case 'colombia': return colombiaDataSet
-    case 'ecuador': return ecuadorDataSet
-    case 'kenya': return kenyaDataSet
-    default: return {}
+  switch (country) {
+    case 'colombia':
+      return colombiaDataSet
+    case 'ecuador':
+      return ecuadorDataSet
+    case 'kenya':
+      return kenyaDataSet
+    default:
+      return {}
   }
 }
 
@@ -376,7 +387,8 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
   const width = container.offsetWidth || 800
   const height = 500
 
-  const svg = window.d3.select(container)
+  const svg = window.d3
+    .select(container)
     .append('svg')
     .attr('width', width)
     .attr('height', height)
@@ -384,47 +396,60 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
 
   // Ajustar la proyección según el país
   let projection
-  switch(currentView.value) {
+  switch (currentView.value) {
     case 'colombia':
-      projection = window.d3.geo.mercator()
+      projection = window.d3.geo
+        .mercator()
         .scale(1700)
         .center([-74, 4.5])
         .translate([width / 2, height / 2])
       break
     case 'ecuador':
-      projection = window.d3.geo.mercator()
+      projection = window.d3.geo
+        .mercator()
         .scale(4200)
         .center([-78.5, -1.5])
         .translate([width / 2, height / 2])
       break
     case 'kenya':
-      projection = window.d3.geo.mercator()
+      projection = window.d3.geo
+        .mercator()
         .scale(2800)
         .center([37.8, 0.5])
         .translate([width / 2, height / 2])
       break
     default:
-      projection = window.d3.geo.mercator()
+      projection = window.d3.geo
+        .mercator()
         .scale(1700)
         .translate([width / 2, height / 2])
   }
 
   const path = window.d3.geo.path().projection(projection)
 
-  svg.selectAll('path')
+  svg
+    .selectAll('path')
     .data(topojsonData.features)
     .enter()
     .append('path')
     .attr('d', path)
     .attr('class', 'region')
-    .style('fill', function(d) {
-      const regionData = countryDataSet[d.properties.DPTO_CNMBR] || countryDataSet[d.properties.COUNTY_NAM] || countryDataSet[d.properties.DPA_DESCAN] || countryDataSet[d.id]
+    .style('fill', function (d) {
+      const regionData =
+        countryDataSet[d.properties.DPTO_CNMBR] ||
+        countryDataSet[d.properties.COUNTY_NAM] ||
+        countryDataSet[d.properties.DPA_DESCAN] ||
+        countryDataSet[d.id]
       if (regionData) {
-        switch(regionData.fillKey) {
-          case 'PRIMARY_FARM': return '#545386'
-          case 'SECONDARY_FARM': return '#F4C7CE'
-          case 'DISTRIBUTION': return '#66BB6A'
-          default: return '#d3d3d3'
+        switch (regionData.fillKey) {
+          case 'PRIMARY_FARM':
+            return '#545386'
+          case 'SECONDARY_FARM':
+            return '#F4C7CE'
+          case 'DISTRIBUTION':
+            return '#66BB6A'
+          default:
+            return '#d3d3d3'
         }
       }
       return '#d3d3d3'
@@ -432,19 +457,27 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
     .style('stroke', '#000')
     .style('stroke-width', 1)
     .style('cursor', 'pointer')
-    .on('mouseover', function(d) {
+    .on('mouseover', function (d) {
       window.d3.select(this).style('fill', '#c2dfea')
       showTooltip(d, window.d3.event, countryDataSet)
     })
-    .on('mouseout', function(d) {
-      window.d3.select(this).style('fill', function() {
-        const regionData = countryDataSet[d.properties.DPTO_CNMBR] || countryDataSet[d.properties.COUNTY_NAM] || countryDataSet[d.properties.DPA_DESCAN] || countryDataSet[d.id]
+    .on('mouseout', function (d) {
+      window.d3.select(this).style('fill', function () {
+        const regionData =
+          countryDataSet[d.properties.DPTO_CNMBR] ||
+          countryDataSet[d.properties.COUNTY_NAM] ||
+          countryDataSet[d.properties.DPA_DESCAN] ||
+          countryDataSet[d.id]
         if (regionData) {
-          switch(regionData.fillKey) {
-            case 'PRIMARY_FARM': return '#545386'
-            case 'SECONDARY_FARM': return '#F4C7CE'
-            case 'DISTRIBUTION': return '#66BB6A'
-            default: return '#d3d3d3'
+          switch (regionData.fillKey) {
+            case 'PRIMARY_FARM':
+              return '#545386'
+            case 'SECONDARY_FARM':
+              return '#F4C7CE'
+            case 'DISTRIBUTION':
+              return '#66BB6A'
+            default:
+              return '#d3d3d3'
           }
         }
         return '#d3d3d3'
@@ -453,17 +486,22 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
     })
 
   function showTooltip(d, event, dataSet) {
-    const regionData = dataSet[d.properties.DPTO_CNMBR] || dataSet[d.properties.COUNTY_NAM] || dataSet[d.properties.DPA_DESCAN] || dataSet[d.id]
-    const name = d.properties.DPTO_CNMBR || d.properties.COUNTY_NAM || d.properties.DPA_DESCAN || 'Región'
+    const regionData =
+      dataSet[d.properties.DPTO_CNMBR] ||
+      dataSet[d.properties.COUNTY_NAM] ||
+      dataSet[d.properties.DPA_DESCAN] ||
+      dataSet[d.id]
+    const name =
+      d.properties.DPTO_CNMBR || d.properties.COUNTY_NAM || d.properties.DPA_DESCAN || 'Región'
 
     let content = `<div class="datamap-hoverover" style="background: white; border: 1px solid #ccc; border-radius: 8px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
       <div style="font-weight: bold; color: #333;">${name}</div>`
 
     if (regionData) {
       const iconMap = {
-        'Principal': '🏭',
-        'Secundaria': '🏪',
-        'Distribución': '🚚'
+        Principal: '🏭',
+        Secundaria: '🏪',
+        Distribución: '🚚',
       }
 
       content += `
@@ -482,15 +520,16 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
 
     content += '</div>'
 
-    const tooltip = window.d3.select('body')
+    const tooltip = window.d3
+      .select('body')
       .append('div')
       .attr('class', 'datamap-tooltip')
       .style('position', 'absolute')
       .style('z-index', '1000')
       .style('pointer-events', 'none')
       .html(content)
-      .style('left', (event.pageX + 10) + 'px')
-      .style('top', (event.pageY - 10) + 'px')
+      .style('left', event.pageX + 10 + 'px')
+      .style('top', event.pageY - 10 + 'px')
   }
 
   function hideTooltip() {
@@ -498,12 +537,12 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
   }
 
   currentDataMap = {
-    resize: function() {
+    resize: function () {
       const newWidth = container.offsetWidth || 800
       svg.attr('width', newWidth)
       projection.translate([newWidth / 2, height / 2])
       svg.selectAll('path').attr('d', path)
-    }
+    },
   }
 }
 
@@ -527,12 +566,13 @@ function createDefaultCountryMap(container, country, countryDataSet) {
       highlightBorderColor: '#000',
       highlightBorderWidth: 2,
       popupTemplate: function (geo, data) {
-        if (!data) return `<div class="datamap-hoverover">${geo.properties.name || geo.properties.NAME_1}</div>`
+        if (!data)
+          return `<div class="datamap-hoverover">${geo.properties.name || geo.properties.NAME_1}</div>`
 
         const iconMap = {
-          'Principal': '🏭',
-          'Secundaria': '🏪',
-          'Distribución': '🚚'
+          Principal: '🏭',
+          Secundaria: '🏪',
+          Distribución: '🚚',
         }
 
         return `
@@ -614,7 +654,6 @@ onMounted(async () => {
 }
 
 #countries-datamap {
-
   padding-bottom: 0 !important;
 }
 
@@ -668,16 +707,20 @@ onMounted(async () => {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-:global(.datamaps-subunit[data-id*='CO-'],
-        .datamaps-subunit[data-id*='EC-'],
-        .datamaps-subunit[data-id*='KE-']) {
+:global(
+  .datamaps-subunit[data-id*='CO-'],
+  .datamaps-subunit[data-id*='EC-'],
+  .datamaps-subunit[data-id*='KE-']
+) {
   stroke: #000 !important;
   stroke-width: 1px !important;
 }
 
-:global(.datamaps-subunit[data-id*='CO-']:hover,
-        .datamaps-subunit[data-id*='EC-']:hover,
-        .datamaps-subunit[data-id*='KE-']:hover) {
+:global(
+  .datamaps-subunit[data-id*='CO-']:hover,
+  .datamaps-subunit[data-id*='EC-']:hover,
+  .datamaps-subunit[data-id*='KE-']:hover
+) {
   stroke: #007bff !important;
   stroke-width: 2px !important;
 }

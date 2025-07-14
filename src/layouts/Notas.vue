@@ -26,9 +26,19 @@
 
           <div
             id="form-modal"
-            :class="!isModalOpen ? 'modal hidden' : 'modal opacity-100 duration-300 open w-full h-full bg-base-content/50'"
+            :class="
+              !isModalOpen
+                ? 'modal hidden'
+                : 'modal opacity-100 duration-300 open w-full h-full bg-base-content/50'
+            "
           >
-            <div :class="!isModalOpen ? 'modal-dialog hidden' : 'modal-dialog top-40 opacity-100 duration-300'">
+            <div
+              :class="
+                !isModalOpen
+                  ? 'modal-dialog hidden'
+                  : 'modal-dialog top-40 opacity-100 duration-300'
+              "
+            >
               <div class="modal-content">
                 <div class="modal-header">
                   <h3 class="modal-title text-[#545386]">Nota</h3>
@@ -69,14 +79,12 @@
                     </div>
                   </div>
                   <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-soft btn-secondary"
-                      @click="closeModal"
-                    >
+                    <button type="button" class="btn btn-soft btn-secondary" @click="closeModal">
                       Cancelar
                     </button>
-                    <button type="submit" class="btn bg-[#545386]" @click="closeModal">Guardar nota</button>
+                    <button type="submit" class="btn bg-[#545386]" @click="closeModal">
+                      Guardar nota
+                    </button>
                   </div>
                 </form>
               </div>
@@ -93,7 +101,6 @@
   </div>
 </template>
 
-
 <script setup>
 import CardNotas from '@/components/CardNotas.vue'
 import { ref, onMounted, onUnmounted } from 'vue'
@@ -108,4 +115,3 @@ const closeModal = () => {
   isModalOpen.value = false
 }
 </script>
-

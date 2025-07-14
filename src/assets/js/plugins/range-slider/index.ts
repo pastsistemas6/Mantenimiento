@@ -28,8 +28,8 @@ class HSRangeSlider extends HSBasePlugin<IRangeSliderOptions> implements IRangeS
       ...options,
       cssClasses: {
         ...noUiSlider.cssClasses,
-        ...this.processClasses(dataOptions.cssClasses)
-      }
+        ...this.processClasses(dataOptions.cssClasses),
+      },
     }
 
     this.init()
@@ -41,7 +41,7 @@ class HSRangeSlider extends HSBasePlugin<IRangeSliderOptions> implements IRangeS
     if (Array.isArray(values) && this.format) {
       const updateValues: (string | number)[] = []
 
-      values.forEach(val => {
+      values.forEach((val) => {
         updateValues.push(this.format.to(val))
       })
 
@@ -104,7 +104,7 @@ class HSRangeSlider extends HSBasePlugin<IRangeSliderOptions> implements IRangeS
   private integerFormatter() {
     this.format = {
       to: (val: number) => this.formatValue(Math.round(val)),
-      from: (val: string) => Math.round(+val)
+      from: (val: string) => Math.round(+val),
     }
 
     if (this.concatOptions?.tooltips) this.concatOptions.tooltips = this.format
@@ -113,7 +113,7 @@ class HSRangeSlider extends HSBasePlugin<IRangeSliderOptions> implements IRangeS
   private prefixOrPostfixFormatter() {
     this.format = {
       to: (val: number) => this.formatValue(val),
-      from: (val: string) => +val
+      from: (val: string) => +val,
     }
 
     if (this.concatOptions?.tooltips) this.concatOptions.tooltips = this.format
@@ -125,10 +125,10 @@ class HSRangeSlider extends HSBasePlugin<IRangeSliderOptions> implements IRangeS
         this.formatValue(
           new Intl.NumberFormat('en-US', {
             minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          }).format(val)
+            maximumFractionDigits: 2,
+          }).format(val),
         ),
-      from: (val: string) => parseFloat(val.replace(/,/g, ''))
+      from: (val: string) => parseFloat(val.replace(/,/g, '')),
     }
 
     if (this.concatOptions?.tooltips) this.concatOptions.tooltips = this.format
@@ -145,13 +145,16 @@ class HSRangeSlider extends HSBasePlugin<IRangeSliderOptions> implements IRangeS
 
     this.format = null
 
-    window.$hsRangeSliderCollection = window.$hsRangeSliderCollection.filter(({ element }) => element.el !== this.el)
+    window.$hsRangeSliderCollection = window.$hsRangeSliderCollection.filter(
+      ({ element }) => element.el !== this.el,
+    )
   }
 
   // Static methods
   static getInstance(target: HTMLElement | string, isInstance = false) {
     const elInCollection = window.$hsRangeSliderCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element.el) : null
@@ -162,12 +165,17 @@ class HSRangeSlider extends HSBasePlugin<IRangeSliderOptions> implements IRangeS
 
     if (window.$hsRangeSliderCollection)
       window.$hsRangeSliderCollection = window.$hsRangeSliderCollection.filter(({ element }) =>
-        document.contains(element.el)
+        document.contains(element.el),
       )
 
-    document.querySelectorAll('[data-range-slider]:not(.--prevent-on-load-init)').forEach((el: HTMLElement) => {
-      if (!window.$hsRangeSliderCollection.find(elC => (elC?.element?.el as HTMLElement) === el)) new HSRangeSlider(el)
-    })
+    document
+      .querySelectorAll('[data-range-slider]:not(.--prevent-on-load-init)')
+      .forEach((el: HTMLElement) => {
+        if (
+          !window.$hsRangeSliderCollection.find((elC) => (elC?.element?.el as HTMLElement) === el)
+        )
+          new HSRangeSlider(el)
+      })
   }
 }
 

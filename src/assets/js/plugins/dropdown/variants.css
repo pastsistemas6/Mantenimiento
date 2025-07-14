@@ -23,11 +23,11 @@
 }
 
 @custom-variant dropdown-item-checked {
-  .dropdown.open .dropdown-menu [aria-checked="true"] & {
+  .dropdown.open .dropdown-menu [aria-checked='true'] & {
     @slot;
   }
 
-  .dropdown.open .dropdown-menu &[aria-checked="true"] {
+  .dropdown.open .dropdown-menu &[aria-checked='true'] {
     @slot;
   }
 }

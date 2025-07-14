@@ -54,7 +54,6 @@ const handleMouseLeave = () => {
     tabindex="-1"
   >
     <div class="drawer-body pt-4">
-
       <ul class="menu space-y-0.5 pb-6 p-0">
         <li
           class="relative hover:bg-white cursor-default"
@@ -63,7 +62,10 @@ const handleMouseLeave = () => {
         >
           <RouterLink
             to="BodyLayout"
-            :class="['flex flex-col justify-center items-center gap-0 hover:bg-white cursor-default list-none', !isExpanded && 'px-2']"
+            :class="[
+              'flex flex-col justify-center items-center gap-0 hover:bg-white cursor-default list-none',
+              !isExpanded && 'px-2',
+            ]"
           >
             <img
               src="./icons/elite flower-morado-64px-05.svg"
@@ -153,7 +155,7 @@ const handleMouseLeave = () => {
             <span v-if="isExpanded" class="ml-2">Plásticos</span>
           </RouterLink>
 
-           <Teleport to="#tooltip-container">
+          <Teleport to="#tooltip-container">
             <div
               v-if="!isExpanded && activeTooltip?.text === 'Plásticos'"
               :style="activeTooltip.style"
@@ -205,7 +207,7 @@ const handleMouseLeave = () => {
             :class="['flex items-center', !isExpanded && 'justify-center px-2']"
           >
             <span>
-              <img src="../components/icons/icons8-energy-96.png" alt="" width="24" height="24"/>
+              <img src="../components/icons/icons8-energy-96.png" alt="" width="24" height="24" />
             </span>
             <span v-if="isExpanded" class="ml-2">Consumo</span>
           </RouterLink>
@@ -348,7 +350,10 @@ const handleMouseLeave = () => {
           @mouseenter="(e) => handleMouseEnter(e, 'Support')"
           @mouseleave="handleMouseLeave"
         >
-          <RouterLink to="support" :class="['flex items-center', !isExpanded && 'justify-center px-2']">
+          <RouterLink
+            to="support"
+            :class="['flex items-center', !isExpanded && 'justify-center px-2']"
+          >
             <span class="icon-[tabler--users-group] size-5"></span>
             <span v-if="isExpanded" class="ml-2">Support</span>
           </RouterLink>
@@ -414,7 +419,9 @@ const handleMouseLeave = () => {
         <div v-if="isExpanded" class="w-full divider text-base-content/50 py-1"></div>
 
         <li v-if="isExpanded" class="hover:bg-white cursor-default list-none">
-          <span class="text-start hover:bg-white text-xs cursor-default">© 2025 Prototipo web. v0.1.0</span>
+          <span class="text-start hover:bg-white text-xs cursor-default"
+            >© 2025 Prototipo web. v0.1.0</span
+          >
         </li>
       </ul>
     </div>

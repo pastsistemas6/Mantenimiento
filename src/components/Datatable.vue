@@ -5,11 +5,7 @@
   >
     <div class="w-full pt-4 pb-2 px-5 flex justify-between">
       <h2 class="text-[#545386] font-bold text-2xl">Gestión de plásticos</h2>
-      <button
-        type="button"
-        class="btn bg-[#545386]"
-        @click="showModal = true"
-      >
+      <button type="button" class="btn bg-[#545386]" @click="showModal = true">
         Nuevo registro
       </button>
 
@@ -36,7 +32,7 @@
             <form @submit.prevent="addNewRecord">
               <div class="modal-body pt-0">
                 <div class="mb-4">
-                  <label class="label-text" for="tipo">Tipo</label>
+                  <label class="label-text cursor-default" for="tipo">Tipo</label>
                   <input
                     v-model="newRecord.tipo"
                     type="text"
@@ -48,7 +44,7 @@
                 </div>
                 <div class="mb-0.5 flex gap-4 max-sm:flex-col">
                   <div class="w-full">
-                    <label class="label-text" for="bloque">Bloque</label>
+                    <label class="label-text cursor-default" for="bloque">Bloque</label>
                     <input
                       v-model="newRecord.bloque"
                       type="text"
@@ -59,7 +55,7 @@
                     />
                   </div>
                   <div class="w-full">
-                    <label class="label-text" for="cultivo">Tipo de Cultivo</label>
+                    <label class="label-text cursor-default" for="cultivo">Tipo de cultivo</label>
                     <input
                       v-model="newRecord.cultivo"
                       type="text"
@@ -75,9 +71,7 @@
                 <button type="button" class="btn btn-soft" @click="showModal = false">
                   Cancelar
                 </button>
-                <button type="submit" class="btn bg-[#545386] text-white">
-                  Guardar registro
-                </button>
+                <button type="submit" class="btn bg-[#545386] text-white">Guardar registro</button>
               </div>
             </form>
           </div>
@@ -87,7 +81,9 @@
 
     <div class="border-base-content/25 flex items-center border-b px-5 py-3 gap-3">
       <div class="input input-sm max-w-60">
-        <span class="icon-[tabler--search] text-base-content/80 my-auto me-3 size-4 shrink-0"></span>
+        <span
+          class="icon-[tabler--search] text-base-content/80 my-auto me-3 size-4 shrink-0"
+        ></span>
         <label class="sr-only" for="table-export-search"></label>
         <input
           v-model="searchQuery"
@@ -177,36 +173,76 @@
                 <th scope="col" class="group w-fit" @click="sortBy('id')">
                   <div class="flex items-center justify-between cursor-pointer">
                     ID
-                    <span v-if="sortField === 'id'" class="icon-[tabler--chevron-up]" :class="sortDirection === 'asc' ? 'block' : 'hidden'"></span>
-                    <span v-if="sortField === 'id'" class="icon-[tabler--chevron-down]" :class="sortDirection === 'desc' ? 'block' : 'hidden'"></span>
+                    <span
+                      v-if="sortField === 'id'"
+                      class="icon-[tabler--chevron-up]"
+                      :class="sortDirection === 'asc' ? 'block' : 'hidden'"
+                    ></span>
+                    <span
+                      v-if="sortField === 'id'"
+                      class="icon-[tabler--chevron-down]"
+                      :class="sortDirection === 'desc' ? 'block' : 'hidden'"
+                    ></span>
                   </div>
                 </th>
                 <th scope="col" class="group w-fit" @click="sortBy('tipo')">
                   <div class="flex items-center justify-between cursor-pointer">
                     TIPO
-                    <span v-if="sortField === 'tipo'" class="icon-[tabler--chevron-up]" :class="sortDirection === 'asc' ? 'block' : 'hidden'"></span>
-                    <span v-if="sortField === 'tipo'" class="icon-[tabler--chevron-down]" :class="sortDirection === 'desc' ? 'block' : 'hidden'"></span>
+                    <span
+                      v-if="sortField === 'tipo'"
+                      class="icon-[tabler--chevron-up]"
+                      :class="sortDirection === 'asc' ? 'block' : 'hidden'"
+                    ></span>
+                    <span
+                      v-if="sortField === 'tipo'"
+                      class="icon-[tabler--chevron-down]"
+                      :class="sortDirection === 'desc' ? 'block' : 'hidden'"
+                    ></span>
                   </div>
                 </th>
                 <th scope="col" class="group w-fit" @click="sortBy('bloque')">
                   <div class="flex items-center justify-between cursor-pointer">
                     BLOQUE
-                    <span v-if="sortField === 'bloque'" class="icon-[tabler--chevron-up]" :class="sortDirection === 'asc' ? 'block' : 'hidden'"></span>
-                    <span v-if="sortField === 'bloque'" class="icon-[tabler--chevron-down]" :class="sortDirection === 'desc' ? 'block' : 'hidden'"></span>
+                    <span
+                      v-if="sortField === 'bloque'"
+                      class="icon-[tabler--chevron-up]"
+                      :class="sortDirection === 'asc' ? 'block' : 'hidden'"
+                    ></span>
+                    <span
+                      v-if="sortField === 'bloque'"
+                      class="icon-[tabler--chevron-down]"
+                      :class="sortDirection === 'desc' ? 'block' : 'hidden'"
+                    ></span>
                   </div>
                 </th>
                 <th scope="col" class="group w-fit" @click="sortBy('cultivo')">
                   <div class="flex items-center justify-between cursor-pointer">
                     TIPO DE CULTIVO
-                    <span v-if="sortField === 'cultivo'" class="icon-[tabler--chevron-up]" :class="sortDirection === 'asc' ? 'block' : 'hidden'"></span>
-                    <span v-if="sortField === 'cultivo'" class="icon-[tabler--chevron-down]" :class="sortDirection === 'desc' ? 'block' : 'hidden'"></span>
+                    <span
+                      v-if="sortField === 'cultivo'"
+                      class="icon-[tabler--chevron-up]"
+                      :class="sortDirection === 'asc' ? 'block' : 'hidden'"
+                    ></span>
+                    <span
+                      v-if="sortField === 'cultivo'"
+                      class="icon-[tabler--chevron-down]"
+                      :class="sortDirection === 'desc' ? 'block' : 'hidden'"
+                    ></span>
                   </div>
                 </th>
                 <th scope="col" class="group w-fit" @click="sortBy('estado')">
                   <div class="flex items-center justify-between cursor-pointer">
                     ESTADO
-                    <span v-if="sortField === 'estado'" class="icon-[tabler--chevron-up]" :class="sortDirection === 'asc' ? 'block' : 'hidden'"></span>
-                    <span v-if="sortField === 'estado'" class="icon-[tabler--chevron-down]" :class="sortDirection === 'desc' ? 'block' : 'hidden'"></span>
+                    <span
+                      v-if="sortField === 'estado'"
+                      class="icon-[tabler--chevron-up]"
+                      :class="sortDirection === 'asc' ? 'block' : 'hidden'"
+                    ></span>
+                    <span
+                      v-if="sortField === 'estado'"
+                      class="icon-[tabler--chevron-down]"
+                      :class="sortDirection === 'desc' ? 'block' : 'hidden'"
+                    ></span>
                   </div>
                 </th>
                 <th scope="col" class="--exclude-from-ordering">ACCIONES</th>
@@ -235,7 +271,7 @@
                     :class="{
                       'badge-success': item.estado === 'Disponible',
                       'badge-warning': item.estado === 'Limitado',
-                      'badge-error': item.estado === 'Agotado'
+                      'badge-error': item.estado === 'Agotado',
                     }"
                   >
                     {{ item.estado }}
@@ -268,9 +304,13 @@
     </div>
 
     <!-- Paginación -->
-    <div class="border-base-content/25 flex items-center justify-between gap-3 border-t p-3 max-md:flex-wrap max-md:justify-center">
+    <div
+      class="border-base-content/25 flex items-center justify-between gap-3 border-t p-3 max-md:flex-wrap max-md:justify-center"
+    >
       <div class="text-base-content/80 text-sm">
-        Mostrando {{ startIndex + 1 }} a {{ Math.min(startIndex + pageLength, filteredData.length) }} de {{ filteredData.length }} registros
+        Mostrando {{ startIndex + 1 }} a
+        {{ Math.min(startIndex + pageLength, filteredData.length) }} de
+        {{ filteredData.length }} registros
       </div>
       <div class="flex items-center space-x-1">
         <button
@@ -350,18 +390,19 @@ const newRecord = ref({
   tipo: '',
   bloque: '',
   cultivo: '',
-  estado: 'Disponible'
+  estado: 'Disponible',
 })
 
 // Computed properties
 const filteredData = computed(() => {
   if (!searchQuery.value) return sortedData.value
 
-  return sortedData.value.filter(item =>
-    item.tipo.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-    item.bloque.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-    item.cultivo.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-    item.estado.toLowerCase().includes(searchQuery.value.toLowerCase())
+  return sortedData.value.filter(
+    (item) =>
+      item.tipo.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      item.bloque.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      item.cultivo.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      item.estado.toLowerCase().includes(searchQuery.value.toLowerCase()),
   )
 })
 
@@ -457,21 +498,21 @@ const goToPage = (page) => {
 
 const toggleSelectAll = () => {
   if (selectAll.value) {
-    selectedRows.value = paginatedData.value.map(item => item.id)
+    selectedRows.value = paginatedData.value.map((item) => item.id)
   } else {
     selectedRows.value = []
   }
 }
 
 const addNewRecord = () => {
-  const newId = Math.max(...data.value.map(item => item.id)) + 1
+  const newId = Math.max(...data.value.map((item) => item.id)) + 1
 
   data.value.push({
     id: newId,
     tipo: newRecord.value.tipo,
     bloque: newRecord.value.bloque,
     cultivo: newRecord.value.cultivo,
-    estado: newRecord.value.estado
+    estado: newRecord.value.estado,
   })
 
   // Reset form
@@ -479,7 +520,7 @@ const addNewRecord = () => {
     tipo: '',
     bloque: '',
     cultivo: '',
-    estado: 'Disponible'
+    estado: 'Disponible',
   }
 
   showModal.value = false
@@ -492,20 +533,21 @@ const editRecord = (item) => {
 
 const deleteRecord = (id) => {
   if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
-    data.value = data.value.filter(item => item.id !== id)
+    data.value = data.value.filter((item) => item.id !== id)
   }
 }
 
 const exportData = (format) => {
-  const exportableData = selectedRows.value.length > 0
-    ? data.value.filter(item => selectedRows.value.includes(item.id))
-    : filteredData.value
+  const exportableData =
+    selectedRows.value.length > 0
+      ? data.value.filter((item) => selectedRows.value.includes(item.id))
+      : filteredData.value
 
   switch (format) {
     case 'copy':
-      const copyText = exportableData.map(item =>
-        `${item.id}\t${item.tipo}\t${item.bloque}\t${item.cultivo}\t${item.estado}`
-      ).join('\n')
+      const copyText = exportableData
+        .map((item) => `${item.id}\t${item.tipo}\t${item.bloque}\t${item.cultivo}\t${item.estado}`)
+        .join('\n')
       navigator.clipboard.writeText(copyText)
       alert('Datos copiados al portapapeles')
       break
@@ -513,9 +555,9 @@ const exportData = (format) => {
     case 'csv':
       const csvContent = [
         'ID,Tipo,Bloque,Cultivo,Estado',
-        ...exportableData.map(item =>
-          `${item.id},"${item.tipo}","${item.bloque}","${item.cultivo}","${item.estado}"`
-        )
+        ...exportableData.map(
+          (item) => `${item.id},"${item.tipo}","${item.bloque}","${item.cultivo}","${item.estado}"`,
+        ),
       ].join('\n')
 
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
@@ -559,7 +601,9 @@ const exportData = (format) => {
                 <th>Cultivo</th>
                 <th>Estado</th>
               </tr>
-              ${exportableData.map(item => `
+              ${exportableData
+                .map(
+                  (item) => `
                 <tr>
                   <td>${item.id}</td>
                   <td>${item.tipo}</td>
@@ -567,7 +611,9 @@ const exportData = (format) => {
                   <td>${item.cultivo}</td>
                   <td>${item.estado}</td>
                 </tr>
-              `).join('')}
+              `,
+                )
+                .join('')}
             </table>
           </body>
         </html>
@@ -585,78 +631,80 @@ const exportData = (format) => {
       break
 
     case 'pdf':
-    // Usaremos jsPDF para generar el PDF directamente sin html2canvas
-    import('jspdf').then((jsPDFModule) => {
-      const { jsPDF } = jsPDFModule;
+      // Usaremos jsPDF para generar el PDF directamente sin html2canvas
+      import('jspdf')
+        .then((jsPDFModule) => {
+          const { jsPDF } = jsPDFModule
 
-      // Crear un nuevo documento PDF
-      const pdf = new jsPDF('p', 'pt', 'a4');
+          // Crear un nuevo documento PDF
+          const pdf = new jsPDF('p', 'pt', 'a4')
 
-      // Configuración del documento
-      const margin = 40;
-      const pageWidth = pdf.internal.pageSize.getWidth() - 2 * margin;
-      let yPos = margin;
+          // Configuración del documento
+          const margin = 40
+          const pageWidth = pdf.internal.pageSize.getWidth() - 2 * margin
+          let yPos = margin
 
-      // Título del documento
-      pdf.setFontSize(18);
-      pdf.text('Gestión de Plásticos', margin, yPos);
-      yPos += 30;
+          // Título del documento
+          pdf.setFontSize(18)
+          pdf.text('Gestión de Plásticos', margin, yPos)
+          yPos += 30
 
-      // Encabezados de la tabla
-      pdf.setFontSize(12);
-      pdf.setFont(undefined, 'bold');
+          // Encabezados de la tabla
+          pdf.setFontSize(12)
+          pdf.setFont(undefined, 'bold')
 
-      // Definir columnas
-      const headers = [
-        { header: 'ID', width: 40 },
-        { header: 'Tipo', width: 100 },
-        { header: 'Bloque', width: 80 },
-        { header: 'Cultivo', width: 100 },
-        { header: 'Estado', width: 80 }
-      ];
+          // Definir columnas
+          const headers = [
+            { header: 'ID', width: 40 },
+            { header: 'Tipo', width: 100 },
+            { header: 'Bloque', width: 80 },
+            { header: 'Cultivo', width: 100 },
+            { header: 'Estado', width: 80 },
+          ]
 
-      // Dibujar encabezados
-      let xPos = margin;
-      headers.forEach(col => {
-        pdf.text(col.header, xPos, yPos);
-        xPos += col.width;
-      });
-      yPos += 20;
+          // Dibujar encabezados
+          let xPos = margin
+          headers.forEach((col) => {
+            pdf.text(col.header, xPos, yPos)
+            xPos += col.width
+          })
+          yPos += 20
 
-      // Contenido de la tabla
-      pdf.setFont(undefined, 'normal');
-      exportableData.forEach(item => {
-        // Verificar si necesitamos una nueva página
-        if (yPos > pdf.internal.pageSize.getHeight() - margin) {
-          pdf.addPage();
-          yPos = margin;
-        }
+          // Contenido de la tabla
+          pdf.setFont(undefined, 'normal')
+          exportableData.forEach((item) => {
+            // Verificar si necesitamos una nueva página
+            if (yPos > pdf.internal.pageSize.getHeight() - margin) {
+              pdf.addPage()
+              yPos = margin
+            }
 
-        xPos = margin;
-        pdf.text(item.id.toString(), xPos, yPos);
-        xPos += headers[0].width;
+            xPos = margin
+            pdf.text(item.id.toString(), xPos, yPos)
+            xPos += headers[0].width
 
-        pdf.text(item.tipo, xPos, yPos);
-        xPos += headers[1].width;
+            pdf.text(item.tipo, xPos, yPos)
+            xPos += headers[1].width
 
-        pdf.text(item.bloque, xPos, yPos);
-        xPos += headers[2].width;
+            pdf.text(item.bloque, xPos, yPos)
+            xPos += headers[2].width
 
-        pdf.text(item.cultivo, xPos, yPos);
-        xPos += headers[3].width;
+            pdf.text(item.cultivo, xPos, yPos)
+            xPos += headers[3].width
 
-        pdf.text(item.estado, xPos, yPos);
+            pdf.text(item.estado, xPos, yPos)
 
-        yPos += 20;
-      });
+            yPos += 20
+          })
 
-      // Guardar el PDF
-      pdf.save('plasticos.pdf');
-    }).catch(err => {
-      console.error('Error al generar PDF:', err);
-      alert('Error al generar el PDF. Inténtalo de nuevo.');
-    });
-    break;
+          // Guardar el PDF
+          pdf.save('plasticos.pdf')
+        })
+        .catch((err) => {
+          console.error('Error al generar PDF:', err)
+          alert('Error al generar el PDF. Inténtalo de nuevo.')
+        })
+      break
 
     case 'print':
       const printContent = `
@@ -671,15 +719,18 @@ const exportData = (format) => {
             </tr>
           </thead>
           <tbody>
-            ${exportableData.map(item =>
-              `<tr>
+            ${exportableData
+              .map(
+                (item) =>
+                  `<tr>
                 <td>${item.id}</td>
                 <td>${item.tipo}</td>
                 <td>${item.bloque}</td>
                 <td>${item.cultivo}</td>
                 <td>${item.estado}</td>
-              </tr>`
-            ).join('')}
+              </tr>`,
+              )
+              .join('')}
           </tbody>
         </table>
       `

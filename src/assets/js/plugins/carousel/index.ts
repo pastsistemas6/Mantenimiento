@@ -86,25 +86,35 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
     const dataOptions: ICarouselOptions = data ? JSON.parse(data) : {}
     const concatOptions = {
       ...dataOptions,
-      ...options
+      ...options,
     }
 
     this.currentIndex = concatOptions.currentIndex || 0
-    this.loadingClasses = concatOptions.loadingClasses ? `${concatOptions.loadingClasses}`.split(',') : null
+    this.loadingClasses = concatOptions.loadingClasses
+      ? `${concatOptions.loadingClasses}`.split(',')
+      : null
     this.dotsItemClasses = concatOptions.dotsItemClasses ? concatOptions.dotsItemClasses : null
-    this.isAutoHeight = typeof concatOptions.isAutoHeight !== 'undefined' ? concatOptions.isAutoHeight : false
-    this.isAutoPlay = typeof concatOptions.isAutoPlay !== 'undefined' ? concatOptions.isAutoPlay : false
-    this.isCentered = typeof concatOptions.isCentered !== 'undefined' ? concatOptions.isCentered : false
-    this.isDraggable = typeof concatOptions.isDraggable !== 'undefined' ? concatOptions.isDraggable : false
-    this.isInfiniteLoop = typeof concatOptions.isInfiniteLoop !== 'undefined' ? concatOptions.isInfiniteLoop : false
+    this.isAutoHeight =
+      typeof concatOptions.isAutoHeight !== 'undefined' ? concatOptions.isAutoHeight : false
+    this.isAutoPlay =
+      typeof concatOptions.isAutoPlay !== 'undefined' ? concatOptions.isAutoPlay : false
+    this.isCentered =
+      typeof concatOptions.isCentered !== 'undefined' ? concatOptions.isCentered : false
+    this.isDraggable =
+      typeof concatOptions.isDraggable !== 'undefined' ? concatOptions.isDraggable : false
+    this.isInfiniteLoop =
+      typeof concatOptions.isInfiniteLoop !== 'undefined' ? concatOptions.isInfiniteLoop : false
     this.isRTL = typeof concatOptions.isRTL !== 'undefined' ? concatOptions.isRTL : false
     this.isSnap = typeof concatOptions.isSnap !== 'undefined' ? concatOptions.isSnap : false
-    this.hasSnapSpacers = typeof concatOptions.hasSnapSpacers !== 'undefined' ? concatOptions.hasSnapSpacers : true
+    this.hasSnapSpacers =
+      typeof concatOptions.hasSnapSpacers !== 'undefined' ? concatOptions.hasSnapSpacers : true
     this.speed = concatOptions.speed || 4000
     this.updateDelay = concatOptions.updateDelay || 0
     this.slidesQty = concatOptions.slidesQty || 1
 
-    this.loadingClassesRemove = this.loadingClasses?.[0] ? this.loadingClasses[0].split(' ') : 'opacity-0'
+    this.loadingClassesRemove = this.loadingClasses?.[0]
+      ? this.loadingClasses[0].split(' ')
+      : 'opacity-0'
     this.loadingClassesAdd = this.loadingClasses?.[1] ? this.loadingClasses[1].split(' ') : ''
     this.afterLoadingClassesAdd = this.loadingClasses?.[2] ? this.loadingClasses[2].split(' ') : ''
 
@@ -128,7 +138,7 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
     // Touch events' help variables
     this.touchX = {
       start: 0,
-      end: 0
+      end: 0,
     }
 
     // Resize events' help variables
@@ -159,7 +169,7 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
     })
 
     if (closestElement) {
-      closestElementIndex = Array.from(this.slides).findIndex(el => el === closestElement)
+      closestElementIndex = Array.from(this.slides).findIndex((el) => el === closestElement)
     }
 
     this.setIndex(closestElementIndex)
@@ -309,20 +319,22 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
   private initDragHandling(): void {
     const scrollableElement = this.inner
 
-    this.onInnerMouseDownListener = evt => this.innerMouseDown(evt)
-    this.onInnerTouchStartListener = evt => this.innerTouchStart(evt)
-    this.onDocumentMouseMoveListener = evt => this.documentMouseMove(evt)
-    this.onDocumentTouchMoveListener = evt => this.documentTouchMove(evt)
+    this.onInnerMouseDownListener = (evt) => this.innerMouseDown(evt)
+    this.onInnerTouchStartListener = (evt) => this.innerTouchStart(evt)
+    this.onDocumentMouseMoveListener = (evt) => this.documentMouseMove(evt)
+    this.onDocumentTouchMoveListener = (evt) => this.documentTouchMove(evt)
     this.onDocumentMouseUpListener = () => this.documentMouseUp()
     this.onDocumentTouchEndListener = () => this.documentTouchEnd()
 
     if (scrollableElement) {
       scrollableElement.addEventListener('mousedown', this.onInnerMouseDownListener)
-      scrollableElement.addEventListener('touchstart', this.onInnerTouchStartListener, { passive: true })
+      scrollableElement.addEventListener('touchstart', this.onInnerTouchStartListener, {
+        passive: true,
+      })
 
       document.addEventListener('mousemove', this.onDocumentMouseMoveListener)
       document.addEventListener('touchmove', this.onDocumentTouchMoveListener, {
-        passive: false
+        passive: false,
       })
 
       document.addEventListener('mouseup', this.onDocumentMouseUpListener)
@@ -363,7 +375,7 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
   private handleDragMove(evt: MouseEvent | TouchEvent): void {
     if (!this.isDragging) return
 
-    this.inner.querySelectorAll('a:not(.prevented-click)').forEach(el => {
+    this.inner.querySelectorAll('a:not(.prevented-click)').forEach((el) => {
       el.classList.add('prevented-click')
       el.addEventListener('click', this.removeClickEventWhileDragging)
     })
@@ -373,7 +385,8 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
     if (this.isRTL) deltaX = -deltaX
     const newTranslateX = this.initialTranslateX + deltaX
     const newTranslateXFunc = () => {
-      let calcWidth = (this.sliderWidth * this.slides.length) / this.getCurrentSlidesQty() - this.sliderWidth
+      let calcWidth =
+        (this.sliderWidth * this.slides.length) / this.getCurrentSlidesQty() - this.sliderWidth
       const containerWidth = this.sliderWidth
       const itemWidth = containerWidth / this.getCurrentSlidesQty()
       const centeredOffset = (containerWidth - itemWidth) / 2
@@ -414,7 +427,7 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
       this.dragStartX = null
       this.initialTranslateX = null
 
-      this.inner.querySelectorAll('a.prevented-click').forEach(el => {
+      this.inner.querySelectorAll('a.prevented-click').forEach((el) => {
         el.classList.remove('prevented-click')
         el.removeEventListener('click', this.removeClickEventWhileDragging)
       })
@@ -433,7 +446,9 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
       Object.keys(this.slidesQty).forEach((key: string) => {
         if (
           windowWidth >=
-          (typeof key + 1 === 'number' ? (this.slidesQty as TCarouselOptionsSlidesQty)[key] : BREAKPOINTS[key])
+          (typeof key + 1 === 'number'
+            ? (this.slidesQty as TCarouselOptionsSlidesQty)[key]
+            : BREAKPOINTS[key])
         ) {
           currentRes = (this.slidesQty as TCarouselOptionsSlidesQty)[key]
         }
@@ -455,8 +470,12 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
     const itemWidth = containerWidth / this.getCurrentSlidesQty()
     const spacerWidth = containerWidth / 2 - itemWidth / 2
 
-    const before = htmlToElement(`<div class="snap-before" style="height: 100%; width: ${spacerWidth}px"></div>`)
-    const after = htmlToElement(`<div class="snap-after" style="height: 100%; width: ${spacerWidth}px"></div>`)
+    const before = htmlToElement(
+      `<div class="snap-before" style="height: 100%; width: ${spacerWidth}px"></div>`,
+    )
+    const after = htmlToElement(
+      `<div class="snap-after" style="height: 100%; width: ${spacerWidth}px"></div>`,
+    )
 
     this.inner.prepend(before)
     this.inner.appendChild(after)
@@ -474,7 +493,9 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
     this.dots.innerHTML = ''
 
     const slidesQty =
-      !this.isCentered && this.slidesQty ? this.slides.length - (this.getCurrentSlidesQty() - 1) : this.slides.length
+      !this.isCentered && this.slidesQty
+        ? this.slides.length - (this.getCurrentSlidesQty() - 1)
+        : this.slides.length
 
     for (let i = 0; i < slidesQty; i++) {
       const singleDot = this.buildSingleDot(i)
@@ -522,7 +543,7 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
     container.scrollTo({
       left: scrollLeft,
       top: scrollTop,
-      behavior: 'smooth'
+      behavior: 'smooth',
     })
   }
 
@@ -568,7 +589,7 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
             this.resizeContainerWidth = newWidth
           }
         }
-      }, this.updateDelay)
+      }, this.updateDelay),
     )
 
     resizeObserver.observe(this.resizeContainer)
@@ -579,7 +600,7 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
       this.inner.style.width = `${(this.sliderWidth * this.slides.length) / this.getCurrentSlidesQty()}px`
     }
 
-    this.slides.forEach(el => {
+    this.slides.forEach((el) => {
       el.style.width = `${this.sliderWidth / this.getCurrentSlidesQty()}px`
     })
 
@@ -619,7 +640,10 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
 
       if (this.isSnap && !this.hasSnapSpacers) {
         statement =
-          i === (this.getCurrentSlidesQty() % 2 === 0 ? this.currentIndex - itemsQty + 1 : this.currentIndex - itemsQty)
+          i ===
+          (this.getCurrentSlidesQty() % 2 === 0
+            ? this.currentIndex - itemsQty + 1
+            : this.currentIndex - itemsQty)
       } else statement = i === this.currentIndex
 
       if (statement) el.classList.add('active')
@@ -729,7 +753,10 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
 
     // TODO:: need to test auto scrolling to the end if last on resize
     if (this.isSnap && !this.isCentered) {
-      if (this.container.scrollLeft < containerWidth && this.container.scrollLeft + itemWidth / 2 > containerWidth) {
+      if (
+        this.container.scrollLeft < containerWidth &&
+        this.container.scrollLeft + itemWidth / 2 > containerWidth
+      ) {
         this.container.scrollLeft = this.container.scrollWidth
       }
     }
@@ -764,12 +791,16 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
 
   private setTransform(val: number) {
     if (this.slides.length > this.getCurrentSlidesQty()) {
-      this.inner.style.transform = this.isRTL ? `translate(${val}px, 0px)` : `translate(${-val}px, 0px)`
+      this.inner.style.transform = this.isRTL
+        ? `translate(${val}px, 0px)`
+        : `translate(${-val}px, 0px)`
     } else this.inner.style.transform = 'translate(0px, 0px)'
   }
 
   private setTranslate(val: number) {
-    this.inner.style.transform = this.isRTL ? `translate(${-val}px, 0px)` : `translate(${val}px, 0px)`
+    this.inner.style.transform = this.isRTL
+      ? `translate(${-val}px, 0px)`
+      : `translate(${val}px, 0px)`
   }
 
   private setIndex(i: number) {
@@ -802,7 +833,7 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
 
       this.container.scrollBy({
         left: Math.max(-this.container.scrollLeft, -itemWidth),
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
 
       this.addCurrentClass()
@@ -829,7 +860,7 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
 
       this.container.scrollBy({
         left: Math.min(itemWidth, maxScrollLeft - this.container.scrollLeft),
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
 
       this.addCurrentClass()
@@ -846,12 +877,14 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
     if (this.isSnap) {
       const itemWidth = this.sliderWidth / this.getCurrentSlidesQty()
       const index =
-        currentIndex > this.currentIndex ? currentIndex - this.currentIndex : this.currentIndex - currentIndex
+        currentIndex > this.currentIndex
+          ? currentIndex - this.currentIndex
+          : this.currentIndex - currentIndex
       const width = currentIndex > this.currentIndex ? -(itemWidth * index) : itemWidth * index
 
       this.container.scrollBy({
         left: width,
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
 
       this.addCurrentClass()
@@ -877,16 +910,16 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
     }
     this.el.classList.remove('init')
     this.inner.classList.remove('dragging')
-    this.slides.forEach(el => el.classList.remove('active'))
+    this.slides.forEach((el) => el.classList.remove('active'))
     if (this?.dotsItems?.length) {
-      this.dotsItems.forEach(el => el.classList.remove('active'))
+      this.dotsItems.forEach((el) => el.classList.remove('active'))
     }
     this.prev.classList.remove('disabled')
     this.next.classList.remove('disabled')
 
     // Remove styles
     this.inner.style.width = ''
-    this.slides.forEach(el => (el.style.width = ''))
+    this.slides.forEach((el) => (el.style.width = ''))
     if (!this.isSnap) this.inner.style.transform = ''
     if (this.isAutoHeight) this.inner.style.height = ''
 
@@ -902,14 +935,14 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
     document.removeEventListener('touchmove', this.onDocumentTouchMoveListener)
     document.removeEventListener('mouseup', this.onDocumentMouseUpListener)
     document.removeEventListener('touchend', this.onDocumentTouchEndListener)
-    this.inner.querySelectorAll('a:not(.prevented-click)').forEach(el => {
+    this.inner.querySelectorAll('a:not(.prevented-click)').forEach((el) => {
       el.classList.remove('prevented-click')
       el.removeEventListener('click', this.removeClickEventWhileDragging)
     })
     if (this?.dotsItems?.length || this.dots.querySelectorAll(':scope > *').length) {
       const dots = this?.dotsItems || this.dots.querySelectorAll(':scope > *')
 
-      dots.forEach(el => el.removeEventListener('click', this.onDotClickListener))
+      dots.forEach((el) => el.removeEventListener('click', this.onDotClickListener))
 
       this.dots.innerHTML = null
     }
@@ -924,13 +957,16 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
     this.dragStartX = null
     this.initialTranslateX = null
 
-    window.$hsCarouselCollection = window.$hsCarouselCollection.filter(({ element }) => element.el !== this.el)
+    window.$hsCarouselCollection = window.$hsCarouselCollection.filter(
+      ({ element }) => element.el !== this.el,
+    )
   }
 
   // Static methods
   static getInstance(target: HTMLElement | string, isInstance?: boolean) {
     const elInCollection = window.$hsCarouselCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element) : null
@@ -940,14 +976,18 @@ class HSCarousel extends HSBasePlugin<ICarouselOptions> implements ICarousel {
     if (!window.$hsCarouselCollection) window.$hsCarouselCollection = []
 
     if (window.$hsCarouselCollection) {
-      window.$hsCarouselCollection = window.$hsCarouselCollection.filter(({ element }) => document.contains(element.el))
+      window.$hsCarouselCollection = window.$hsCarouselCollection.filter(({ element }) =>
+        document.contains(element.el),
+      )
     }
 
-    document.querySelectorAll('[data-carousel]:not(.--prevent-on-load-init)').forEach((el: HTMLElement) => {
-      if (!window.$hsCarouselCollection.find(elC => (elC?.element?.el as HTMLElement) === el)) {
-        new HSCarousel(el)
-      }
-    })
+    document
+      .querySelectorAll('[data-carousel]:not(.--prevent-on-load-init)')
+      .forEach((el: HTMLElement) => {
+        if (!window.$hsCarouselCollection.find((elC) => (elC?.element?.el as HTMLElement) === el)) {
+          new HSCarousel(el)
+        }
+      })
   }
 }
 

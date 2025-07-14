@@ -66,7 +66,13 @@
             </div>
             <div>
               <label class="label-text"> Nombre del operador </label>
-              <input id="operatorName" type="text" class="input" placeholder="Nombre operador" required />
+              <input
+                id="operatorName"
+                type="text"
+                class="input"
+                placeholder="Nombre operador"
+                required
+              />
             </div>
             <div>
               <label class="label-text"> Lectura (kWh) </label>
@@ -269,9 +275,9 @@ onMounted(async () => {
       list: 'Lista',
     },
     events: events,
-    dayCellDidMount: function(info) {
+    dayCellDidMount: function (info) {
       // Agregar event listener a cada celda del día
-      info.el.addEventListener('click', function(e) {
+      info.el.addEventListener('click', function (e) {
         // Solo si no se hizo clic en un evento
         if (e.target.closest('.fc-event')) {
           return
@@ -294,7 +300,7 @@ onMounted(async () => {
         selectedDateInfo = {
           startStr: info.date.toISOString().split('T')[0],
           endStr: info.date.toISOString().split('T')[0],
-          start: info.date
+          start: info.date,
         }
         document.getElementById('modalTitle').textContent = `${formatDate(info.date)}`
         document.getElementById('eventForm').reset()
@@ -362,7 +368,6 @@ onMounted(async () => {
       if (selectedEvent) {
         // Actualizar evento existente
         selectedEvent.setProp('title', title)
-
       } else {
         // Siempre crear nuevo evento cuando no hay selección
         calendarInstance.addEvent({

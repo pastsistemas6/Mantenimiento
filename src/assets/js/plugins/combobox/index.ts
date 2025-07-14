@@ -6,7 +6,14 @@
  * Copyright 2024 Preline Labs Ltd.
  */
 
-import { afterTransition, debounce, dispatch, htmlToElement, isEnoughSpace, isParentOrElementHidden } from '../../utils'
+import {
+  afterTransition,
+  debounce,
+  dispatch,
+  htmlToElement,
+  isEnoughSpace,
+  isParentOrElementHidden,
+} from '../../utils'
 
 import { IComboBox, IComboBoxItemAttr, IComboBoxOptions } from './interfaces'
 
@@ -74,7 +81,7 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
     const dataOptions: IComboBoxOptions = data ? JSON.parse(data) : {}
     const concatOptions = {
       ...dataOptions,
-      ...options
+      ...options,
     }
 
     this.gap = 6
@@ -102,16 +109,19 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
 					</span>
 				</div>
 			</div>`
-    this.outputEmptyTemplate = concatOptions?.outputEmptyTemplate ?? `<div class="dropdown-item">Nothing found...</div>`
+    this.outputEmptyTemplate =
+      concatOptions?.outputEmptyTemplate ?? `<div class="dropdown-item">Nothing found...</div>`
     this.outputLoaderTemplate =
-      concatOptions?.outputLoaderTemplate ?? `<span class="loading loading-spinner text-primary"></span>`
+      concatOptions?.outputLoaderTemplate ??
+      `<span class="loading loading-spinner text-primary"></span>`
     this.groupingType = concatOptions?.groupingType ?? null
     this.groupingTitleTemplate =
       concatOptions?.groupingTitleTemplate ??
       (this.groupingType === 'default'
         ? `<div class="block mb-1 text-xs font-semibold uppercase text-primary"></div>`
         : `<button type="button" class="btn btn-soft btn-primary"></button>`)
-    this.tabsWrapperTemplate = concatOptions?.tabsWrapperTemplate ?? `<div class="overflow-x-auto p-4"></div>`
+    this.tabsWrapperTemplate =
+      concatOptions?.tabsWrapperTemplate ?? `<div class="overflow-x-auto p-4"></div>`
     this.preventSelection = concatOptions?.preventSelection ?? false
     this.preventAutoPosition = concatOptions?.preventAutoPosition ?? false
     this.isOpenOnFocus = concatOptions?.isOpenOnFocus ?? false
@@ -127,7 +137,8 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
     this.toggleOpen = this.el.querySelector('[data-combo-box-open]') ?? null
     this.outputPlaceholder = null
 
-    this.selected = this.value = (this.el.querySelector('[data-combo-box-input]') as HTMLInputElement).value ?? ''
+    this.selected = this.value =
+      (this.el.querySelector('[data-combo-box-input]') as HTMLInputElement).value ?? ''
     this.currentData = null
     this.isOpened = false
     this.isCurrent = false
@@ -221,7 +232,7 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
   }
 
   private setSelectedByValue(val: string[]) {
-    this.items.forEach(el => {
+    this.items.forEach((el) => {
       if (this.isTextExists(el, val)) (el as HTMLElement).classList.add('selected')
       else (el as HTMLElement).classList.remove('selected')
     })
@@ -254,7 +265,7 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
     this.items.forEach((item: HTMLElement) => {
       const { group } = JSON.parse(item.getAttribute('data-combo-box-output-item'))
 
-      if (!groups.some(el => el?.name === group.name)) {
+      if (!groups.some((el) => el?.name === group.name)) {
         groups.push(group)
       }
     })
@@ -268,10 +279,10 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
     items.forEach((item: any) => {
       const group = item[this.apiGroupField]
 
-      if (!groups.some(el => el.name === group)) {
+      if (!groups.some((el) => el.name === group)) {
         groups.push({
           name: group,
-          title: group
+          title: group,
         })
       }
     })
@@ -281,7 +292,7 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
 
   private setItemsVisibility() {
     if (this.groupingType === 'tabs' && this.selectedGroup !== 'all') {
-      this.items.forEach(item => {
+      this.items.forEach((item) => {
         ;(item as HTMLElement).style.display = 'none'
       })
     }
@@ -298,12 +309,12 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
         : this.items
 
     if (this.groupingType === 'tabs' && this.selectedGroup !== 'all') {
-      items.forEach(item => {
+      items.forEach((item) => {
         ;(item as HTMLElement).style.display = 'block'
       })
     }
 
-    items.forEach(item => {
+    items.forEach((item) => {
       if (!this.isTextExistsAny(item, this.value)) (item as HTMLElement).style.display = 'none'
       else (item as HTMLElement).style.display = 'block'
     })
@@ -324,34 +335,42 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
   }
 
   private isTextExists(el: HTMLElement, val: string[]): boolean {
-    const lowerCased = val.map(v => v.toLowerCase())
+    const lowerCased = val.map((v) => v.toLowerCase())
 
-    return Array.from(el.querySelectorAll('[data-combo-box-search-text]')).some((elI: HTMLElement) =>
-      lowerCased.includes(elI.getAttribute('data-combo-box-search-text').toLowerCase())
+    return Array.from(el.querySelectorAll('[data-combo-box-search-text]')).some(
+      (elI: HTMLElement) =>
+        lowerCased.includes(elI.getAttribute('data-combo-box-search-text').toLowerCase()),
     )
   }
 
   private isTextExistsAny(el: HTMLElement, val: string): boolean {
-    return Array.from(el.querySelectorAll('[data-combo-box-search-text]')).some((elI: HTMLElement) =>
-      elI.getAttribute('data-combo-box-search-text').toLowerCase().includes(val.toLowerCase())
+    return Array.from(el.querySelectorAll('[data-combo-box-search-text]')).some(
+      (elI: HTMLElement) =>
+        elI.getAttribute('data-combo-box-search-text').toLowerCase().includes(val.toLowerCase()),
     )
   }
 
   private hasVisibleItems() {
-    return this.items.length ? this.items.some((el: HTMLElement) => el.style.display === 'block') : false
+    return this.items.length
+      ? this.items.some((el: HTMLElement) => el.style.display === 'block')
+      : false
   }
 
   private valuesBySelector(el: HTMLElement) {
     return Array.from(el.querySelectorAll('[data-combo-box-search-text]')).reduce(
       (acc: any, cur: HTMLElement) => [...acc, cur.getAttribute('data-combo-box-search-text')],
-      []
+      [],
     )
   }
 
   private sortItems() {
     const compareFn = (i1: HTMLElement, i2: HTMLElement) => {
-      const a = i1.querySelector('[data-combo-box-value]').getAttribute('data-combo-box-search-text')
-      const b = i2.querySelector('[data-combo-box-value]').getAttribute('data-combo-box-search-text')
+      const a = i1
+        .querySelector('[data-combo-box-value]')
+        .getAttribute('data-combo-box-search-text')
+      const b = i2
+        .querySelector('[data-combo-box-value]')
+        .getAttribute('data-combo-box-search-text')
 
       if (a < b) {
         return -1
@@ -456,7 +475,9 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
   }
 
   private itemRender(item: HTMLElement) {
-    const val = item.querySelector('[data-combo-box-value]').getAttribute('data-combo-box-search-text')
+    const val = item
+      .querySelector('[data-combo-box-value]')
+      .getAttribute('data-combo-box-search-text')
     const data = JSON.parse(item.getAttribute('data-combo-box-item-stored-data')) ?? null
 
     if (this.itemsWrapper) this.itemsWrapper.append(item)
@@ -480,19 +501,25 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
     items.forEach((item: never, index: number) => {
       const newItem = htmlToElement(this.outputItemTemplate)
       newItem.setAttribute('data-combo-box-item-stored-data', JSON.stringify(item))
-      newItem.querySelectorAll('[data-combo-box-output-item-field]').forEach(el => {
-        const value = this.getNestedProperty(item, el.getAttribute('data-combo-box-output-item-field'))
+      newItem.querySelectorAll('[data-combo-box-output-item-field]').forEach((el) => {
+        const value = this.getNestedProperty(
+          item,
+          el.getAttribute('data-combo-box-output-item-field'),
+        )
         const hideIfEmpty = el.hasAttribute('data-combo-box-output-item-hide-if-empty')
 
         el.textContent = value ?? ''
         if (!value && hideIfEmpty) (el as HTMLElement).style.display = 'none'
       })
-      newItem.querySelectorAll('[data-combo-box-search-text]').forEach(el => {
-        const value = this.getNestedProperty(item, el.getAttribute('data-combo-box-output-item-field'))
+      newItem.querySelectorAll('[data-combo-box-search-text]').forEach((el) => {
+        const value = this.getNestedProperty(
+          item,
+          el.getAttribute('data-combo-box-output-item-field'),
+        )
 
         el.setAttribute('data-combo-box-search-text', value ?? '')
       })
-      newItem.querySelectorAll('[data-combo-box-output-item-attr]').forEach(el => {
+      newItem.querySelectorAll('[data-combo-box-output-item-attr]').forEach((el) => {
         const attributes = JSON.parse(el.getAttribute('data-combo-box-output-item-attr'))
 
         attributes.forEach((attr: IComboBoxItemAttr) => {
@@ -503,7 +530,7 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
       if (this.groupingType === 'tabs' || this.groupingType === 'default') {
         newItem.setAttribute(
           'data-combo-box-output-item',
-          `{"group": {"name": "${item[this.apiGroupField]}", "title": "${item[this.apiGroupField]}"}}`
+          `{"group": {"name": "${item[this.apiGroupField]}", "title": "${item[this.apiGroupField]}"}}`,
         )
       }
 
@@ -512,8 +539,10 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
       if (!this.preventSelection) {
         ;(newItem as HTMLElement).addEventListener('click', () => {
           this.close(
-            (newItem as HTMLElement).querySelector('[data-combo-box-value]').getAttribute('data-combo-box-search-text'),
-            JSON.parse((newItem as HTMLElement).getAttribute('data-combo-box-item-stored-data'))
+            (newItem as HTMLElement)
+              .querySelector('[data-combo-box-value]')
+              .getAttribute('data-combo-box-search-text'),
+            JSON.parse((newItem as HTMLElement).getAttribute('data-combo-box-item-stored-data')),
           )
 
           this.setSelectedByValue(this.valuesBySelector(newItem))
@@ -525,7 +554,7 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
   }
 
   private groupDefaultRender() {
-    this.groups.forEach(el => {
+    this.groups.forEach((el) => {
       const title = htmlToElement(this.groupingTitleTemplate)
       title.setAttribute('data-combo-box-group-title', el.name)
       title.classList.add('--exclude-accessibility')
@@ -534,7 +563,7 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
       if (this.itemsWrapper) this.itemsWrapper.append(title)
       else this.output.append(title)
 
-      const items = this.sortItems().filter(f => {
+      const items = this.sortItems().filter((f) => {
         const { group } = JSON.parse(f.getAttribute('data-combo-box-output-item'))
 
         return group.name === el.name
@@ -560,7 +589,7 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
     tabDef.addEventListener('click', () => {
       this.selectedGroup = 'all'
       const selectedTab = this.tabs.find(
-        (elI: HTMLElement) => elI.getAttribute('data-combo-box-group-title') === this.selectedGroup
+        (elI: HTMLElement) => elI.getAttribute('data-combo-box-group-title') === this.selectedGroup,
       )
 
       this.tabs.forEach((el: HTMLElement) => el.classList.remove('active'))
@@ -568,7 +597,7 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
       this.setItemsVisibility()
     })
 
-    this.groups.forEach(el => {
+    this.groups.forEach((el) => {
       const tab = htmlToElement(this.groupingTitleTemplate)
       tab.setAttribute('data-combo-box-group-title', el.name)
       tab.classList.add('--exclude-accessibility')
@@ -580,7 +609,8 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
       tab.addEventListener('click', () => {
         this.selectedGroup = el.name
         const selectedTab = this.tabs.find(
-          (elI: HTMLElement) => elI.getAttribute('data-combo-box-group-title') === this.selectedGroup
+          (elI: HTMLElement) =>
+            elI.getAttribute('data-combo-box-group-title') === this.selectedGroup,
         )
 
         this.tabs.forEach((el: HTMLElement) => el.classList.remove('active'))
@@ -661,7 +691,7 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
       } else if (this.groupingType === 'default') {
         this.setApiGroups(items)
 
-        this.groups.forEach(el => {
+        this.groups.forEach((el) => {
           const title = htmlToElement(this.groupingTitleTemplate)
           title.setAttribute('data-combo-box-group-title', el.name)
           title.classList.add('--exclude-accessibility')
@@ -715,7 +745,7 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
 
   public setCurrent() {
     if (window.$hsComboBoxCollection.length) {
-      window.$hsComboBoxCollection.map(el => (el.element.isCurrent = false))
+      window.$hsComboBoxCollection.map((el) => (el.element.isCurrent = false))
 
       this.isCurrent = true
     }
@@ -800,13 +830,15 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
     this.input.removeEventListener('focus', this.onInputFocusListener)
     this.input.removeEventListener('input', this.onInputInputListener)
     this.toggle.removeEventListener('click', this.onToggleClickListener)
-    if (this.toggleClose) this.toggleClose.removeEventListener('click', this.onToggleCloseClickListener)
-    if (this.toggleOpen) this.toggleOpen.removeEventListener('click', this.onToggleOpenClickListener)
+    if (this.toggleClose)
+      this.toggleClose.removeEventListener('click', this.onToggleCloseClickListener)
+    if (this.toggleOpen)
+      this.toggleOpen.removeEventListener('click', this.onToggleOpenClickListener)
 
     // Remove classes
     this.el.classList.remove('has-value', 'active')
     if (this.items.length)
-      this.items.forEach(el => {
+      this.items.forEach((el) => {
         ;(el as HTMLElement).classList.remove('selected')
         ;(el as HTMLElement).style.display = ''
       })
@@ -831,13 +863,16 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
 
     this.items = []
 
-    window.$hsComboBoxCollection = window.$hsComboBoxCollection.filter(({ element }) => element.el !== this.el)
+    window.$hsComboBoxCollection = window.$hsComboBoxCollection.filter(
+      ({ element }) => element.el !== this.el,
+    )
   }
 
   // Static methods
   static getInstance(target: HTMLElement | string, isInstance?: boolean) {
     const elInCollection = window.$hsComboBoxCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element) : null
@@ -847,31 +882,36 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
     if (!window.$hsComboBoxCollection) {
       window.$hsComboBoxCollection = []
 
-      window.addEventListener('click', evt => {
+      window.addEventListener('click', (evt) => {
         const evtTarget = evt.target
 
         HSComboBox.closeCurrentlyOpened(evtTarget as HTMLElement)
       })
 
-      document.addEventListener('keydown', evt => HSComboBox.accessibility(evt))
+      document.addEventListener('keydown', (evt) => HSComboBox.accessibility(evt))
     }
 
     if (window.$hsComboBoxCollection)
-      window.$hsComboBoxCollection = window.$hsComboBoxCollection.filter(({ element }) => document.contains(element.el))
+      window.$hsComboBoxCollection = window.$hsComboBoxCollection.filter(({ element }) =>
+        document.contains(element.el),
+      )
 
-    document.querySelectorAll('[data-combo-box]:not(.--prevent-on-load-init)').forEach((el: HTMLElement) => {
-      if (!window.$hsComboBoxCollection.find(elC => (elC?.element?.el as HTMLElement) === el)) {
-        const data = el.getAttribute('data-combo-box')
-        const options: IComboBoxOptions = data ? JSON.parse(data) : {}
+    document
+      .querySelectorAll('[data-combo-box]:not(.--prevent-on-load-init)')
+      .forEach((el: HTMLElement) => {
+        if (!window.$hsComboBoxCollection.find((elC) => (elC?.element?.el as HTMLElement) === el)) {
+          const data = el.getAttribute('data-combo-box')
+          const options: IComboBoxOptions = data ? JSON.parse(data) : {}
 
-        new HSComboBox(el, options)
-      }
-    })
+          new HSComboBox(el, options)
+        }
+      })
   }
 
   static close(target: HTMLElement | string) {
     const elInCollection = window.$hsComboBoxCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     if (elInCollection && elInCollection.element.isOpened) {
@@ -881,10 +921,11 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
 
   static closeCurrentlyOpened(evtTarget: HTMLElement | null = null) {
     if (!evtTarget.closest('[data-combo-box].active')) {
-      const currentlyOpened = window.$hsComboBoxCollection.filter(el => el.element.isOpened) || null
+      const currentlyOpened =
+        window.$hsComboBoxCollection.filter((el) => el.element.isOpened) || null
 
       if (currentlyOpened) {
-        currentlyOpened.forEach(el => {
+        currentlyOpened.forEach((el) => {
           el.element.close()
         })
       }
@@ -892,33 +933,42 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
   }
 
   // Accessibility methods
-  private static getPreparedItems(isReversed = false, output: HTMLElement | null): Element[] | null {
+  private static getPreparedItems(
+    isReversed = false,
+    output: HTMLElement | null,
+  ): Element[] | null {
     if (!output) return null
 
     const preparedItems = isReversed
       ? Array.from(output.querySelectorAll(':scope > *:not(.--exclude-accessibility)'))
-          .filter(el => (el as HTMLElement).style.display !== 'none')
+          .filter((el) => (el as HTMLElement).style.display !== 'none')
           .reverse()
       : Array.from(output.querySelectorAll(':scope > *:not(.--exclude-accessibility)')).filter(
-          el => (el as HTMLElement).style.display !== 'none'
+          (el) => (el as HTMLElement).style.display !== 'none',
         )
     const items = preparedItems.filter((el: any) => !el.classList.contains('disabled'))
 
     return items
   }
 
-  private static setHighlighted(prev: Element, current: HTMLElement, input: HTMLInputElement): void {
+  private static setHighlighted(
+    prev: Element,
+    current: HTMLElement,
+    input: HTMLInputElement,
+  ): void {
     current.focus()
 
-    input.value = current.querySelector('[data-combo-box-value]').getAttribute('data-combo-box-search-text')
+    input.value = current
+      .querySelector('[data-combo-box-value]')
+      .getAttribute('data-combo-box-search-text')
 
     if (prev) prev.classList.remove('combo-box-output-item-highlighted')
     current.classList.add('combo-box-output-item-highlighted')
   }
 
   static accessibility(evt: KeyboardEvent) {
-    const target = window.$hsComboBoxCollection.find(el =>
-      el.element.preventVisibility ? el.element.isCurrent : el.element.isOpened
+    const target = window.$hsComboBoxCollection.find((el) =>
+      el.element.preventVisibility ? el.element.isCurrent : el.element.isOpened,
     )
 
     if (target && COMBO_BOX_ACCESSIBILITY_KEY_SET.includes(evt.code) && !evt.metaKey) {
@@ -958,7 +1008,9 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
   }
 
   static onEscape() {
-    const target = window.$hsComboBoxCollection.find(el => !el.element.preventVisibility && el.element.isOpened)
+    const target = window.$hsComboBoxCollection.find(
+      (el) => !el.element.preventVisibility && el.element.isOpened,
+    )
 
     if (target) {
       target.element.close()
@@ -967,8 +1019,8 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
   }
 
   static onArrow(isArrowUp = true) {
-    const target = window.$hsComboBoxCollection.find(el =>
-      el.element.preventVisibility ? el.element.isCurrent : el.element.isOpened
+    const target = window.$hsComboBoxCollection.find((el) =>
+      el.element.preventVisibility ? el.element.isCurrent : el.element.isOpened,
     )
 
     if (target) {
@@ -989,8 +1041,8 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
   }
 
   static onStartEnd(isStart = true) {
-    const target = window.$hsComboBoxCollection.find(el =>
-      el.element.preventVisibility ? el.element.isCurrent : el.element.isOpened
+    const target = window.$hsComboBoxCollection.find((el) =>
+      el.element.preventVisibility ? el.element.isCurrent : el.element.isOpened,
     )
 
     if (target) {
@@ -1001,26 +1053,31 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
       const items = HSComboBox.getPreparedItems(isStart, output) as Element[]
       const current = output.querySelector('.combo-box-output-item-highlighted')
 
-      if (items.length) HSComboBox.setHighlighted(current, items[0] as HTMLButtonElement, target.element.input)
+      if (items.length)
+        HSComboBox.setHighlighted(current, items[0] as HTMLButtonElement, target.element.input)
     }
   }
 
   static onEnter(evt: Event) {
     const target = evt.target
     const opened = window.$hsComboBoxCollection.find(
-      el =>
+      (el) =>
         !isParentOrElementHidden(el.element.el) &&
-        (evt.target as HTMLElement).closest('[data-combo-box]') === el.element.el
+        (evt.target as HTMLElement).closest('[data-combo-box]') === el.element.el,
     )
 
-    const link: HTMLAnchorElement = opened.element.el.querySelector('.combo-box-output-item-highlighted a')
+    const link: HTMLAnchorElement = opened.element.el.querySelector(
+      '.combo-box-output-item-highlighted a',
+    )
 
     if ((target as HTMLElement).hasAttribute('data-combo-box-input')) {
       opened.element.close()
       ;(target as HTMLInputElement).blur()
     } else {
       if (!opened.element.preventSelection) {
-        opened.element.setSelectedByValue(opened.element.valuesBySelector(evt.target as HTMLElement))
+        opened.element.setSelectedByValue(
+          opened.element.valuesBySelector(evt.target as HTMLElement),
+        )
       }
       if (opened.element.preventSelection && link) {
         window.location.assign(link.getAttribute('href'))
@@ -1031,7 +1088,8 @@ class HSComboBox extends HSBasePlugin<IComboBoxOptions> implements IComboBox {
               .querySelector('[data-combo-box-value]')
               .getAttribute('data-combo-box-search-text')
           : null,
-        JSON.parse((evt.target as HTMLElement).getAttribute('data-combo-box-item-stored-data')) ?? null
+        JSON.parse((evt.target as HTMLElement).getAttribute('data-combo-box-item-stored-data')) ??
+          null,
       )
     }
   }
@@ -1054,7 +1112,7 @@ window.addEventListener('load', () => {
 document.addEventListener('scroll', () => {
   if (!window.$hsComboBoxCollection) return false
 
-  const target = window.$hsComboBoxCollection.find(el => el.element.isOpened)
+  const target = window.$hsComboBoxCollection.find((el) => el.element.isOpened)
 
   if (target && !target.element.preventAutoPosition) target.element.recalculateDirection()
 })

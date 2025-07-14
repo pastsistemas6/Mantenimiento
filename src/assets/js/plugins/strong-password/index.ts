@@ -43,7 +43,7 @@ class HSStrongPassword extends HSBasePlugin<IStrongPasswordOptions> implements I
     const dataOptions: IStrongPasswordOptions = data ? JSON.parse(data) : {}
     const concatOptions = {
       ...dataOptions,
-      ...options
+      ...options,
     }
 
     this.target = concatOptions?.target
@@ -61,10 +61,15 @@ class HSStrongPassword extends HSBasePlugin<IStrongPasswordOptions> implements I
     this.mode = concatOptions?.mode || 'default'
     this.popoverSpace = concatOptions?.popoverSpace || 10
     this.checksExclude = concatOptions?.checksExclude || []
-    this.availableChecks = ['lowercase', 'uppercase', 'numbers', 'special-characters', 'min-length'].filter(
-      el => !this.checksExclude.includes(el)
-    )
-    this.specialCharactersSet = concatOptions?.specialCharactersSet || '!"#$%&\'()*+,-./:;<=>?@[\\\\\\]^_`{|}~'
+    this.availableChecks = [
+      'lowercase',
+      'uppercase',
+      'numbers',
+      'special-characters',
+      'min-length',
+    ].filter((el) => !this.checksExclude.includes(el))
+    this.specialCharactersSet =
+      concatOptions?.specialCharactersSet || '!"#$%&\'()*+,-./:;<=>?@[\\\\\\]^_`{|}~'
 
     if (this.target) this.init()
   }
@@ -109,7 +114,7 @@ class HSStrongPassword extends HSBasePlugin<IStrongPasswordOptions> implements I
 
     this.setStrength((this.target as HTMLInputElement).value)
 
-    this.onTargetInputListener = evt => this.targetInput(evt)
+    this.onTargetInputListener = (evt) => this.targetInput(evt)
     ;(this.target as HTMLInputElement).addEventListener('input', this.onTargetInputListener)
   }
 
@@ -128,9 +133,10 @@ class HSStrongPassword extends HSBasePlugin<IStrongPasswordOptions> implements I
 
   private buildHints() {
     this.weakness = (this.hints as HTMLElement).querySelector('[data-pw-strength-hint]') || null
-    this.rules = Array.from((this.hints as HTMLElement).querySelectorAll('[data-pw-strength-rule]')) || null
+    this.rules =
+      Array.from((this.hints as HTMLElement).querySelectorAll('[data-pw-strength-rule]')) || null
 
-    this.rules.forEach(rule => {
+    this.rules.forEach((rule) => {
       const ruleValue = rule.getAttribute('data-pw-strength-rule')
 
       if (this.checksExclude?.includes(ruleValue)) rule.remove()
@@ -169,7 +175,7 @@ class HSStrongPassword extends HSBasePlugin<IStrongPasswordOptions> implements I
   }
 
   private setRulesText() {
-    this.rules.forEach(rule => {
+    this.rules.forEach((rule) => {
       const ruleValue = rule.getAttribute('data-pw-strength-rule')
 
       this.checkIfPassed(rule, this.passedRules.has(ruleValue))
@@ -188,7 +194,7 @@ class HSStrongPassword extends HSBasePlugin<IStrongPasswordOptions> implements I
       lowercase: /[a-z]+/,
       uppercase: /[A-Z]+/,
       numbers: /[0-9]+/,
-      'special-characters': new RegExp(`[${this.specialCharactersSet}]`)
+      'special-characters': new RegExp(`[${this.specialCharactersSet}]`),
     }
     let strength = 0
 
@@ -204,7 +210,10 @@ class HSStrongPassword extends HSBasePlugin<IStrongPasswordOptions> implements I
       strength += 1
       passedRules.add('numbers')
     }
-    if (this.availableChecks.includes('special-characters') && val.match(regexps['special-characters'])) {
+    if (
+      this.availableChecks.includes('special-characters') &&
+      val.match(regexps['special-characters'])
+    ) {
       strength += 1
       passedRules.add('special-characters')
     }
@@ -224,7 +233,7 @@ class HSStrongPassword extends HSBasePlugin<IStrongPasswordOptions> implements I
 
     return {
       strength: this.strength,
-      rules: this.passedRules
+      rules: this.passedRules,
     }
   }
 
@@ -247,7 +256,7 @@ class HSStrongPassword extends HSBasePlugin<IStrongPasswordOptions> implements I
     const { strength, rules } = this.checkStrength(val)
     const payload = {
       strength,
-      rules
+      rules,
     }
 
     this.hideStrips(strength)
@@ -265,7 +274,14 @@ class HSStrongPassword extends HSBasePlugin<IStrongPasswordOptions> implements I
 
   // Public methods
   public recalculateDirection() {
-    if (isEnoughSpace(this.hints as HTMLElement, this.target as HTMLInputElement, 'bottom', this.popoverSpace)) {
+    if (
+      isEnoughSpace(
+        this.hints as HTMLElement,
+        this.target as HTMLInputElement,
+        'bottom',
+        this.popoverSpace,
+      )
+    ) {
       ;(this.hints as HTMLElement).classList.remove('bottom-full')
       ;(this.hints as HTMLElement).classList.add('top-full')
       ;(this.hints as HTMLElement).style.marginBottom = ''
@@ -283,18 +299,22 @@ class HSStrongPassword extends HSBasePlugin<IStrongPasswordOptions> implements I
     ;(this.target as HTMLInputElement).removeEventListener('input', this.onTargetInputListener)
     ;(this.target as HTMLInputElement).removeEventListener('focus', this.onTargetFocusListener)
     ;(this.target as HTMLInputElement).removeEventListener('blur', this.onTargetBlurListener)
-    ;(this.target as HTMLInputElement).removeEventListener('input', this.onTargetInputSecondListener)
+    ;(this.target as HTMLInputElement).removeEventListener(
+      'input',
+      this.onTargetInputSecondListener,
+    )
     ;(this.target as HTMLInputElement).removeEventListener('input', this.onTargetInputThirdListener)
 
     window.$hsStrongPasswordCollection = window.$hsStrongPasswordCollection.filter(
-      ({ element }) => element.el !== this.el
+      ({ element }) => element.el !== this.el,
     )
   }
 
   // Static methods
   static getInstance(target: HTMLElement | string, isInstance?: boolean) {
     const elInCollection = window.$hsStrongPasswordCollection.find(
-      el => el.element.el === (typeof target === 'string' ? document.querySelector(target) : target)
+      (el) =>
+        el.element.el === (typeof target === 'string' ? document.querySelector(target) : target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element.el) : null
@@ -304,18 +324,24 @@ class HSStrongPassword extends HSBasePlugin<IStrongPasswordOptions> implements I
     if (!window.$hsStrongPasswordCollection) window.$hsStrongPasswordCollection = []
 
     if (window.$hsStrongPasswordCollection)
-      window.$hsStrongPasswordCollection = window.$hsStrongPasswordCollection.filter(({ element }) =>
-        document.contains(element.el)
+      window.$hsStrongPasswordCollection = window.$hsStrongPasswordCollection.filter(
+        ({ element }) => document.contains(element.el),
       )
 
-    document.querySelectorAll('[data-strong-password]:not(.--prevent-on-load-init)').forEach((el: HTMLElement) => {
-      if (!window.$hsStrongPasswordCollection.find(elC => (elC?.element?.el as HTMLElement) === el)) {
-        const data = el.getAttribute('data-strong-password')
-        const options: IStrongPasswordOptions = data ? JSON.parse(data) : {}
+    document
+      .querySelectorAll('[data-strong-password]:not(.--prevent-on-load-init)')
+      .forEach((el: HTMLElement) => {
+        if (
+          !window.$hsStrongPasswordCollection.find(
+            (elC) => (elC?.element?.el as HTMLElement) === el,
+          )
+        ) {
+          const data = el.getAttribute('data-strong-password')
+          const options: IStrongPasswordOptions = data ? JSON.parse(data) : {}
 
-        new HSStrongPassword(el, options)
-      }
-    })
+          new HSStrongPassword(el, options)
+        }
+      })
   }
 }
 
@@ -336,7 +362,7 @@ window.addEventListener('load', () => {
 document.addEventListener('scroll', () => {
   if (!window.$hsStrongPasswordCollection) return false
 
-  const target = window.$hsStrongPasswordCollection.find(el => el.element.isOpened)
+  const target = window.$hsStrongPasswordCollection.find((el) => el.element.isOpened)
 
   if (target) target.element.recalculateDirection()
 })

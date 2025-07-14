@@ -39,11 +39,18 @@
               />
             </span>
             Usuario
-            <span class="icon-[tabler--chevron-down] size-4" :class="{ 'rotate-180': showDropdown }"></span>
+            <span
+              class="icon-[tabler--chevron-down] size-4"
+              :class="{ 'rotate-180': showDropdown }"
+            ></span>
           </button>
           <ul
             class="dropdown-menu absolute min-w-60 shadow bg-white z-50"
-            :class="[showDropdown ? 'opacity-100 fixed top-14 left-auto right-3 bottom-auto m-0' : 'hidden']"
+            :class="[
+              showDropdown
+                ? 'opacity-100 fixed top-14 left-auto right-3 bottom-auto m-0'
+                : 'hidden',
+            ]"
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="dropdown-header"
@@ -63,7 +70,11 @@
               </a>
             </li>
             <li>
-              <RouterLink class="dropdown-item" to="users" @click.stop="showDropdown = !showDropdown">
+              <RouterLink
+                class="dropdown-item"
+                to="users"
+                @click.stop="showDropdown = !showDropdown"
+              >
                 <span>
                   <img
                     src="../components/icons/icons8-admin-settings-male-100.png"
@@ -82,10 +93,7 @@
         </div>
       </div>
     </header>
-    <div
-      class="fixed h-full transition-all duration-300"
-      :class="isExpanded ? 'w-2/12' : 'w-20'"
-    >
+    <div class="fixed h-full transition-all duration-300" :class="isExpanded ? 'w-2/12' : 'w-20'">
       <Drawer></Drawer>
     </div>
     <div

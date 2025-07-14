@@ -5,7 +5,12 @@
  * Copyright 2024 Preline Labs Ltd.
  */
 
-import { IBuildTooltipHelperOptions, IChartDonutProps, IChartProps, IChartPropsSeries } from './interfaces'
+import {
+  IBuildTooltipHelperOptions,
+  IChartDonutProps,
+  IChartProps,
+  IChartPropsSeries,
+} from './interfaces'
 
 function buildTooltip(props: IChartProps, options: IBuildTooltipHelperOptions) {
   const {
@@ -27,7 +32,7 @@ function buildTooltip(props: IChartProps, options: IBuildTooltipHelperOptions) {
     valueClasses = '!font-medium text-base-content/80 !ms-auto',
     valueExtClasses = '',
     labelClasses = 'text-base-content',
-    labelExtClasses = ''
+    labelExtClasses = '',
   } = options
   const { dataPointIndex } = props
   const { colors } = props.ctx.opts
@@ -44,11 +49,11 @@ function buildTooltip(props: IChartProps, options: IBuildTooltipHelperOptions) {
     const groupData = invertGroup
       ? {
           left: `${hasTextLabel ? label : ''}${labelDivider}`,
-          right: `${valuePrefix}${val >= 1000 && isValueDivided ? `${val / 1000}k` : val}${valuePostfix}`
+          right: `${valuePrefix}${val >= 1000 && isValueDivided ? `${val / 1000}k` : val}${valuePostfix}`,
         }
       : {
           left: `${valuePrefix}${val >= 1000 && isValueDivided ? `${val / 1000}k` : val}${valuePostfix}`,
-          right: `${hasTextLabel ? label : ''}${labelDivider}`
+          right: `${hasTextLabel ? label : ''}${labelDivider}`,
         }
     const labelMarkup = `<span class="apexcharts-tooltip-text-y-label ${labelClasses} ${labelExtClasses}">${groupData.left}</span>`
 
@@ -97,7 +102,7 @@ function buildTooltipCompareTwo(props: IChartProps, options: IBuildTooltipHelper
     valueClasses = '!font-medium text-base-content/80 !ms-auto',
     valueExtClasses = '',
     labelClasses = 'text-base-content !fw-medium',
-    labelExtClasses = ''
+    labelExtClasses = '',
   } = options
 
   let seriesGroups = ''
@@ -177,7 +182,7 @@ function buildTooltipCompareTwoAlt(props: IChartProps, options: IBuildTooltipHel
     valueClasses = '!font-medium text-base-content/80 !ms-auto',
     valueExtClasses = '',
     labelClasses = 'text-base-content !fw-medium',
-    labelExtClasses = ''
+    labelExtClasses = '',
   } = options
 
   let seriesGroups = ''
@@ -259,4 +264,10 @@ function buildChart(id: string, shared: Function) {
   return chart
 }
 
-export { buildChart, buildTooltip, buildTooltipCompareTwo, buildTooltipCompareTwoAlt, buildTooltipForDonut }
+export {
+  buildChart,
+  buildTooltip,
+  buildTooltipCompareTwo,
+  buildTooltipCompareTwoAlt,
+  buildTooltipForDonut,
+}

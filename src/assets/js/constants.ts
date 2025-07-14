@@ -13,7 +13,7 @@ export const POSITIONS: any = {
   'right-end': 'right-end',
   left: 'left',
   'left-start': 'left-start',
-  'left-end': 'left-end'
+  'left-end': 'left-end',
 }
 
 export const DROPDOWN_ACCESSIBILITY_KEY_SET = [
@@ -24,12 +24,19 @@ export const DROPDOWN_ACCESSIBILITY_KEY_SET = [
   'ArrowLeft',
   'Home',
   'End',
-  'Enter'
+  'Enter',
 ]
 
 export const OVERLAY_ACCESSIBILITY_KEY_SET = ['Escape', 'Tab']
 
-export const TABS_ACCESSIBILITY_KEY_SET = ['ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Home', 'End']
+export const TABS_ACCESSIBILITY_KEY_SET = [
+  'ArrowUp',
+  'ArrowLeft',
+  'ArrowDown',
+  'ArrowRight',
+  'Home',
+  'End',
+]
 
 export const SELECT_ACCESSIBILITY_KEY_SET = [
   'ArrowUp',
@@ -41,7 +48,7 @@ export const SELECT_ACCESSIBILITY_KEY_SET = [
   'Escape',
   'Enter',
   'Space',
-  'Tab'
+  'Tab',
 ]
 
 export const COMBO_BOX_ACCESSIBILITY_KEY_SET = [
@@ -52,7 +59,7 @@ export const COMBO_BOX_ACCESSIBILITY_KEY_SET = [
   'Home',
   'End',
   'Escape',
-  'Enter'
+  'Enter',
 ]
 
 export const BREAKPOINTS: any = {
@@ -61,5 +68,5 @@ export const BREAKPOINTS: any = {
   md: 768,
   lg: 1024,
   xl: 1280,
-  '2xl': 1536
+  '2xl': 1536,
 }

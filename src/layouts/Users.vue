@@ -19,66 +19,128 @@
                 <span class="max-sm:hidden">Exportar</span>
               </span>
               <span
-                :class="!isOpen ? 'icon-[tabler--chevron-down] max-sm:hidden dropdown-open:rotate-180 size-4' : 'icon-[tabler--chevron-down] rotate-180 size-4'"
+                :class="
+                  !isOpen
+                    ? 'icon-[tabler--chevron-down] max-sm:hidden dropdown-open:rotate-180 size-4'
+                    : 'icon-[tabler--chevron-down] rotate-180 size-4'
+                "
               ></span>
             </button>
             <div
-              :class="!isOpen ? 'dropdown-menu dropdown-open:opacity-100 hidden' : 'dropdown-menu opacity-100 absolute block top-8 shadow'"
+              :class="
+                !isOpen
+                  ? 'dropdown-menu dropdown-open:opacity-100 hidden'
+                  : 'dropdown-menu opacity-100 absolute block top-8 shadow'
+              "
               role="menu"
               aria-orientation="vertical"
               aria-labelledby="datatable-export-dropdown"
             >
-              <button type="button" class="dropdown-item" data-datatable-action-type="copy" @click="close">
+              <button
+                type="button"
+                class="dropdown-item"
+                data-datatable-action-type="copy"
+                @click="close"
+              >
                 <span class="icon-[tabler--clipboard-copy] size-3.5 shrink-0"></span>
                 Copy
               </button>
-              <button type="button" class="dropdown-item" data-datatable-action-type="print" @click="close">
+              <button
+                type="button"
+                class="dropdown-item"
+                data-datatable-action-type="print"
+                @click="close"
+              >
                 <span class="icon-[tabler--printer] size-3.5 shrink-0"></span>
                 Print
               </button>
               <hr class="border-base-content/25 -mx-2 my-3" />
-              <button type="button" class="dropdown-item" data-datatable-action-type="excel" @click="close">
+              <button
+                type="button"
+                class="dropdown-item"
+                data-datatable-action-type="excel"
+                @click="close"
+              >
                 <span class="icon-[tabler--file-excel] size-3.5 shrink-0"></span>
                 Excel
               </button>
-              <button type="button" class="dropdown-item" data-datatable-action-type="csv" @click="close">
+              <button
+                type="button"
+                class="dropdown-item"
+                data-datatable-action-type="csv"
+                @click="close"
+              >
                 <span class="icon-[tabler--file-type-csv] size-3.5 shrink-0"></span>
                 CSV
               </button>
-              <button type="button" class="dropdown-item" data-datatable-action-type="pdf" @click="close">
+              <button
+                type="button"
+                class="dropdown-item"
+                data-datatable-action-type="pdf"
+                @click="close"
+              >
                 <span class="icon-[tabler--file-type-pdf] size-3.5 shrink-0"></span>
                 PDF
               </button>
             </div>
           </div>
-          <button type="button" class="btn bg-[rgb(84,83,134)] shadow-none text-sm"
+          <button
+            type="button"
+            class="btn bg-[rgb(84,83,134)] shadow-none text-sm"
             aria-haspopup="dialog"
             aria-expanded="false"
             @click="openModal"
-            aria-controls="form-modal">
+            aria-controls="form-modal"
+          >
             <span class="flex items-center gap-2">
               <span class="icon-[mingcute--add-line] size-4"></span>
               <span class="max-sm:hidden">Nuevo usuario</span>
             </span>
           </button>
 
-          <div id="form-modal" :class="!isModalOpen ? 'modal hidden' : 'modal opacity-100 duration-300 w-full h-full bg-base-content/50'">
+          <div
+            id="form-modal"
+            :class="
+              !isModalOpen
+                ? 'modal hidden'
+                : 'modal opacity-100 duration-300 w-full h-full bg-base-content/50'
+            "
+          >
             <div :class="!isModalOpen ? 'modal-dialog' : 'modal-dialog opacity-100 duration-300'">
               <div class="modal-content">
                 <div class="modal-header">
                   <h3 class="modal-title">Agregar usuario</h3>
-                  <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" @click="closeModal"><span class="icon-[tabler--x] size-4"></span></button>
+                  <button
+                    type="button"
+                    class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
+                    aria-label="Close"
+                    @click="closeModal"
+                  >
+                    <span class="icon-[tabler--x] size-4"></span>
+                  </button>
                 </div>
                 <form>
                   <div class="modal-body pt-0">
                     <div class="mb-4">
                       <label class="label-text" for="fullName"> Usuario </label>
-                      <input type="text" placeholder="John Doe" class="input" id="fullName" required/>
+                      <input
+                        type="text"
+                        placeholder="John Doe"
+                        class="input"
+                        id="fullName"
+                        required
+                      />
                     </div>
                     <div class="mb-4 flex gap-4 max-sm:flex-col">
                       <div class="w-full">
                         <label class="label-text" for="email"> Correo </label>
-                        <input type="email" placeholder="johndoe@123@eliteflower.com" class="input" id="email" required/>
+                        <input
+                          type="email"
+                          placeholder="johndoe@123@eliteflower.com"
+                          class="input"
+                          id="email"
+                          required
+                        />
                       </div>
                       <div class="w-full">
                         <label class="label-text" for="favorite-simpson">Rol</label>
@@ -105,7 +167,9 @@
                     </div>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-soft btn-secondary" @click="closeModal">Cancelar</button>
+                    <button type="button" class="btn btn-soft btn-secondary" @click="closeModal">
+                      Cancelar
+                    </button>
                     <button type="submit" class="btn bg-[rgb(84,83,134)]">Guardar usuario</button>
                   </div>
                 </form>
@@ -184,11 +248,11 @@
 </template>
 
 <script setup>
-import Datatable2 from '@/components/Datatable2.vue';
+import Datatable2 from '@/components/Datatable2.vue'
 import { ref, onMounted, onUnmounted } from 'vue'
 
-const isOpen = ref(false);
-const isModalOpen = ref(false);
+const isOpen = ref(false)
+const isModalOpen = ref(false)
 
 function abrir() {
   if (isOpen.value == false) {

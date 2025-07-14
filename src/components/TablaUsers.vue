@@ -994,7 +994,7 @@ import { onMounted } from 'vue'
 onMounted(() => {
   const available = document.querySelector('#select-stock')
 
-   // Filtro personalizado global para DataTables
+  // Filtro personalizado global para DataTables
   $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
     const isAvailable = available?.value === 'all' ? '' : available?.value
 

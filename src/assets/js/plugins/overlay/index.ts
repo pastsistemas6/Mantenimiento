@@ -13,7 +13,7 @@ import {
   getHighestZIndex,
   isDirectChild,
   isParentOrElementHidden,
-  stringToBoolean
+  stringToBoolean,
 } from '../../utils'
 
 import { IOverlay, IOverlayOptions } from './interfaces'
@@ -75,7 +75,7 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
     const concatOptions = {
       ...dataOptions,
       ...toggleDataOptions,
-      ...options
+      ...options,
     }
 
     this.hiddenClass = concatOptions?.hiddenClass || 'hidden'
@@ -95,15 +95,23 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
     this.autoHide = null
     this.initContainer = this.el?.parentElement || null
     this.isCloseWhenClickInside = stringToBoolean(
-      getClassProperty(this.el, '--close-when-click-inside', 'false') || 'false'
+      getClassProperty(this.el, '--close-when-click-inside', 'false') || 'false',
     )
     this.isTabAccessibilityLimited = stringToBoolean(
-      getClassProperty(this.el, '--tab-accessibility-limited', 'true') || 'true'
+      getClassProperty(this.el, '--tab-accessibility-limited', 'true') || 'true',
     )
-    this.isLayoutAffect = stringToBoolean(getClassProperty(this.el, '--is-layout-affect', 'false') || 'false')
-    this.hasAutofocus = stringToBoolean(getClassProperty(this.el, '--has-autofocus', 'true') || 'true')
-    this.hasDynamicZIndex = stringToBoolean(getClassProperty(this.el, '--has-dynamic-z-index', 'false') || 'false')
-    this.hasAbilityToCloseOnBackdropClick = stringToBoolean(this.el.getAttribute('data-overlay-keyboard') || 'true')
+    this.isLayoutAffect = stringToBoolean(
+      getClassProperty(this.el, '--is-layout-affect', 'false') || 'false',
+    )
+    this.hasAutofocus = stringToBoolean(
+      getClassProperty(this.el, '--has-autofocus', 'true') || 'true',
+    )
+    this.hasDynamicZIndex = stringToBoolean(
+      getClassProperty(this.el, '--has-dynamic-z-index', 'false') || 'false',
+    )
+    this.hasAbilityToCloseOnBackdropClick = stringToBoolean(
+      this.el.getAttribute('data-overlay-keyboard') || 'true',
+    )
 
     const autoCloseBreakpoint = getClassProperty(this.el, '--auto-close')
     const autoCloseEqualityType = getClassProperty(this.el, '--auto-close-equality-type')
@@ -113,10 +121,12 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
       !isNaN(+autoCloseBreakpoint) && isFinite(+autoCloseBreakpoint)
         ? +autoCloseBreakpoint
         : BREAKPOINTS[autoCloseBreakpoint] || null
-    this.autoCloseEqualityType = (autoCloseEqualityType as TOverlayOptionsAutoCloseEqualityType) ?? null
+    this.autoCloseEqualityType =
+      (autoCloseEqualityType as TOverlayOptionsAutoCloseEqualityType) ?? null
     this.openedBreakpoint =
-      (!isNaN(+openedBreakpoint) && isFinite(+openedBreakpoint) ? +openedBreakpoint : BREAKPOINTS[openedBreakpoint]) ||
-      null
+      (!isNaN(+openedBreakpoint) && isFinite(+openedBreakpoint)
+        ? +openedBreakpoint
+        : BREAKPOINTS[openedBreakpoint]) || null
 
     this.animationTarget = this?.el?.querySelector('.overlay-animation-target') || this.el
 
@@ -131,7 +141,7 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
     const payloadFn = () => {
       const payload = {
         el: this.el,
-        isOpened: !!this.el.classList.contains('open')
+        isOpened: !!this.el.classList.contains('open'),
       }
 
       this.fireEvent('toggleClicked', payload)
@@ -166,7 +176,7 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
       HSOverlay.setOpened(this.openedBreakpoint, instance as ICollectionItem<HSOverlay>)
     }
 
-    this.onOverlayClickListener = evt => this.overlayClick(evt)
+    this.onOverlayClickListener = (evt) => this.overlayClick(evt)
 
     this.el.addEventListener('click', this.onOverlayClickListener)
 
@@ -174,20 +184,25 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
   }
 
   private getElementsByZIndex() {
-    return window.$hsOverlayCollection.filter(el => el.element.initialZIndex === this.initialZIndex)
+    return window.$hsOverlayCollection.filter(
+      (el) => el.element.initialZIndex === this.initialZIndex,
+    )
   }
 
   private buildToggleButtons() {
-    this.toggleButtons.forEach(el => {
+    this.toggleButtons.forEach((el) => {
       if (this.el.classList.contains('opened')) el.ariaExpanded = 'true'
       else el.ariaExpanded = 'false'
 
       this.onElementClickListener.push({
         el,
-        fn: () => this.elementClick()
+        fn: () => this.elementClick(),
       })
 
-      el.addEventListener('click', this.onElementClickListener.find(toggleButton => toggleButton.el === el).fn)
+      el.addEventListener(
+        'click',
+        this.onElementClickListener.find((toggleButton) => toggleButton.el === el).fn,
+      )
     })
   }
 
@@ -260,7 +275,8 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
 
     if (this.openNextOverlay) {
       backdrop.style.transitionDuration = `${
-        parseFloat(window.getComputedStyle(backdrop).transitionDuration.replace(/[^\d.-]/g, '')) * 1.8
+        parseFloat(window.getComputedStyle(backdrop).transitionDuration.replace(/[^\d.-]/g, '')) *
+        1.8
       }s`
     }
 
@@ -295,12 +311,12 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
   private collectToggleParameters(buttons: HTMLElement[]) {
     let toggleData = {}
 
-    buttons.forEach(el => {
+    buttons.forEach((el) => {
       const data = el.getAttribute('data-overlay-options')
       const dataOptions: IOverlayOptions = data ? JSON.parse(data) : {}
       toggleData = {
         ...toggleData,
-        ...dataOptions
+        ...dataOptions,
       }
     })
 
@@ -320,7 +336,7 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
 
     const openedOverlays = document.querySelectorAll('.overlay.open')
     const currentlyOpened = window.$hsOverlayCollection.find(
-      el => Array.from(openedOverlays).includes(el.element.el) && !el.element.isLayoutAffect
+      (el) => Array.from(openedOverlays).includes(el.element.el) && !el.element.isLayoutAffect,
     )
     const toggles = document.querySelectorAll(`[data-overlay="#${this.el.id}"]`)
     const disabledScroll = getClassProperty(this.el, '--body-scroll', 'false') !== 'true'
@@ -346,7 +362,7 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
     this.checkTimer()
     this.hideAuto()
 
-    toggles.forEach(toggle => {
+    toggles.forEach((toggle) => {
       if (toggle.ariaExpanded) toggle.ariaExpanded = 'true'
     })
     this.el.classList.remove(this.hiddenClass)
@@ -383,7 +399,7 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
       if (this.el.classList.contains('open')) return false
       const toggles = document.querySelectorAll(`[data-overlay="#${this.el.id}"]`)
 
-      toggles.forEach(toggle => {
+      toggles.forEach((toggle) => {
         if (toggle.ariaExpanded) toggle.ariaExpanded = 'false'
       })
       this.el.classList.add(this.hiddenClass)
@@ -408,7 +424,7 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
       }
     }
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.el.classList.remove('open', 'opened')
       this.el.removeAttribute('aria-overlay')
       this.el.removeAttribute('tabindex')
@@ -442,13 +458,17 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
       this.backdrop = null
     }
 
-    window.$hsOverlayCollection = window.$hsOverlayCollection.filter(({ element }) => element.el !== this.el)
+    window.$hsOverlayCollection = window.$hsOverlayCollection.filter(
+      ({ element }) => element.el !== this.el,
+    )
   }
 
   // Static methods
-  private static findInCollection(target: HSOverlay | HTMLElement | string): ICollectionItem<HSOverlay> | null {
+  private static findInCollection(
+    target: HSOverlay | HTMLElement | string,
+  ): ICollectionItem<HSOverlay> | null {
     return (
-      window.$hsOverlayCollection.find(el => {
+      window.$hsOverlayCollection.find((el) => {
         if (target instanceof HSOverlay) return el.element.el === target.el
         else if (typeof target === 'string') {
           return el.element.el === document.querySelector(target)
@@ -460,12 +480,15 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
   static getInstance(target: HTMLElement | string, isInstance?: boolean) {
     // Backward compatibility
     const _temp = typeof target === 'string' ? document.querySelector(target) : target
-    const _target = _temp?.getAttribute('data-overlay') ? _temp.getAttribute('data-overlay') : target
+    const _target = _temp?.getAttribute('data-overlay')
+      ? _temp.getAttribute('data-overlay')
+      : target
 
     const elInCollection = window.$hsOverlayCollection.find(
-      el =>
-        el.element.el === (typeof _target === 'string' ? document.querySelector(_target) : _target) ||
-        el.element.el === (typeof _target === 'string' ? document.querySelector(_target) : _target)
+      (el) =>
+        el.element.el ===
+          (typeof _target === 'string' ? document.querySelector(_target) : _target) ||
+        el.element.el === (typeof _target === 'string' ? document.querySelector(_target) : _target),
     )
 
     return elInCollection ? (isInstance ? elInCollection : elInCollection.element.el) : null
@@ -475,30 +498,36 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
     if (!window.$hsOverlayCollection) {
       window.$hsOverlayCollection = []
 
-      document.addEventListener('keydown', evt => HSOverlay.accessibility(evt))
+      document.addEventListener('keydown', (evt) => HSOverlay.accessibility(evt))
     }
 
     if (window.$hsOverlayCollection) {
-      window.$hsOverlayCollection = window.$hsOverlayCollection.filter(({ element }) => document.contains(element.el))
+      window.$hsOverlayCollection = window.$hsOverlayCollection.filter(({ element }) =>
+        document.contains(element.el),
+      )
     }
 
-    document.querySelectorAll('.overlay:not(.--prevent-on-load-init)').forEach((el: HTMLElement) => {
-      if (!window.$hsOverlayCollection.find(elC => (elC?.element?.el as HTMLElement) === el)) {
-        new HSOverlay(el)
-      }
-    })
+    document
+      .querySelectorAll('.overlay:not(.--prevent-on-load-init)')
+      .forEach((el: HTMLElement) => {
+        if (!window.$hsOverlayCollection.find((elC) => (elC?.element?.el as HTMLElement) === el)) {
+          new HSOverlay(el)
+        }
+      })
   }
 
   static open(target: HSOverlay | HTMLElement | string) {
     const instance = HSOverlay.findInCollection(target)
 
-    if (instance && instance.element.el.classList.contains(instance.element.hiddenClass)) instance.element.open()
+    if (instance && instance.element.el.classList.contains(instance.element.hiddenClass))
+      instance.element.open()
   }
 
   static close(target: HSOverlay | HTMLElement | string) {
     const instance = HSOverlay.findInCollection(target)
 
-    if (instance && !instance.element.el.classList.contains(instance.element.hiddenClass)) instance.element.close()
+    if (instance && !instance.element.el.classList.contains(instance.element.hiddenClass))
+      instance.element.close()
   }
 
   static setOpened(breakpoint: number, el: ICollectionItem<HSOverlay>) {
@@ -512,12 +541,14 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
   static accessibility(evt: KeyboardEvent) {
     const opened = document.querySelectorAll('.overlay.open')
     const highest = getHighestZIndex(Array.from(opened) as HTMLElement[])
-    const targets = window.$hsOverlayCollection.filter(el => el.element.el.classList.contains('open'))
+    const targets = window.$hsOverlayCollection.filter((el) =>
+      el.element.el.classList.contains('open'),
+    )
     const target = targets.find(
-      el => window.getComputedStyle(el.element.el).getPropertyValue('z-index') === `${highest}`
+      (el) => window.getComputedStyle(el.element.el).getPropertyValue('z-index') === `${highest}`,
     )
     const focusableElements = target?.element?.el?.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
     )
     const notHiddenFocusableElements: HTMLElement[] = []
     if (focusableElements?.length) {
@@ -551,8 +582,8 @@ class HSOverlay extends HSBasePlugin<{}> implements IOverlay {
     const overlayElement = target.element.el
     const focusableElements = Array.from(
       overlayElement.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      )
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      ),
     )
 
     if (focusableElements.length === 0) return false
@@ -596,13 +627,16 @@ declare global {
 }
 
 const autoCloseResizeFn = () => {
-  if (!window.$hsOverlayCollection.length || !window.$hsOverlayCollection.find(el => el.element.autoClose)) {
+  if (
+    !window.$hsOverlayCollection.length ||
+    !window.$hsOverlayCollection.find((el) => el.element.autoClose)
+  ) {
     return false
   }
 
-  const overlays = window.$hsOverlayCollection.filter(el => el.element.autoClose)
+  const overlays = window.$hsOverlayCollection.filter((el) => el.element.autoClose)
 
-  overlays.forEach(overlay => {
+  overlays.forEach((overlay) => {
     const { autoCloseEqualityType, autoClose } = overlay.element
     const condition =
       autoCloseEqualityType === 'less-than'
@@ -620,13 +654,16 @@ const autoCloseResizeFn = () => {
 }
 
 const moveOverlayToBodyResizeFn = () => {
-  if (!window.$hsOverlayCollection.length || !window.$hsOverlayCollection.find(el => el.element.moveOverlayToBody)) {
+  if (
+    !window.$hsOverlayCollection.length ||
+    !window.$hsOverlayCollection.find((el) => el.element.moveOverlayToBody)
+  ) {
     return false
   }
 
-  const overlays = window.$hsOverlayCollection.filter(el => el.element.moveOverlayToBody)
+  const overlays = window.$hsOverlayCollection.filter((el) => el.element.moveOverlayToBody)
 
-  overlays.forEach(overlay => {
+  overlays.forEach((overlay) => {
     const resolution = overlay.element.moveOverlayToBody
     const initPlace = overlay.element.initContainer
     const newPlace = document.querySelector('body')
@@ -643,13 +680,16 @@ const moveOverlayToBodyResizeFn = () => {
 }
 
 const setOpenedResizeFn = () => {
-  if (!window.$hsOverlayCollection.length || !window.$hsOverlayCollection.find(el => el.element.autoClose)) {
+  if (
+    !window.$hsOverlayCollection.length ||
+    !window.$hsOverlayCollection.find((el) => el.element.autoClose)
+  ) {
     return false
   }
 
-  const overlays = window.$hsOverlayCollection.filter(el => el.element.autoClose)
+  const overlays = window.$hsOverlayCollection.filter((el) => el.element.autoClose)
 
-  overlays.forEach(overlay => {
+  overlays.forEach((overlay) => {
     const { autoCloseEqualityType, autoClose } = overlay.element
     const condition =
       autoCloseEqualityType === 'less-than'
@@ -665,15 +705,19 @@ const setOpenedResizeFn = () => {
 const setBackdropZIndexResizeFn = () => {
   if (
     !window.$hsOverlayCollection.length ||
-    !window.$hsOverlayCollection.find(el => el.element.el.classList.contains('opened'))
+    !window.$hsOverlayCollection.find((el) => el.element.el.classList.contains('opened'))
   ) {
     return false
   }
 
-  const overlays = window.$hsOverlayCollection.filter(el => el.element.el.classList.contains('opened'))
+  const overlays = window.$hsOverlayCollection.filter((el) =>
+    el.element.el.classList.contains('opened'),
+  )
 
-  overlays.forEach(overlay => {
-    const overlayZIndex = parseInt(window.getComputedStyle(overlay.element.el).getPropertyValue('z-index'))
+  overlays.forEach((overlay) => {
+    const overlayZIndex = parseInt(
+      window.getComputedStyle(overlay.element.el).getPropertyValue('z-index'),
+    )
     const backdrop: HTMLElement = document.querySelector(`#${overlay.element.el.id}-backdrop`)
     if (!backdrop) return false
 
