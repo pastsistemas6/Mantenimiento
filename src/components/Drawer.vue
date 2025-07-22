@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import { inject, ref, onMounted } from 'vue'
+import { inject, ref, onMounted, computed } from 'vue'
+import { useCart } from '@/stores/cart'
 
 // Inyectar el estado del drawer desde el componente padre
+const cart = useCart()
+const disable = ref(cart.disable)
 const drawerState = inject('drawerState', null)
 
 // Si no hay provider, usar valores por defecto
@@ -27,6 +30,10 @@ const handleMouseEnter = (e: MouseEvent, text: string) => {
     },
   }
 }
+
+const hasFinca = computed(() => {
+  return cart.finca && Object.keys(cart.finca).length > 0;
+});
 
 const handleMouseLeave = () => {
   activeTooltip.value = null
@@ -56,14 +63,14 @@ const handleMouseLeave = () => {
     <div class="drawer-body pt-4">
       <ul class="menu space-y-0.5 pb-6 p-0">
         <li
-          class="relative hover:bg-white cursor-default"
+          class="relative hover:bg-white cursor-default!"
           @mouseenter="(e) => handleMouseEnter(e, 'Elite Flower')"
           @mouseleave="handleMouseLeave"
         >
           <RouterLink
             to="BodyLayout"
             :class="[
-              'flex flex-col justify-center items-center gap-0 hover:bg-white cursor-default list-none',
+              'flex flex-col justify-center items-center gap-0 hover:bg-white cursor-default! list-none',
               !isExpanded && 'px-2',
             ]"
           >
@@ -86,21 +93,18 @@ const handleMouseLeave = () => {
           </Teleport>
         </li>
 
-        <div v-if="isExpanded" class="w-full divider text-base-content/50 py-1"></div>
+        <!-- Solo mostrar si está expandido y hay una finca con nombre -->
+        <div v-if="isExpanded && hasFinca" class="w-full divider text-base-content/50 py-1"></div>
 
-        <li v-if="isExpanded">
-          <div class="flex flex-col justify-center items-start w-full px-2">
-            <label class="label-text text-[#545386] font-medium" for="favorite-simpson"
-              >Finca productora:</label
-            >
-            <select class="select text-xs h-7 w-full" id="favorite-simpson">
-              <option>Elite Flower</option>
-              <option>Finca Santa Maria</option>
-              <option>Finca La Nena</option>
-              <option>Finca El Morado</option>
-            </select>
+        <li v-if="isExpanded && hasFinca" class="relative hover:bg-white cursor-default">
+          <div class="flex flex-col justify-center items-center w-full px-2 cursor-default hover:bg-white">
+            <label class="label-text text-[#545386] font-medium p-0 cursor-default">Finca seleccionada:</label>
+            <p class="text-gray-700 text-sm cursor-default w-full text-center py-1 rounded-md bg-base-content/10">
+              {{ cart.finca.nombre }}
+            </p>
           </div>
         </li>
+
 
         <div v-if="isExpanded" class="w-full divider text-base-content/50 py-1"></div>
 
@@ -136,6 +140,7 @@ const handleMouseLeave = () => {
         </li>
 
         <li
+          v-if="disable[1] && hasFinca"
           class="relative"
           @mouseenter="(e) => handleMouseEnter(e, 'Plásticos')"
           @mouseleave="handleMouseLeave"
@@ -167,6 +172,7 @@ const handleMouseLeave = () => {
         </li>
 
         <li
+          v-if="disable[2][1] && hasFinca"
           class="relative"
           @mouseenter="(e) => handleMouseEnter(e, 'Reservorios')"
           @mouseleave="handleMouseLeave"
@@ -198,6 +204,7 @@ const handleMouseLeave = () => {
         </li>
 
         <li
+          v-if="disable[3]"
           class="relative"
           @mouseenter="(e) => handleMouseEnter(e, 'Consumo')"
           @mouseleave="handleMouseLeave"
@@ -224,18 +231,17 @@ const handleMouseLeave = () => {
         </li>
 
         <li
+          v-if="disable[4]"
           class="relative"
           @mouseenter="(e) => handleMouseEnter(e, 'Map')"
           @mouseleave="handleMouseLeave"
         >
-          <RouterLink to="map" :class="['flex items-center', !isExpanded && 'justify-center px-2']">
+          <RouterLink
+            to="map"
+            :class="['flex items-center', !isExpanded && 'justify-center px-2']"
+          >
             <span>
-              <img
-                src="../components/icons/rutas & georeferencia-morado-32px-03.svg"
-                alt="Map"
-                width="24"
-                height="24"
-              />
+              <img src="../components/icons/rutas & georeferencia-morado-32px-03.svg" alt="" width="24" height="24" />
             </span>
             <span v-if="isExpanded" class="ml-2">Map</span>
           </RouterLink>
@@ -243,6 +249,85 @@ const handleMouseLeave = () => {
           <Teleport to="#tooltip-container">
             <div
               v-if="!isExpanded && activeTooltip?.text === 'Map'"
+              :style="activeTooltip.style"
+              class="fixed z-50 bg-[#D8D2C4] text-black text-sm px-2 py-1 rounded shadow-lg transition"
+            >
+              {{ activeTooltip.text }}
+            </div>
+          </Teleport>
+        </li>
+
+        <li
+          v-if="disable[5]"
+          class="relative"
+          @mouseenter="(e) => handleMouseEnter(e, 'Biblioteca')"
+          @mouseleave="handleMouseLeave"
+        >
+          <RouterLink to="biblioteca" :class="['flex items-center', !isExpanded && 'justify-center px-2']">
+            <span>
+              <img
+                src="../components/icons/audit-morado-24px-01.svg"
+                alt="Biblioteca"
+                width="24"
+                height="24"
+              />
+            </span>
+            <span v-if="isExpanded" class="ml-2">Biblioteca</span>
+          </RouterLink>
+
+          <Teleport to="#tooltip-container">
+            <div
+              v-if="!isExpanded && activeTooltip?.text === 'Biblioteca'"
+              :style="activeTooltip.style"
+              class="fixed z-50 bg-[#D8D2C4] text-black text-sm px-2 py-1 rounded shadow-lg transition"
+            >
+              {{ activeTooltip.text }}
+            </div>
+          </Teleport>
+        </li>
+
+        <li
+          v-if="disable[7]"
+          class="relative"
+          @mouseenter="(e) => handleMouseEnter(e, 'Tickets')"
+          @mouseleave="handleMouseLeave"
+        >
+          <RouterLink
+            to="pendientes"
+            :class="['flex items-center', !isExpanded && 'justify-center px-2']"
+          >
+            <span class="icon-[fluent--clock-bill-32-regular] size-6"></span>
+            <span v-if="isExpanded" class="ml-2">Tickets</span>
+          </RouterLink>
+
+          <Teleport to="#tooltip-container">
+            <div
+              v-if="!isExpanded && activeTooltip?.text === 'Tickets'"
+              :style="activeTooltip.style"
+              class="fixed z-50 bg-[#D8D2C4] text-black text-sm px-2 py-1 rounded shadow-lg transition"
+            >
+              {{ activeTooltip.text }}
+            </div>
+          </Teleport>
+        </li>
+
+        <li
+          v-if="hasFinca"
+          class="relative"
+          @mouseenter="(e) => handleMouseEnter(e, 'Directorio')"
+          @mouseleave="handleMouseLeave"
+        >
+          <RouterLink
+            to="directorio"
+            :class="['flex items-center', !isExpanded && 'justify-center px-2']"
+          >
+            <span class="icon-[oui--documentation] size-5"></span>
+            <span v-if="isExpanded" class="ml-2">Directorio</span>
+          </RouterLink>
+
+          <Teleport to="#tooltip-container">
+            <div
+              v-if="!isExpanded && activeTooltip?.text === 'Directorio'"
               :style="activeTooltip.style"
               class="fixed z-50 bg-[#D8D2C4] text-black text-sm px-2 py-1 rounded shadow-lg transition"
             >
@@ -374,7 +459,7 @@ const handleMouseLeave = () => {
           @mouseenter="(e) => handleMouseEnter(e, 'Documentation')"
           @mouseleave="handleMouseLeave"
         >
-          <RouterLink to="404" :class="['flex items-center', !isExpanded && 'justify-center px-2']">
+          <RouterLink to="" :class="['flex items-center', !isExpanded && 'justify-center px-2']">
             <span class="icon-[tabler--files] size-5"></span>
             <span v-if="isExpanded" class="ml-2">Documentation</span>
           </RouterLink>
@@ -418,8 +503,8 @@ const handleMouseLeave = () => {
 
         <div v-if="isExpanded" class="w-full divider text-base-content/50 py-1"></div>
 
-        <li v-if="isExpanded" class="hover:bg-white cursor-default list-none">
-          <span class="text-start hover:bg-white text-xs cursor-default"
+        <li v-if="isExpanded" class="hover:bg-white cursor-default! list-none">
+          <span class="text-start hover:bg-white text-xs cursor-default!"
             >© 2025 Prototipo web. v0.1.0</span
           >
         </li>

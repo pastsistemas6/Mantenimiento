@@ -4,3 +4,11 @@
   z-index: -2 !important;
   background-color: white;
 }
+
+:root {
+  --color-gerente: #22c55e8c;
+  --color-asistente: #3b82f68c;
+  --color-técnico: #ce86098c;
+  --color-operador: #8b5cf68C;
+  --color-pasante: #ec48998c;
+}

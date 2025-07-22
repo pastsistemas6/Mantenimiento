@@ -24,21 +24,16 @@
           <button
             id="dropdown-header"
             type="button"
-            class="dropdown-toggle btn bg-white text-[#545386] border-0 shadow-none hover:bg-gray-200 text-center"
+            class="dropdown-toggle btn bg-white text-[#545386] border-0 shadow-none hover:bg-gray-200 flex items-center gap-2.5 text-center text-lg py-6 px-3"
             aria-haspopup="menu"
             aria-expanded="false"
             aria-label="Dropdown"
             @click.stop="showDropdown = !showDropdown"
           >
-            <span>
-              <img
-                src="../assets/by customer-morado-32px-03.svg"
-                alt="Consumo"
-                width="24"
-                height="24"
-              />
-            </span>
-            Usuario
+            <div class="size-10 text-sm flex-none rounded-full flex items-center justify-center text-white font-bold" :style="{ backgroundColor: `var(--color-${cart.rol.toLowerCase()})` }">
+              {{ getInitials(cart.name) }}
+            </div>
+            {{ cart.name }}
             <span
               class="icon-[tabler--chevron-down] size-4"
               :class="{ 'rotate-180': showDropdown }"
@@ -48,7 +43,7 @@
             class="dropdown-menu absolute min-w-60 shadow bg-white z-50"
             :class="[
               showDropdown
-                ? 'opacity-100 fixed top-14 left-auto right-3 bottom-auto m-0'
+                ? 'opacity-100 fixed top-16 left-auto right-3 bottom-auto m-0'
                 : 'hidden',
             ]"
             role="menu"
@@ -57,37 +52,25 @@
             data-placement="bottom-end"
           >
             <li>
-              <a class="dropdown-item hover:bg-white" title="Rol">
-                <span>
-                  <img
-                    src="../components/icons/icons8-worker-96.png"
-                    alt="Rol"
-                    width="20"
-                    height="20"
-                  />
-                </span>
-                Pasante
+              <a class="dropdown-item py-1.5 hover:bg-white" title="Rol">
+                <span class="icon-[solar--user-id-linear] size-6 text-[#545386] mr-1"></span>
+                {{ cart.rol }}
               </a>
             </li>
-            <li>
+            <li
+              v-if="disable[6]"
+            >
               <RouterLink
-                class="dropdown-item"
+                class="dropdown-item py-1.5"
                 to="users"
                 @click.stop="showDropdown = !showDropdown"
               >
-                <span>
-                  <img
-                    src="../components/icons/icons8-admin-settings-male-100.png"
-                    alt="Consumo"
-                    width="24"
-                    height="24"
-                  />
-                </span>
+                <span class="icon-[la--users-cog] size-6 text-[#545386] mr-1"></span>
                 Administrar usuarios
               </RouterLink>
             </li>
             <li class="dropdown-footer gap-2">
-              <RouterLink to="/" class="btn btn-error btn-soft btn-block">Cerrar sesión</RouterLink>
+              <a @click="cerrar" class="btn btn-error btn-soft btn-block">Cerrar sesión</a>
             </li>
           </ul>
         </div>
@@ -107,10 +90,15 @@
 
 <script setup>
 import { RouterView } from 'vue-router'
-import { ref, provide, onMounted, onUnmounted } from 'vue'
+import { ref, computed, provide, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useCart } from '@/stores/cart'
 import Drawer from '@/components/Drawer.vue'
 
 // Estado del drawer
+const cart = useCart()
+const router = useRouter()
+const disable = ref(cart.disable)
 const isExpanded = ref(true)
 
 // Función para alternar el drawer
@@ -118,6 +106,14 @@ const toggleDrawer = () => {
   isExpanded.value = !isExpanded.value
 }
 
+const getInitials = (name) => {
+  return name.split(' ').map(word => word.charAt(0)).join('').toUpperCase()
+}
+
+function cerrar() {
+  cart.resetCart()
+  router.push({ name: 'home' })
+}
 // Proveer el estado y la función al componente hijo
 provide('drawerState', {
   isExpanded,

@@ -4,6 +4,7 @@
       <div class="grid grid-cols-2 gap-4 place-content-center shadow p-4 rounded-lg">
         <h2 class="text-[#545386] font-bold text-2xl">Control de reservorios</h2>
         <button
+          v-if="disable[2][2]"
           type="button"
           class="btn ml-auto bg-[rgb(84,83,134)] rounded-md text-white py-2 shadow-none"
         >
@@ -39,5 +40,10 @@
 </template>
 
 <script setup>
+import { useCart } from '@/stores/cart';
 import CardReservorio from '@/components/CardReservorio.vue'
+import { ref } from 'vue';
+
+const cart = useCart()
+const disable = ref(cart.disable)
 </script>

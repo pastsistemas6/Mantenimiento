@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useCart } from '@/stores/cart'
 import Homeview from '../views/HomeView.vue'
 import LoadingView from '@/views/LoadingView.vue'
 import Body from '@/views/Body.vue'
@@ -19,6 +20,12 @@ import About from '@/layouts/about.vue'
 import Datatable2 from '@/components/Datatable2.vue'
 import Support from '@/layouts/Support.vue'
 import Detallebloque from '@/views/Detallebloque.vue'
+import Biblioteca from '@/layouts/Biblioteca.vue'
+import Notfound from '@/views/Notfound.vue'
+import Directorio from '@/layouts/Directorio.vue'
+import Tickets from '@/layouts/Tickets.vue'
+import Pendientes from '@/components/Pendientes.vue'
+import Solucionados from '@/components/Solucionados.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,11 +39,13 @@ const router = createRouter({
       path: '/loading',
       name: 'Loading',
       component: LoadingView,
+      meta: { token: true },
     },
     {
       path: '/body',
       name: 'Body',
       component: Body,
+      meta: { token: true },
       children: [
         {
           path: '/bodylayout',
@@ -47,11 +56,13 @@ const router = createRouter({
           path: '/plasticos',
           name: 'Plasticos',
           component: Plasticos,
+          meta: { disableId: 1 },
         },
         {
           path: '/reservorios',
           name: 'Reservorios',
           component: Reservorios,
+          meta: { disableId: 2 },
         },
         {
           path: '/dashboard-plasticos',
@@ -67,6 +78,7 @@ const router = createRouter({
           path: '/lecturas',
           name: 'Lecturas',
           component: Lecturas,
+          meta: { disableId: 3 },
           children: [
             {
               path: '/calendario',
@@ -84,6 +96,31 @@ const router = createRouter({
           path: '/map',
           name: 'Map',
           component: Map,
+          meta: { disableId: 4 },
+        },
+        {
+          path: '/biblioteca',
+          name: 'Biblioteca',
+          component: Biblioteca,
+          meta: { disableId: 5 },
+        },
+        {
+          path: '/tickets',
+          name: 'Tickets',
+          component: Tickets,
+          meta: { disableId: 7 },
+          children: [
+            {
+              path: '/pendientes',
+              name: 'Pendientes',
+              component: Pendientes,
+            },
+            {
+              path: '/solucionados',
+              name: 'Solucionados',
+              component: Solucionados,
+            },
+          ],
         },
         {
           path: '/notas',
@@ -114,6 +151,12 @@ const router = createRouter({
           path: '/users',
           name: 'users',
           component: Users,
+          meta: { disableId: 6 },
+        },
+        {
+          path: '/directorio',
+          name: 'Directorio',
+          component: Directorio,
         },
       ],
     },
@@ -122,13 +165,54 @@ const router = createRouter({
       name: 'DetalleBloque',
       component: Detallebloque,
       props: true,
+      meta: { token: true },
     },
     {
-      path: '/404',
-      name: '404',
+      path: '/offline',
+      name: 'Offline',
       component: Page404,
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/offline',
+    },
+    {
+      path: '/notfound',
+      name: 'Notfound',
+      component: Notfound,
     },
   ],
 })
+
+// 👉 Detecta conexión antes de cada navegación
+router.beforeEach((to, from, next) => {
+  const disableId = to.meta?.disableId
+  const token = to.meta?.token
+
+  if (!navigator.onLine && to.name !== 'Offline') {
+    next({ name: 'Offline' })
+  } else if (navigator.onLine && to.name === 'Offline') {
+    next({ name: 'home' })
+  }
+
+  if (disableId !== undefined) {
+    const cart = useCart()
+
+    if (!cart.disable[disableId]) {
+      return next({ name: 'Notfound' })
+    }
+  }
+
+  if (token !== undefined) {
+    const cart = useCart()
+
+    if (!cart.token) {
+      return next({ name: 'Notfound' })
+    }
+  }
+
+  return next()
+})
+
 
 export default router
