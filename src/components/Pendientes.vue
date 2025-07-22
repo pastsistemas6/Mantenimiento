@@ -155,6 +155,11 @@
                 <p class="text-sm bg-gray-50 p-3 rounded">{{ formatDate(selectedTicket.fechaCreacion) }}</p>
               </div>
 
+              <div class="mt-2">
+                <label class="label-text text-lg text-gray-500 font-bold cursor-default">Descripción</label>
+                <p class="text-sm bg-gray-50 p-3 rounded">{{ selectedTicket.descripcion }}</p>
+              </div>
+
               <div class="mt-3 flex items-center gap-6">
                 <label class="label-text text-lg text-gray-500 font-bold cursor-default">Estado actual</label>
                 <span
@@ -163,11 +168,6 @@
                 >
                   pendiente
                 </span>
-              </div>
-
-              <div class="mt-2">
-                <label class="label-text text-lg text-gray-500 font-bold cursor-default">Descripción</label>
-                <p class="text-sm bg-gray-50 p-3 rounded">{{ selectedTicket.descripcion }}</p>
               </div>
 
               <!-- Control de estado -->
@@ -542,7 +542,7 @@ const updateTicketStatus = () => {
     ...selectedTicket.value,
     estado: newStatus.value,
     fechaResolucion: new Date(),
-    notaRechazo: newStatus.value === 'rechazado' ? rejectionNote.value : null
+    notaRechazo: newStatus.value === 'rechazado' ? rejectionNote.value : 'Se ha aprobado exitosamente tu solicitud, revisa la biblioteca.'
   }
 
   // Remover del array de pendientes

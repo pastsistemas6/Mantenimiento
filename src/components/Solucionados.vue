@@ -155,6 +155,11 @@
                 <p class="text-sm bg-gray-50 p-3 rounded">{{ formatDate(selectedTicket.fechaCreacion) }}</p>
               </div>
 
+              <div class="mt-2">
+                <label class="label-text text-lg text-gray-500 font-bold cursor-default">Descripción</label>
+                <p class="text-sm bg-gray-50 p-3 rounded">{{ selectedTicket.descripcion }}</p>
+              </div>
+
               <div class="mt-3 flex items-center gap-6">
                 <label class="label-text text-lg text-gray-500 font-bold cursor-default">Estado actual</label>
                 <span
@@ -166,12 +171,7 @@
               </div>
 
               <div class="mt-2">
-                <label class="label-text text-lg text-gray-500 font-bold cursor-default">Descripción</label>
-                <p class="text-sm bg-gray-50 p-3 rounded">{{ selectedTicket.descripcion }}</p>
-              </div>
-
-              <div v-if="selectedTicket.estado === 'rechazado'" class="mt-2">
-                <label class="label-text text-lg text-gray-500 font-bold cursor-default">Nota de rechazo</label>
+                <label class="label-text text-lg text-gray-500 font-bold cursor-default">Nota</label>
                 <p class="text-sm bg-gray-50 p-3 rounded">{{ selectedTicket.notaRechazo }}</p>
               </div>
 
@@ -184,6 +184,7 @@
                   v-for="(imagen, index) in selectedTicket.imagenes"
                   :key="index"
                   class="aspect-square bg-gray-200 rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-300 transition-colors"
+                  @click="openImageModal(imagen)"
                 >
                   <img
                     :src="imagen"
@@ -193,6 +194,28 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de imagen ampliada -->
+    <div
+      v-if="selectedImage"
+      class="overlay modal opacity-100 duration-300 bg-base-content/50 w-full h-full"
+      role="dialog"
+      tabindex="-1"
+    >
+      <div class="modal-dialog opacity-100 duration-300">
+        <div class="modal-content">
+          <div class="modal-header flex justify-center border-b-1 border-base-content/20">
+            <h3 class="modal-title text-3xl font-semibold text-[#545386]">Referencia</h3>
+          </div>
+          <div class="modal-body pt-0 flex flex-col justify-center items-center gap-2">
+            <img :src="selectedImage" alt="Imagen ampliada" class="w-xl h-full rounded-lg" />
+          </div>
+          <div class="modal-footer flex justify-center">
+            <button @click="selectedImage = null" class="btn bg-[#545386] shadow-none">Volver</button>
           </div>
         </div>
       </div>
@@ -313,6 +336,10 @@ const selectTicket = (ticket) => {
   selectedTicket.value = ticket
   newStatus.value = ''
   rejectionNote.value = ''
+}
+
+const openImageModal = (image) => {
+  selectedImage.value = image
 }
 
 const closeTicketModal = () => {
