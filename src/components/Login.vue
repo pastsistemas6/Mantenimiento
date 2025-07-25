@@ -107,7 +107,7 @@ const logearse = async () => {
       cart.name = 'Andres Borja'
       cart.rol = 'Operador'
       router.push({ name: 'Loading' })
-    } else if (usuario.value == 'albeiro' || usuario.value == 'admin') {
+    } else if (usuario.value == 'albeiro') {
       cart.inicializar()
       cart.name = 'Albeiro Moreno'
       cart.rol = 'Gerente'
