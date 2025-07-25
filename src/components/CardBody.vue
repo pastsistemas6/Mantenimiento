@@ -1,74 +1,108 @@
 <template>
   <div class="flex flex-row items-start gap-4">
     <div class="bg-[#545386] p-0 rounded-lg w-full">
-      <h2 class="text-2xl text-white font-semibold m-3 ml-5">Resumen de la compañia</h2>
+      <h2 class="text-2xl text-white font-semibold m-3 ml-5">
+        {{
+          cart.finca.nombre != undefined
+            ? `Resumen de ${cart.finca.nombre}`
+            : 'Resumen de Elite Flower'
+        }}
+      </h2>
       <div class="stats w-full">
-        <div class="stat gap-4">
-          <div class="stat-figure text-base-content size-8">
-            <span class="icon-[tabler--world] size-8"></span>
-          </div>
-          <div class="stat-title">Website Traffic</div>
-          <div class="stat-value">32K</div>
-          <div class="stat-desc">5% ↗︎ than last week</div>
-        </div>
-
-        <div class="stat gap-4">
-          <div class="stat-figure text-base-content size-8">
-            <span class="icon-[tabler--users-group] size-8"></span>
-          </div>
-          <div class="stat-title">New Signups</div>
-          <div class="stat-value">1.2K</div>
-          <div class="stat-desc">12% increase this month</div>
-        </div>
-
-        <div class="stat gap-4">
-          <div class="stat-figure size-12">
-            <div class="avatar">
-              <div class="size-12 rounded-full">
-                <img
-                  src="https://cdn.flyonui.com/fy-assets/avatar/avatar-2.png"
-                  alt="User Avatar"
-                />
-              </div>
+        <!-- Estadísticas cuando NO hay finca seleccionada -->
+        <template v-if="cart.finca.nombre == undefined">
+          <div class="stat gap-4">
+            <div class="stat-figure flex items-center text-[#545386] size-12">
+              <span class="icon-[tabler--world] size-12"></span>
             </div>
+            <div class="stat-title">Presencia global</div>
+            <div class="stat-value">3 Países</div>
+            <div class="stat-desc">Colombia, Ecuador y Kenia</div>
           </div>
-          <div class="stat-value text-success">95%</div>
-          <div class="stat-title">Customer Retention</div>
-          <div class="stat-desc">Steady over last quarter</div>
-        </div>
 
-        <div class="stat gap-4">
-          <div class="stat-figure size-12">
-            <div class="avatar">
-              <div class="size-12 rounded-full">
-                <img
-                  src="https://cdn.flyonui.com/fy-assets/avatar/avatar-2.png"
-                  alt="User Avatar"
-                />
-              </div>
+          <div class="stat gap-4">
+            <div class="stat-figure text-[#545386] flex items-center size-12">
+              <span class="icon-[tabler--flower] size-12"></span>
             </div>
+            <div class="stat-title">Producción anual</div>
+            <div class="stat-value">12M</div>
+            <div class="stat-desc">Tallos de flores premium</div>
           </div>
-          <div class="stat-value text-success">95%</div>
-          <div class="stat-title">Customer Retention</div>
-          <div class="stat-desc">Steady over last quarter</div>
-        </div>
 
+          <div class="stat gap-4">
+            <div class="stat-figure text-[#545386] flex items-center size-12">
+              <span class="icon-[tabler--building-factory] size-12"></span>
+            </div>
+            <div class="stat-title">Fincas activas</div>
+            <div class="stat-value">28</div>
+            <div class="stat-desc">En operación</div>
+          </div>
+
+          <div class="stat gap-4">
+            <div class="stat-figure text-[#545386] flex items-center size-12">
+              <span class="icon-[tabler--truck-delivery] size-12"></span>
+            </div>
+            <div class="stat-title">Exportaciones</div>
+            <div class="stat-value">15</div>
+            <div class="stat-desc">Países destino</div>
+          </div>
+        </template>
+
+        <!-- Estadísticas cuando SÍ hay finca seleccionada -->
+        <template v-else>
+          <div class="stat gap-4">
+            <div class="stat-figure text-[#545386] flex items-center size-10">
+              <span class="icon-[tabler--map-pin] size-10"></span>
+            </div>
+            <div class="stat-title">Ubicación</div>
+            <div class="stat-value">{{ cart.finca.ciudad }}</div>
+            <div class="stat-desc">{{ cart.finca.regionName }}</div>
+          </div>
+
+          <div class="stat gap-4">
+            <div class="stat-figure text-[#545386] flex items-center size-10">
+              <span class="icon-[tabler--ruler] size-10"></span>
+            </div>
+            <div class="stat-title">Área Total</div>
+            <div class="stat-value">{{ cart.finca.hectareas }} hectáreas</div>
+            <div class="stat-desc">Superficie cultivada</div>
+          </div>
+
+          <div class="stat gap-4">
+            <div class="stat-figure text-[#545386] flex items-center size-10">
+              <span class="icon-[tabler--activity] size-10"></span>
+            </div>
+            <div class="stat-title">Estado</div>
+            <div
+              class="stat-value"
+              :class="{
+                'text-green-500!': cart.finca.estado === 'Activa',
+                'text-yellow-500!': cart.finca.estado !== 'Activa',
+              }"
+            >
+              {{ cart.finca.estado }}
+            </div>
+            <div class="stat-desc">Operaciones</div>
+          </div>
+
+          <div class="stat gap-4">
+            <div class="stat-figure text-[#545386] flex items-center size-10">
+              <span class="icon-[tabler--calendar] size-10"></span>
+            </div>
+            <div class="stat-title">Antigüedad</div>
+            <div class="stat-value">5 años</div>
+            <div class="stat-desc">En producción</div>
+          </div>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped>
-.stats {
-  border-radius: 0;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  margin: 0;
-}
-.stat {
-  display: grid;
-}
-.stat-value {
-  color: #545386;
-}
-</style>
+<script setup>
+import { useCart } from '@/stores/cart'
+
+const cart = useCart()
+</script>
+
+<style scoped></style>

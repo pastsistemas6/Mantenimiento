@@ -1,0 +1,223 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "name": "MORADO",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.49974365708!2d-74.3320358!3d4.7721611!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f7bc1d3ea989f%3A0xde30bd04ad455301!2sFinca%20El%20Morado%20-%20The%20Elite%20Flower%20SAS%20CI%20trabajo!5e1!3m2!1ses-419!2sco!4v1753293562151!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "FLOREX",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.512244472805!2d-74.26668166137692!3d4.769575042021649!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f797effff34f5%3A0x30d8cae723243de7!2sFlorex%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753293495257!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "SANTA MARIA",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3318.459057636026!2d-74.3267282!3d4.7805682!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f7bef856fed31%3A0x8ce9278946f6d92!2sFinca%20Santa%20Maria%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753293391282!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "ROSAL",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2523.9520844382632!2d-74.27010092497224!3d4.841206266293584!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f7e4e0f58976f%3A0x47e08cb690f151d!2sFinca%20El%20Rosal%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753294092967!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "CARNATION",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.443881622739!2d-74.10192529999999!3d4.7837003000000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f841f6b3fbc85%3A0xa4f2b1e2317ff67b!2sFinca%20Flores%20Carnation%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753295081127!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "PALMAS",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3317.354155685592!2d-73.9161426!3d5.003492800000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e4073175d7a3b45%3A0x8f5eaeb0bec25dc3!2sFinca%20Palmas%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753295554668!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "VISTA FARM",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.2138366449285!2d-74.2771642!3d4.8309299999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f7e5822f8eb73%3A0xf15e5ff4f9a85580!2sCalandayma%20Y%20Vista!5e1!3m2!1ses-419!2sco!4v1753295626740!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "MARGARITAS",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.422618253269!2d-74.31679199999999!3d4.7880853!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f7bfe96a5f6c9%3A0xa254aa9c8ba4e6df!2sLas%20Margaritas%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753295690131!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "MARLY",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.511062103511!2d-74.3325639!3d4.769819700000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f7bc0fe8d4c2d%3A0xf3807395ba2365fb!2sFinca%20Marly%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753295794933!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "FANTASY",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3318.401759351297!2d-74.2973627!3d4.792383!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f7eb36a2d1ea7%3A0x5039ea67ae5b6de!2sFinca%20Fantasy%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753295850093!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "TIKIYA",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3319.845971026935!2d-74.2667503!3d4.4851274000000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f0b598bca98d7%3A0xb02ed61ab22cf645!2sFinca%20Tikiya%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753295918242!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "EL RESPIRO",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3319.9322511329965!2d-74.28851019999999!3d4.4661037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f095d91ec1e67%3A0xbfa353ca80fde237!2sFinca%20El%20Respiro%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753295960646!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "CHUSACA",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3319.6547047914064!2d-74.2390484!3d4.5270148!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f0a948d194b6b%3A0x5158611efbe7fd80!2sFinca%20Chusaca%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753296025551!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "TINZUQUE",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3319.636138734155!2d-74.2392161!3d4.5310602!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f0bfaba1008d3%3A0xbae946e7e6e28394!2sFinca%20Tinzuque%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753296195607!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "JARDINES",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d212390.6217076561!2d-74.5916027!3d4.7506618!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f79825fd740f3%3A0x170f3fb6e8d02581!2sFinca%20A%20-%20Jardines%20De%20Colombia%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753296429407!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "GUACARI",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3317.4423338478214!2d-73.9706418!3d4.986067099999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e4071a7dba5a2f1%3A0x734d93dea4a5a6ae!2sFinca%20Guacari%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753296262349!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "SAN PEDRO",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13273.90275227659!2d-74.32952677756151!3d4.777133577004228!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f7b66c060dc47%3A0xf3a8c02260560cbe!2sSan%20Pedro%20elite%20flowers!5e1!3m2!1ses-419!2sco!4v1753297386359!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "VALENTINA",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6636.964612138402!2d-74.3360911!3d4.7757661!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f7bebb80476f7%3A0xe21efd7551dd1b30!2sFlores%20Elite%20Finca%20El%20Coliseo!5e1!3m2!1ses-419!2sco!4v1753297424380!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "VALDAYA",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.305089718523!2d-74.2431679!3d4.812250500000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f7f1517211877%3A0x610f613fc715c9ba!2sFinca%20Valdaya%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753297456439!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "NORMANDIA",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.3379493325087!2d-74.2823063!3d4.8055064!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f7ec41e7ded19%3A0x73a282816cde5f09!2sFinca%20Normandia%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753297564662!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "MIRAMONTE",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1968.496957446175!2d-75.35784489038356!3d6.193952862855962!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e469fdb6dc9deb5%3A0xd9428af07b8b41fe!2sC.I%20CULTIVOS%20MIRAMONTE%20S.A.S!5e1!3m2!1ses-419!2sco!4v1753297605019!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "ARANDANOS",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3313.281720170761!2d-73.2207073!3d5.751185200000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e6a6dc40c31c365%3A0xb32d9169552d9d8a!2sElite%20blu%20Ar%C3%A1ndanos!5e1!3m2!1ses-419!2sco!4v1753297638445!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "WAYUU SUESCA",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3316.8912451848573!2d-73.8029971!3d5.0939974999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e40137bbcaaa3b7%3A0xf5fed71d1ea6bc69!2sWayuu%20Suesca%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753297982411!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "MERCEDES",
+            "link": "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3318.181240865402!2d-74.38572298944095!3d4.837584912328122!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNMKwNTAnMTMuMyJOIDc0wrAyMic1Ny42Ilc!5e1!3m2!1ses-419!2sco!4v1753298029508!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "LAS DELICIAS",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.718957590182!2d-74.45606769999999!3d4.7266074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f659e8a4dd105%3A0x47be0d20c303b0e0!2sLas%20Delicias%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753298061857!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "EL COLEGIO",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3318.5478596869384!2d-74.2841281!3d4.7621996!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f7923b4b14f85%3A0x79f21e8f5d7ceff4!2sEl%20Colegio%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753298145223!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "WAYUU GUASCA",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.1239235319563!2d-73.883507!3d4.849265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f8a89296c0249%3A0xdd6217951fd0a040!2sWayuu%20Guasca%60-%20The%20Elite%20Flower!5e1!3m2!1ses-419!2sco!4v1753388954915!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "POZO AZUL",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.071177047229!2d-74.2517605!3d4.8599889!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f7ff1c05d76c9%3A0x556810a0a9a96965!2sPozo%20azul%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753389035277!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "BELCHITE",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3316.837577792104!2d-73.8529847!3d5.1043866!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e406bc2c6230f4b%3A0xe18a1f420241641a!2sBelchite%20Wayuu%20-%20The%20Elite%20Flower!5e1!3m2!1ses-419!2sco!4v1753389073348!5m2!1ses-419!2sco" 
+        },
+        {
+            "name": "FLOREX 2",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3318.4960487595436!2d-74.2700489!3d4.7729252!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f79838e20e1e7%3A0x7c97dcf0e90c32fd!2sFlores%20florex!5e1!3m2!1ses-419!2sco!4v1753389351850!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "EVEREST",
+            "link": "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d827.5181655355148!2d-75.3252369166201!3d6.278125747332981!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMTYnNDEuNSJOIDc1wrAxOScyOS42Ilc!5e1!3m2!1ses-419!2sco!4v1753389428669!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "SALOME",
+            "link": "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d1655.0447512683688!2d-75.36755213201789!3d6.275475549452996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMTYnMzEuNCJOIDc1wrAyMicwMC42Ilc!5e1!3m2!1ses-419!2sco!4v1753389475846!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "LEJANIAS",
+            "link": "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3310.0745208145063!2d-75.3720278!3d6.2778333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMTYnNDAuMiJOIDc1wrAyMicxOS4zIlc!5e1!3m2!1ses-419!2sco!4v1753389515566!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "HOJAS VERDES",
+            "link": "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3310.74027521403!2d-75.3865278!3d6.1721944!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMTAnMTkuOSJOIDc1wrAyMycxMS41Ilc!5e1!3m2!1ses-419!2sco!4v1753389619017!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "EL DESQUITE",
+            "link": "https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d3311.2024425552595!2d-75.3153343!3d6.0977879!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMDUnNTIuMCJOIDc1wrAxOCc0NS45Ilc!5e1!3m2!1ses-419!2sco!4v1753389664147!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "FLOREX 3",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13274.106482510138!2d-74.2837126!3d4.7665993!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f79f65cd4ef9d%3A0xd649510620bb7456!2sFinca%20Florex%203%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753389786283!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "SEVILLA",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.4184117690784!2d-74.30951449999999!3d4.788952300000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f799714115821%3A0x40382753a803af6!2sFinca%20Sevilla%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753389834501!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "LA ESCONDIDA",
+            "link": "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3309.6944094622377!2d-75.3543333!3d6.337361100000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMjAnMTQuNSJOIDc1wrAyMScxNS42Ilc!5e1!3m2!1ses-419!2sco!4v1753389928259!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "SAN IGNACIO",
+            "link": "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3309.59609903928!2d-75.3628611!3d6.3526666999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMjEnMDkuNiJOIDc1wrAyMSc0Ni4zIlc!5e1!3m2!1ses-419!2sco!4v1753390015213!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "LA NENA",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6636.912343356104!2d-74.29538862482303!3d4.781163975776035!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f790028993bd5%3A0xc099368f82f5207c!2sLa%20Nena%20-%20The%20Elite%20Flower!5e1!3m2!1ses-419!2sco!4v1753390290960!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "EL RUBY",
+            "link": "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d1173.7709721819692!2d-74.28752354677182!3d4.467560708095041!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNMKwMjgnMDIuNSJOIDc0wrAxNycxMi45Ilc!5e1!3m2!1ses-419!2sco!4v1753390572811!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "FLORESTA",
+            "link": "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3312.1825859309206!2d-75.42347219999999!3d5.9369167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNcKwNTYnMTIuOSJOIDc1wrAyNScyNC41Ilc!5e1!3m2!1ses-419!2sco!4v1753390616109!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "WAYUU EL FUTURO",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3316.760738919036!2d-73.8631161!3d5.1192247!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e406b00685fc189%3A0x17414da295474e22!2sFinca%20El%20Futuro%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753390647301!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "LA PRIMAVERA",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6636.8182096523815!2d-74.08736641432995!3d4.790870001106095!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f86814d0f9a0f%3A0xb4e93bc31bd2d5dc!2sCultivo%20La%20Primavera!5e1!3m2!1ses-419!2sco!4v1753390703498!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "PONDEROSA",
+            "link": "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3318.465332937867!2d-74.29252926217953!3d4.779272473980627!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNMKwNDYnMzkuOCJOIDc0wrAxNycyOC4yIlc!5e1!3m2!1ses-419!2sco!4v1753390739371!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "LA ALDEA",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13268.248146632157!2d-73.8149543!3d5.0607936!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e4013b1ac4a05bd%3A0x8289641e59ad4925!2sLa%20Aldea%20-%20The%20Elite%20Flower!5e1!3m2!1ses-419!2sco!4v1753390777588!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "SAN JUAN EL RANCHO",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13267.915437733853!2d-73.936052!3d5.0769913!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e406d10277f2263%3A0xa94ce42f205aeff!2sFinca%20el%20Rancho%20-%20The%20Elite%20Flower!5e1!3m2!1ses-419!2sco!4v1753390824135!5m2!1ses-419!2sco" 
+        },
+        {
+            "name": "SAN JUAN FUNZA",
+            "link": "ttps://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11161.930297466342!2d-74.2319896281113!3d4.780016095643078!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f78af05d8df7f%3A0x2c13f029d6111ce0!2sFlores%20San%20Juan.!5e1!3m2!1ses-419!2sco!4v1753390949201!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "SAN JUAN NEMOCON",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6634.037133336082!2d-73.92461736402738!3d5.069265263657956!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e406c31b4941171%3A0x34cb2e89ca710485!2sflores%20san%20juan!5e1!3m2!1ses-419!2sco!4v1753390983569!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "LUISIANA",
+            "link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6633.847502643792!2d-73.9267448026904!3d5.087694572362168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e406d5b8a2c16d9%3A0x63af99aaed67bd71!2sLuisiana%20Farms%20-%20The%20Elite%20Flower%20SAS%20CI!5e1!3m2!1ses-419!2sco!4v1753391066873!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "SANTO DOMINGO",
+            "link": "https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d6637.054654615812!2d-74.13328327984695!3d4.7664529753656275!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e1!3m2!1ses-419!2sco!4v1753391193941!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "SANTA BARBARA",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3946.556537375!2d-74.23299861341411!3d4.7419739768714555!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f79404e4c0edd%3A0xcd8354d8453bf977!2sSanta%20B%C3%A1rbara!5e1!3m2!1ses-419!2sco!4v1753391281906!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "FLORANOVA",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6636.579649238955!2d-74.2583492!3d4.8153803!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f7f19831339e5%3A0xfe50663c60ec991b!2sFinca%20Flora%20Nova%20Sunshine%20Bouquet!5e1!3m2!1ses-419!2sco!4v1753391309488!5m2!1ses-419!2sco"
+        },
+        {
+            "name": "SAN ALEJO",
+            "link": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3946.0734961925114!2d-74.23315690743405!3d4.825774551130166!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f7f70cb3f3d49%3A0xc867d8b25c850233!2sFinca%20San%20Alejo!5e1!3m2!1ses-419!2sco!4v1753391391427!5m2!1ses-419!2sco"
+        }
+    ]
+}
+
+

@@ -40,9 +40,9 @@
 </template>
 
 <script setup>
-import { useCart } from '@/stores/cart';
+import { useCart } from '@/stores/cart'
 import CardReservorio from '@/components/CardReservorio.vue'
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 const cart = useCart()
 const disable = ref(cart.disable)

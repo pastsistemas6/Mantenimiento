@@ -189,7 +189,7 @@
                 </div>
               </div>
             </div>
-            <div class="stat-title">Total page views</div>
+            <div class="stat-title">Total usuarios</div>
             <div class="stat-value">89,400</div>
             <div class="stat-desc">21% ↗︎ than last month</div>
           </div>
@@ -204,7 +204,7 @@
                 </div>
               </div>
             </div>
-            <div class="stat-title">Total page views</div>
+            <div class="stat-title">Total activos</div>
             <div class="stat-value">89,400</div>
             <div class="stat-desc">21% ↗︎ than last month</div>
           </div>
@@ -219,7 +219,7 @@
                 </div>
               </div>
             </div>
-            <div class="stat-title">Total page views</div>
+            <div class="stat-title">Total inactivos</div>
             <div class="stat-value">89,400</div>
             <div class="stat-desc">21% ↗︎ than last month</div>
           </div>
@@ -234,13 +234,13 @@
                 </div>
               </div>
             </div>
-            <div class="stat-title">Total page views</div>
+            <div class="stat-title">Total pendientes</div>
             <div class="stat-value">89,400</div>
             <div class="stat-desc">21% ↗︎ than last month</div>
           </div>
         </div>
         <div>
-          <Datatable2></Datatable2>
+          <TablaUsers></TablaUsers>
         </div>
       </div>
     </div>
@@ -248,7 +248,7 @@
 </template>
 
 <script setup>
-import Datatable2 from '@/components/Datatable2.vue'
+import TablaUsers from '@/components/TablaUsers.vue'
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const isOpen = ref(false)

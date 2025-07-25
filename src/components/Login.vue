@@ -71,62 +71,57 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
-import { useCart } from '@/stores/cart';
-import { ref } from 'vue';
-import Alert from './Alert.vue';
+import { useRouter } from 'vue-router'
+import { useCart } from '@/stores/cart'
+import { ref } from 'vue'
+import Alert from './Alert.vue'
 
-const router = useRouter();
-const cart = useCart();
-const usuario = ref('');
-const password = ref('');
-const alertRef = ref(null);
-const alertTitle = ref('');
-const alertText = ref('');
+const router = useRouter()
+const cart = useCart()
+const usuario = ref('')
+const password = ref('')
+const alertRef = ref(null)
+const alertTitle = ref('')
+const alertText = ref('')
 
 const logearse = async () => {
   try {
     if (usuario.value == 'pastsistemas6' || usuario.value == 'pastmttostm4') {
-      cart.inicializar();
-      cart.updateCart(3, false);
-      cart.updateCart(2, { 1: true, 2: false});
-      cart.updateCart(4, false);
-      cart.updateCart(6, false);
-      cart.updateCart(7, false);
-      cart.name = 'Miguel Gomez';
-      cart.rol = 'Pasante';
+      cart.inicializar()
+      cart.updateCart(3, false)
+      cart.updateCart(2, { 1: true, 2: false })
+      cart.updateCart(4, false)
+      cart.updateCart(6, false)
+      cart.updateCart(7, false)
+      cart.name = 'Miguel Gomez'
+      cart.rol = 'Pasante'
       router.push({ name: 'Loading' })
-
     } else if (usuario.value == 'agborja') {
-      cart.inicializar();
-      cart.updateCart(1, false);
-      cart.updateCart(2, { 1: false, 2: false});
-      cart.updateCart(4, false);
-      cart.updateCart(5, false);
-      cart.updateCart(6, false);
-      cart.updateCart(7, false);
-      cart.name = 'Andres Borja';
-      cart.rol = 'Operador';
+      cart.inicializar()
+      cart.updateCart(1, false)
+      cart.updateCart(2, { 1: false, 2: false })
+      cart.updateCart(4, false)
+      cart.updateCart(5, false)
+      cart.updateCart(6, false)
+      cart.updateCart(7, false)
+      cart.name = 'Andres Borja'
+      cart.rol = 'Operador'
       router.push({ name: 'Loading' })
-
     } else if (usuario.value == 'albeiro' || usuario.value == 'admin') {
-      cart.inicializar();
-      cart.name = 'Albeiro Moreno';
-      cart.rol = 'Gerente';
+      cart.inicializar()
+      cart.name = 'Albeiro Moreno'
+      cart.rol = 'Gerente'
       router.push({ name: 'Loading' })
-
     } else {
-      alertTitle.value = 'Error al iniciar sesión';
-      alertText.value = 'No se pudo iniciar sesión. Por favor, revisa el nombre y contraseña.';
-      alertRef.value.showAlert();
-
+      alertTitle.value = 'Error al iniciar sesión'
+      alertText.value = 'No se pudo iniciar sesión. Por favor, revisa el nombre y contraseña.'
+      alertRef.value.showAlert()
     }
   } catch (error) {
-    console.error("Error al iniciar sesión.", error);
-    alertTitle.value = 'Error al iniciar sesión';
-    alertText.value = 'No se pudo iniciar sesión. Por favor, revisa el nombre y contraseña.';
-    alertRef.value.showAlert();
-
+    console.error('Error al iniciar sesión.', error)
+    alertTitle.value = 'Error al iniciar sesión'
+    alertText.value = 'No se pudo iniciar sesión. Por favor, revisa el nombre y contraseña.'
+    alertRef.value.showAlert()
   }
 }
 </script>

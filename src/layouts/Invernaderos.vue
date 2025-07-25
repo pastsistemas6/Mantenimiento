@@ -8,5 +8,5 @@
 
 <script setup>
 import Datatable from '@/components/Datatable.vue'
-import MapsFinca from '@/components/MapsFinca.vue'
+import MapsFinca from '@/components/MapsFinca2.vue'
 </script>

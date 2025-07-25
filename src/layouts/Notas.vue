@@ -41,7 +41,7 @@
             >
               <div class="modal-content">
                 <div class="modal-header">
-                  <h3 class="modal-title text-[#545386]">Nota</h3>
+                  <h3 class="modal-title text-2xl font-bold text-[#545386]">Nota</h3>
                   <button
                     type="button"
                     class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
@@ -54,14 +54,19 @@
                   <div class="modal-body pt-0">
                     <div class="mb-2">
                       <label class="label-text" for="titulo"> Titulo </label>
-                      <input type="text" placeholder="John Doe" class="input" id="titulo" />
+                      <input
+                        type="text"
+                        placeholder="Titulo alusivo a la nota"
+                        class="input"
+                        id="titulo"
+                      />
                     </div>
                     <div>
                       <label class="label-text" for="descripcion"> Descripción </label>
                       <textarea
-                        class="input pt-1"
-                        placeholder="Descripción de la nota"
-                        name=""
+                        class="textarea textarea-bordered w-full border-base-content/30"
+                        placeholder="Descripción de la nota..."
+                        rows="3"
                         id="descripcion"
                         required
                       ></textarea>
@@ -71,18 +76,26 @@
                         >Seleccione la prioridad</label
                       >
                       <select class="select" id="favorite-simpson">
-                        <option selected disabled>Seleccione una...</option>
-                        <option>Baja</option>
-                        <option>Media</option>
-                        <option>Alta</option>
+                        <option selected disabled>Seleccione la prioridad...</option>
+                        <option value="baja">Baja</option>
+                        <option value="media">Media</option>
+                        <option value="alta">Alta</option>
                       </select>
                     </div>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-soft btn-secondary" @click="closeModal">
+                    <button
+                      type="button"
+                      class="btn btn-soft btn-secondary shadow-none border-0"
+                      @click="closeModal"
+                    >
                       Cancelar
                     </button>
-                    <button type="submit" class="btn bg-[#545386]" @click="closeModal">
+                    <button
+                      type="submit"
+                      class="btn bg-[#545386] shadow-none border-0"
+                      @click="closeModal"
+                    >
                       Guardar nota
                     </button>
                   </div>

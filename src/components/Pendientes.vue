@@ -1,25 +1,8 @@
 <template>
   <div class="card not-prose w-full shadow-none">
     <div class="flex flex-col gap-4 shadow p-4 rounded-lg">
-      <h2 class="text-2xl font-bold text-[#545386] mb-2">Tickets pendientes</h2>
-      <div class="flex justify-start items-center gap-4">
-        <h3 class="text-lg font-semibold">Ver:</h3>
-
-        <!-- Filtro por fechas -->
-        <select
-          v-model="selectedDateFilter"
-          @change="performSearch"
-          class="select max-w-xs appearance-none"
-          aria-label="select fecha"
-        >
-          <option value="">Todas las fechas</option>
-          <option value="today">Hoy</option>
-          <option value="yesterday">Ayer</option>
-          <option value="week">Esta semana</option>
-          <option value="month">Este mes</option>
-        </select>
-
-        <div class="w-md max-w-md">
+      <div class="flex justify-between flex-nowrap items-center gap-4">
+        <div class="w-full">
           <div class="relative">
             <div class="relative">
               <input
@@ -31,10 +14,26 @@
                 role="combobox"
                 aria-expanded="false"
               />
-              <span class="icon-[tabler--search] text-base-content absolute start-3 top-1/2 size-4 shrink-0 -translate-y-1/2"></span>
+              <span
+                class="icon-[tabler--search] text-base-content absolute start-3 top-1/2 size-4 shrink-0 -translate-y-1/2"
+              ></span>
             </div>
           </div>
         </div>
+
+        <!-- Filtro por fechas -->
+        <select
+          v-model="selectedDateFilter"
+          @change="performSearch"
+          class="select w-full appearance-none"
+          aria-label="select fecha"
+        >
+          <option value="">Todas las fechas</option>
+          <option value="today">Hoy</option>
+          <option value="yesterday">Ayer</option>
+          <option value="week">Esta semana</option>
+          <option value="month">Este mes</option>
+        </select>
       </div>
 
       <!-- Tickets agrupados por fecha -->
@@ -60,7 +59,9 @@
                   <div class="text-sm text-gray-600">{{ ticket.creador }}</div>
                   <div class="text-sm">{{ ticket.email }}</div>
                   <div class="text-xs text-gray-500">{{ formatDate(ticket.fechaCreacion) }}</div>
-                  <div class="text-xs font-mono bg-gray-100 px-2 py-1 rounded mt-1 inline-block">{{ ticket.codigo }}</div>
+                  <div class="text-xs font-mono bg-gray-100 px-2 py-1 rounded mt-1 inline-block">
+                    {{ ticket.codigo }}
+                  </div>
                 </div>
                 <div class="col-span-1 flex items-start justify-end">
                   <span
@@ -92,7 +93,11 @@
         <button
           v-for="page in totalPages"
           :key="page"
-          :class="page === currentPage ? 'btn btn-sm bg-[#545386] border-0 shadow-none' : 'btn btn-sm bg-[#D8D2C4] border-0 text-black shadow-none'"
+          :class="
+            page === currentPage
+              ? 'btn btn-sm bg-[#545386] border-0 shadow-none'
+              : 'btn btn-sm bg-[#D8D2C4] border-0 text-black shadow-none'
+          "
           @click="currentPage = page"
         >
           {{ page }}
@@ -110,13 +115,16 @@
     <!-- Modal de detalle del ticket -->
     <div
       v-if="selectedTicket"
-      class="overlay modal opacity-100 duration-300 bg-base-content/50 w-full h-full" role="dialog"
+      class="overlay modal opacity-100 duration-300 bg-base-content/50 w-full h-full"
+      role="dialog"
       tabindex="-1"
     >
       <div class="modal-dialog opacity-100 duration-300">
         <div class="modal-content">
           <div class="modal-header border-b-1 border-base-content/20">
-            <h3 class="modal-title text-3xl font-bold text-[#545386]">Ticket #{{ selectedTicket.codigo }}</h3>
+            <h3 class="modal-title text-3xl font-bold text-[#545386]">
+              Ticket #{{ selectedTicket.codigo }}
+            </h3>
             <button
               type="button"
               class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
@@ -129,39 +137,54 @@
 
           <div class="modal-body pt-4 flex flex-col gap-3">
             <div>
-
               <div>
-                <label class="label-text text-lg text-gray-500 font-bold cursor-default">Elemento</label>
+                <label class="label-text text-lg text-gray-500 font-bold cursor-default"
+                  >Elemento</label
+                >
                 <p class="text-sm bg-gray-50 p-3 rounded">{{ selectedTicket.elemento }}</p>
               </div>
 
               <div class="mt-2">
-                <label class="label-text text-lg text-gray-500 font-bold cursor-default">Código</label>
+                <label class="label-text text-lg text-gray-500 font-bold cursor-default"
+                  >Código</label
+                >
                 <p class="text-sm bg-gray-50 p-3 rounded font-mono">{{ selectedTicket.codigo }}</p>
               </div>
 
               <div class="mt-2">
-                <label class="label-text text-lg text-gray-500 font-bold cursor-default">Creado por</label>
+                <label class="label-text text-lg text-gray-500 font-bold cursor-default"
+                  >Creado por</label
+                >
                 <p class="text-sm bg-gray-50 p-3 rounded">{{ selectedTicket.creador }}</p>
               </div>
 
               <div class="mt-2">
-                <label class="label-text text-lg text-gray-500 font-bold cursor-default">Email</label>
+                <label class="label-text text-lg text-gray-500 font-bold cursor-default"
+                  >Email</label
+                >
                 <p class="text-sm bg-gray-50 p-3 rounded">{{ selectedTicket.email }}</p>
               </div>
 
               <div class="mt-2">
-                <label class="label-text text-lg text-gray-500 font-bold cursor-default">Fecha</label>
-                <p class="text-sm bg-gray-50 p-3 rounded">{{ formatDate(selectedTicket.fechaCreacion) }}</p>
+                <label class="label-text text-lg text-gray-500 font-bold cursor-default"
+                  >Fecha</label
+                >
+                <p class="text-sm bg-gray-50 p-3 rounded">
+                  {{ formatDate(selectedTicket.fechaCreacion) }}
+                </p>
               </div>
 
               <div class="mt-2">
-                <label class="label-text text-lg text-gray-500 font-bold cursor-default">Descripción</label>
+                <label class="label-text text-lg text-gray-500 font-bold cursor-default"
+                  >Descripción</label
+                >
                 <p class="text-sm bg-gray-50 p-3 rounded">{{ selectedTicket.descripcion }}</p>
               </div>
 
               <div class="mt-3 flex items-center gap-6">
-                <label class="label-text text-lg text-gray-500 font-bold cursor-default">Estado actual</label>
+                <label class="label-text text-lg text-gray-500 font-bold cursor-default"
+                  >Estado actual</label
+                >
                 <span
                   class="badge border-1 border-base-content/30 text-xs px-2 py-1 rounded-lg text-white ml-2"
                   style="background-color: #f59e0b8c"
@@ -174,10 +197,7 @@
               <div class="mt-4">
                 <h4 class="text-lg font-bold mb-2 text-gray-500">Gestionar Ticket</h4>
                 <div class="space-y-3">
-                  <select
-                    v-model="newStatus"
-                    class="select select-bordered w-full"
-                  >
+                  <select v-model="newStatus" class="select select-bordered w-full">
                     <option value="">Seleccionar acción</option>
                     <option value="aprobado">Aprobar</option>
                     <option value="rechazado">Rechazar</option>
@@ -201,7 +221,6 @@
                   </button>
                 </div>
               </div>
-
             </div>
 
             <div>
@@ -242,7 +261,9 @@
             <img :src="selectedImage" alt="Imagen ampliada" class="w-xl h-full rounded-lg" />
           </div>
           <div class="modal-footer flex justify-center">
-            <button @click="selectedImage = null" class="btn bg-[#545386] shadow-none">Volver</button>
+            <button @click="selectedImage = null" class="btn bg-[#545386] shadow-none">
+              Volver
+            </button>
           </div>
         </div>
       </div>
@@ -258,7 +279,9 @@
       <div class="modal-dialog opacity-100 duration-300">
         <div class="modal-content">
           <div class="modal-header flex justify-center border-b-1 border-base-content/20">
-            <h3 class="modal-title text-3xl font-semibold text-[#545386]">Agregar elemento al inventario</h3>
+            <h3 class="modal-title text-3xl font-bold text-[#545386]">
+              Agregar elemento a la biblioteca
+            </h3>
           </div>
 
           <div class="modal-body pt-0 flex flex-col gap-2">
@@ -268,7 +291,8 @@
                 v-model="newElement.name"
                 type="text"
                 class="input"
-                value="{{ approvedTicket?.elemento }}"/>
+                value="{{ approvedTicket?.elemento }}"
+              />
             </div>
 
             <div>
@@ -303,19 +327,23 @@
             </div>
 
             <!-- Enlaces dinámicos -->
-            <div class="border p-3 rounded-lg bg-gray-50">
+            <div class="border border-base-content/30 p-3 rounded-lg bg-gray-50">
               <div class="flex justify-between items-center mb-3">
                 <label class="label-text font-semibold">Enlaces (máximo 2)</label>
                 <button
                   v-if="newElement.enlaces.length < 2"
                   @click="addLink"
-                  class="btn btn-sm bg-[#545386] text-white"
+                  class="btn btn-sm bg-[#545386] shadow-none border-0 text-white"
                 >
                   + Agregar enlace
                 </button>
               </div>
 
-              <div v-for="(enlace, index) in newElement.enlaces" :key="index" class="border p-3 rounded mb-2 bg-white relative">
+              <div
+                v-for="(enlace, index) in newElement.enlaces"
+                :key="index"
+                class="border border-base-content/30 p-3 rounded mb-2 bg-white relative"
+              >
                 <button
                   v-if="newElement.enlaces.length > 1"
                   @click="removeLink(index)"
@@ -330,26 +358,30 @@
                     type="text"
                     class="input"
                     placeholder="Nombre del enlace"
-                  >
+                  />
                   <input
                     v-model="enlace.url"
                     type="url"
                     class="input"
                     placeholder="URL del enlace"
-                  >
+                  />
                   <select v-model="enlace.tipo" class="select">
                     <option value="" disabled>Seleccionar tipo</option>
                     <option value="smartsheet">SmartSheet</option>
                     <option value="pdf">PDF</option>
+                    <option value="word">WORD</option>
                   </select>
                 </div>
               </div>
             </div>
-
           </div>
           <div class="modal-footer">
-            <button @click="closeApprovalModal" class="btn btn-soft shadow-none btn-secondary">Cancelar</button>
-            <button @click="addToInventory" class="btn bg-[#545386] text-white shadow-none">Agregar al Inventario</button>
+            <button @click="closeApprovalModal" class="btn btn-soft shadow-none btn-secondary">
+              Cancelar
+            </button>
+            <button @click="addToInventory" class="btn bg-[#545386] text-white shadow-none">
+              Subir
+            </button>
           </div>
         </div>
       </div>
@@ -377,12 +409,12 @@ const approvedTicket = ref(null)
 
 const newElement = ref({
   name: '',
+  ticket: '',
   category: '',
   code: '',
+  date: new Date(),
   especification: '',
-  enlaces: [
-    { nombre: '', url: '', tipo: '' }
-  ]
+  enlaces: [{ nombre: '', url: '', tipo: '' }],
 })
 
 // Función para generar código único
@@ -400,11 +432,12 @@ const tickets = ref([
     estado: 'pendiente',
     fechaCreacion: new Date(),
     elemento: 'Taladro Bosch Professional',
-    descripcion: 'Necesitamos un taladro profesional para trabajos de mantenimiento en la finca norte.',
+    descripcion:
+      'Necesitamos un taladro profesional para trabajos de mantenimiento en la finca norte.',
     imagenes: [
       'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=300',
-      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300'
-    ]
+      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300',
+    ],
   },
   {
     id: 2,
@@ -415,9 +448,7 @@ const tickets = ref([
     fechaCreacion: new Date(),
     elemento: 'Medidor de pH Digital',
     descripcion: 'Necesitamos medidores de pH digitales para control de calidad del agua.',
-    imagenes: [
-      'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=300'
-    ]
+    imagenes: ['https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=300'],
   },
   {
     id: 3,
@@ -428,18 +459,17 @@ const tickets = ref([
     fechaCreacion: new Date(Date.now() - 259200000), // Hace 3 días
     elemento: 'Sensores de Temperatura Inalámbricos',
     descripcion: 'Sistema de monitoreo de temperatura inalámbrico para invernaderos.',
-    imagenes: [
-      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300'
-    ]
-  }
+    imagenes: ['https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300'],
+  },
 ])
 
 const filteredTickets = computed(() => {
   if (!hasSearched.value) return []
 
-  return tickets.value.filter(ticket => {
+  return tickets.value.filter((ticket) => {
     // Filtro de búsqueda por texto
-    const matchesSearch = !searchQuery.value ||
+    const matchesSearch =
+      !searchQuery.value ||
       ticket.elemento.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       ticket.creador.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       ticket.descripcion.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
@@ -483,9 +513,13 @@ const groupedTickets = computed(() => {
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
   const yesterday = new Date(today.getTime() - 86400000)
 
-  filteredTickets.value.forEach(ticket => {
+  filteredTickets.value.forEach((ticket) => {
     const ticketDate = new Date(ticket.fechaCreacion)
-    const ticketDay = new Date(ticketDate.getFullYear(), ticketDate.getMonth(), ticketDate.getDate())
+    const ticketDay = new Date(
+      ticketDate.getFullYear(),
+      ticketDate.getMonth(),
+      ticketDate.getDate(),
+    )
 
     let groupKey
     if (ticketDay.getTime() === today.getTime()) {
@@ -535,18 +569,18 @@ const updateTicketStatus = () => {
   if (!selectedTicket.value || !newStatus.value) return
   if (newStatus.value === 'rechazado' && !rejectionNote.value) return
 
-  console.log(newStatus.value);
-
-
   const resolvedTicket = {
     ...selectedTicket.value,
     estado: newStatus.value,
     fechaResolucion: new Date(),
-    notaRechazo: newStatus.value === 'rechazado' ? rejectionNote.value : 'Se ha aprobado exitosamente tu solicitud, revisa la biblioteca.'
+    notaRechazo:
+      newStatus.value === 'rechazado'
+        ? rejectionNote.value
+        : 'Se ha aprobado exitosamente tu solicitud, revisa la biblioteca.',
   }
 
   // Remover del array de pendientes
-  const ticketIndex = tickets.value.findIndex(t => t.id === selectedTicket.value.id)
+  const ticketIndex = tickets.value.findIndex((t) => t.id === selectedTicket.value.id)
   if (ticketIndex !== -1) {
     tickets.value.splice(ticketIndex, 1)
   }
@@ -554,10 +588,14 @@ const updateTicketStatus = () => {
   if (newStatus.value === 'aprobado') {
     approvedTicket.value = resolvedTicket
     newElement.value.name = approvedTicket.value.elemento
+    newElement.value.ticket = approvedTicket.value.codigo
     showApprovalModal.value = true
   }
 
-   // Emitir evento al componente padre para agregar a solucionados
+  // Emitir evento al componente padre para agregar a solucionados
+  console.log(newElement.value)
+
+  emit('ticket-element', newElement.value)
   emit('ticket-resolved', resolvedTicket)
 
   closeTicketModal()
@@ -572,12 +610,12 @@ const closeApprovalModal = () => {
   approvedTicket.value = null
   newElement.value = {
     name: '',
+    ticket: '',
     category: '',
     code: '',
+    date: '',
     especification: '',
-    enlaces: [
-      { nombre: '', url: '', tipo: '' }
-    ]
+    enlaces: [{ nombre: '', url: '', tipo: '' }],
   }
 }
 
@@ -601,7 +639,11 @@ const addToInventory = () => {
 }
 
 const getInitials = (name) => {
-  return name.split(' ').map(word => word.charAt(0)).join('').toUpperCase()
+  return name
+    .split(' ')
+    .map((word) => word.charAt(0))
+    .join('')
+    .toUpperCase()
 }
 
 const formatDate = (date) => {
@@ -610,7 +652,7 @@ const formatDate = (date) => {
     month: '2-digit',
     year: 'numeric',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   })
 }
 </script>

@@ -30,7 +30,10 @@
             aria-label="Dropdown"
             @click.stop="showDropdown = !showDropdown"
           >
-            <div class="size-10 text-sm flex-none rounded-full flex items-center justify-center text-white font-bold" :style="{ backgroundColor: `var(--color-${cart.rol.toLowerCase()})` }">
+            <div
+              class="size-10 text-sm flex-none rounded-full flex items-center justify-center text-white font-bold"
+              :style="{ backgroundColor: `var(--color-${cart.rol.toLowerCase()})` }"
+            >
               {{ getInitials(cart.name) }}
             </div>
             {{ cart.name }}
@@ -57,9 +60,7 @@
                 {{ cart.rol }}
               </a>
             </li>
-            <li
-              v-if="disable[6]"
-            >
+            <li v-if="disable[6]">
               <RouterLink
                 class="dropdown-item py-1.5"
                 to="users"
@@ -107,7 +108,11 @@ const toggleDrawer = () => {
 }
 
 const getInitials = (name) => {
-  return name.split(' ').map(word => word.charAt(0)).join('').toUpperCase()
+  return name
+    .split(' ')
+    .map((word) => word.charAt(0))
+    .join('')
+    .toUpperCase()
 }
 
 function cerrar() {

@@ -32,8 +32,8 @@ const handleMouseEnter = (e: MouseEvent, text: string) => {
 }
 
 const hasFinca = computed(() => {
-  return cart.finca && Object.keys(cart.finca).length > 0;
-});
+  return cart.finca && Object.keys(cart.finca).length > 0
+})
 
 const handleMouseLeave = () => {
   activeTooltip.value = null
@@ -97,14 +97,19 @@ const handleMouseLeave = () => {
         <div v-if="isExpanded && hasFinca" class="w-full divider text-base-content/50 py-1"></div>
 
         <li v-if="isExpanded && hasFinca" class="relative hover:bg-white cursor-default">
-          <div class="flex flex-col justify-center items-center w-full px-2 cursor-default hover:bg-white">
-            <label class="label-text text-[#545386] font-medium p-0 cursor-default">Finca seleccionada:</label>
-            <p class="text-gray-700 text-sm cursor-default w-full text-center py-1 rounded-md bg-base-content/10">
+          <div
+            class="flex flex-col justify-center items-center w-full px-2 cursor-default hover:bg-white"
+          >
+            <label class="label-text text-[#545386] font-medium p-0 cursor-default"
+              >Finca seleccionada:</label
+            >
+            <p
+              class="text-gray-700 text-sm cursor-default w-full text-center py-1 rounded-md bg-base-content/10"
+            >
               {{ cart.finca.nombre }}
             </p>
           </div>
         </li>
-
 
         <div v-if="isExpanded" class="w-full divider text-base-content/50 py-1"></div>
 
@@ -142,27 +147,27 @@ const handleMouseLeave = () => {
         <li
           v-if="disable[1] && hasFinca"
           class="relative"
-          @mouseenter="(e) => handleMouseEnter(e, 'Plásticos')"
+          @mouseenter="(e) => handleMouseEnter(e, 'Invernaderos')"
           @mouseleave="handleMouseLeave"
         >
           <RouterLink
-            to="Plasticos"
+            to="invernaderos"
             :class="['flex items-center', !isExpanded && 'justify-center px-2']"
           >
             <span>
               <img
                 src="../components/icons/by location-morado-32px-03.svg"
-                alt="Plásticos"
+                alt="Invernaderos"
                 width="24"
                 height="24"
               />
             </span>
-            <span v-if="isExpanded" class="ml-2">Plásticos</span>
+            <span v-if="isExpanded" class="ml-2">Invernaderos</span>
           </RouterLink>
 
           <Teleport to="#tooltip-container">
             <div
-              v-if="!isExpanded && activeTooltip?.text === 'Plásticos'"
+              v-if="!isExpanded && activeTooltip?.text === 'Invernaderos'"
               :style="activeTooltip.style"
               class="fixed z-50 bg-[#D8D2C4] text-black text-sm px-2 py-1 rounded shadow-lg transition"
             >
@@ -236,12 +241,14 @@ const handleMouseLeave = () => {
           @mouseenter="(e) => handleMouseEnter(e, 'Map')"
           @mouseleave="handleMouseLeave"
         >
-          <RouterLink
-            to="map"
-            :class="['flex items-center', !isExpanded && 'justify-center px-2']"
-          >
+          <RouterLink to="map" :class="['flex items-center', !isExpanded && 'justify-center px-2']">
             <span>
-              <img src="../components/icons/rutas & georeferencia-morado-32px-03.svg" alt="" width="24" height="24" />
+              <img
+                src="../components/icons/rutas & georeferencia-morado-32px-03.svg"
+                alt=""
+                width="24"
+                height="24"
+              />
             </span>
             <span v-if="isExpanded" class="ml-2">Map</span>
           </RouterLink>
@@ -263,7 +270,10 @@ const handleMouseLeave = () => {
           @mouseenter="(e) => handleMouseEnter(e, 'Biblioteca')"
           @mouseleave="handleMouseLeave"
         >
-          <RouterLink to="biblioteca" :class="['flex items-center', !isExpanded && 'justify-center px-2']">
+          <RouterLink
+            to="biblioteca"
+            :class="['flex items-center', !isExpanded && 'justify-center px-2']"
+          >
             <span>
               <img
                 src="../components/icons/audit-morado-24px-01.svg"

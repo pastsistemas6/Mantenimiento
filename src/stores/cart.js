@@ -1,4 +1,4 @@
-import { update } from 'lodash';
+import { update } from 'lodash'
 import { defineStore } from 'pinia'
 
 export const useCart = defineStore('cart', {
@@ -20,7 +20,7 @@ export const useCart = defineStore('cart', {
   },
   actions: {
     setRol(rolValue) {
-      this.rol = rolValue;
+      this.rol = rolValue
     },
     /*addPedido(mesaId, id_pedido) {
       if (!this.products[mesaId]) {
@@ -32,16 +32,15 @@ export const useCart = defineStore('cart', {
       }
     },*/
     inicializar() {
-      const diccionario = this.disable;
+      const diccionario = this.disable
       for (let index = 1; index < 8; index++) {
-        diccionario[index] = true;
+        diccionario[index] = true
       }
       diccionario[2] = {
         1: true,
-        2: true
+        2: true,
       }
       this.token = true
-
     },
     /*increaseQuantity(mesaId, id_pedido, productId) {
       const pedido = this.products[mesaId]?.[id_pedido];
@@ -64,12 +63,12 @@ export const useCart = defineStore('cart', {
     },*/
     updateCart(id, modulo) {
       if (!this.disable[id]) {
-        this.disable[id] = {};
+        this.disable[id] = {}
       }
-      this.disable[id] = modulo;
+      this.disable[id] = modulo
     },
     updateFinca(nuevaFinca) {
-      this.finca = nuevaFinca;
+      this.finca = nuevaFinca
     },
     /*removeProduct(mesaId, id_pedido, productId) {
       const pedido = this.products[mesaId]?.[id_pedido];
@@ -83,13 +82,13 @@ export const useCart = defineStore('cart', {
     },*/
     resetCart(id) {
       if (id) {
-        delete this.disable[id];
+        delete this.disable[id]
       } else {
-        this.disable = {};
-        this.name = '';
-        this.rol = '';
-        this.token = false;
-        this.finca = {};
+        this.disable = {}
+        this.name = ''
+        this.rol = ''
+        this.token = false
+        this.finca = {}
       }
     },
   },
@@ -102,4 +101,4 @@ export const useCart = defineStore('cart', {
       },
     ],
   },
-});
+})

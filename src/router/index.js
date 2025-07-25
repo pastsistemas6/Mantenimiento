@@ -4,7 +4,7 @@ import Homeview from '../views/HomeView.vue'
 import LoadingView from '@/views/LoadingView.vue'
 import Body from '@/views/Body.vue'
 import BodyLayout from '@/layouts/BodyLayout.vue'
-import Plasticos from '@/layouts/Plasticos.vue'
+import Invernaderos from '@/layouts/Invernaderos.vue'
 import Reservorios from '@/layouts/Reservorios.vue'
 import DashboardPlasticos from '@/layouts/DashboardPlasticos.vue'
 import DashboardReservorios from '@/layouts/DashboardReservorios.vue'
@@ -53,9 +53,9 @@ const router = createRouter({
           component: BodyLayout,
         },
         {
-          path: '/plasticos',
-          name: 'Plasticos',
-          component: Plasticos,
+          path: '/invernaderos',
+          name: 'Invernaderos',
+          component: Invernaderos,
           meta: { disableId: 1 },
         },
         {
@@ -213,6 +213,5 @@ router.beforeEach((to, from, next) => {
 
   return next()
 })
-
 
 export default router

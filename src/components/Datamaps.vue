@@ -23,7 +23,10 @@
 
   <div class="flex gap-6">
     <!-- Panel izquierdo con lista -->
-    <div class="w-80 bg-white border rounded-lg p-4 h-[520px] overflow-y-auto" v-if="currentView !== 'world'">
+    <div
+      class="w-80 bg-[#f8f9fa] border border-base-content/20 rounded-lg p-4 h-[520px] overflow-y-auto"
+      v-if="currentView !== 'world'"
+    >
       <!-- Lista de regiones -->
       <div v-if="!showFarmsList">
         <h3 class="text-lg font-bold text-[#545386] mb-4">
@@ -34,16 +37,36 @@
             v-for="region in currentCountryRegions"
             :key="region.id"
             @click="selectRegion(region)"
-            class="p-3 border rounded-lg cursor-pointer hover:bg-base-content/20 hover:border-[#545386] transition-colors"
-            :class="{ 'bg-[#f8f9fa] border-[#545386]': selectedRegion?.id === region.id }"
+            class="p-3 border rounded-lg cursor-pointer bg-white hover:bg-base-content/20 hover:border-[#545386] transition-colors"
+            :class="{ 'bg-[#545386]! border-[#545386]': cart.finca.regionId == region.id }"
           >
             <div class="flex justify-between items-center">
               <div>
-                <h4 class="font-semibold text-gray-800">{{ region.name }}</h4>
-                <p class="text-sm text-gray-600">{{ region.fincas }} fincas • {{ region.tipo }}</p>
-                <p class="text-xs text-gray-500">{{ region.ciudad }}</p>
+                <h4
+                  class="font-semibold text-gray-800"
+                  :class="{ 'text-white!': cart.finca.regionName == region.name }"
+                >
+                  {{ region.name }}
+                </h4>
+                <p
+                  class="text-sm text-gray-600"
+                  :class="{ 'text-gray-200!': cart.finca.regionName == region.name }"
+                >
+                  {{ region.fincas }} fincas • {{ region.tipo }}
+                </p>
+                <p
+                  class="text-xs text-gray-500"
+                  :class="{ 'text-gray-100!': cart.finca.regionName == region.name }"
+                >
+                  {{ region.ciudad }}
+                </p>
               </div>
-              <div class="text-[#545386]">→</div>
+              <div
+                class="text-[#545386]"
+                :class="{ 'text-white!': cart.finca.regionName == region.name }"
+              >
+                →
+              </div>
             </div>
           </div>
         </div>
@@ -68,36 +91,70 @@
             v-for="farm in currentRegionFarms"
             :key="farm.id"
             @click="selectFarm(farm)"
-            class="p-3 border rounded-lg cursor-pointer hover:bg-base-content/20 hover:border-[#545386] transition-colors"
-            :class="{ 'bg-[#545386] hover:bg-[#545386]! text-white border-[#545386]': selectedFarm ? selectedFarm?.id === farm.id : cart.finca.id === farm.id }"
+            class="p-3 border rounded-lg cursor-pointer bg-white hover:bg-base-content/20 hover:border-[#545386] transition-colors"
+            :class="{
+              'bg-[#545386]! hover:bg-[#545386]! text-white border-[#545386]': selectedFarm
+                ? selectedFarm?.id === farm.id
+                : cart.finca.id === farm.id,
+            }"
           >
             <div class="flex justify-between items-start">
               <div class="flex-1">
-                <h4 class="font-semibold" :class="selectedFarm ? selectedFarm?.id === farm.id : cart.finca.id === farm.id ? 'text-white' : 'text-gray-800'">
+                <h4
+                  class="font-semibold"
+                  :class="
+                    selectedFarm
+                      ? selectedFarm?.id === farm.id
+                      : cart.finca.id === farm.id
+                        ? 'text-white'
+                        : 'text-gray-800'
+                  "
+                >
                   {{ farm.nombre }}
                 </h4>
-                <p class="text-sm" :class="selectedFarm ? selectedFarm?.id === farm.id : cart.finca.id === farm.id ? 'text-gray-200' : 'text-gray-600'">
-                  {{ farm.ciudad }} • {{ farm.hectareas }}ha
+                <p
+                  class="text-sm"
+                  :class="
+                    selectedFarm
+                      ? selectedFarm?.id === farm.id
+                      : cart.finca.id === farm.id
+                        ? 'text-gray-200'
+                        : 'text-gray-600'
+                  "
+                >
+                  {{ farm.ciudad }} • {{ farm.hectareas }} hectáreas
                 </p>
                 <span
                   class="inline-block px-2 py-1 rounded-full text-xs mt-1"
-                  :class="farm.estado === 'Activa'
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-yellow-100 text-yellow-800'"
+                  :class="
+                    farm.estado === 'Activa'
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-yellow-100 text-yellow-800'
+                  "
                 >
                   {{ farm.estado }}
                 </span>
               </div>
-              <div v-if="selectedFarm ? selectedFarm?.id === farm.id : cart.finca.id === farm.id" class="text-white ml-2">
+              <div
+                v-if="selectedFarm ? selectedFarm?.id === farm.id : cart.finca.id === farm.id"
+                class="text-white ml-2"
+              >
                 ✓
               </div>
             </div>
           </div>
         </div>
 
-        <div v-if="selectedFarm && cart.finca || selectedFarm || hasFinca" class="mt-8 p-3 bg-[#f8f9fa] rounded-lg border-l-6 border-[#545386]">
+        <div
+          v-if="(selectedFarm && cart.finca) || selectedFarm || hasFinca"
+          class="mt-8 p-3 bg-[#f8f9fa] rounded-lg border-l-6 border-[#545386]"
+        >
           <p class="text-md font-medium text-gray-800">Finca seleccionada:</p>
-          <p class="text-sm text-gray-600">{{ selectedFarm ? selectedFarm.nombre : cart.finca.nombre }} ({{ selectedFarm ? selectedFarm.id : cart.finca.id }})</p>
+          <p class="text-sm text-gray-600">
+            {{ selectedFarm ? selectedFarm.nombre : cart.finca.nombre }} ({{
+              selectedFarm ? selectedFarm.id : cart.finca.id
+            }})
+          </p>
         </div>
       </div>
     </div>
@@ -152,6 +209,8 @@ const currentViewLabel = computed(() => {
 
 let currentDataMap = null
 const selectedRegion = ref(null)
+const selectedMapRegion = ref(null)
+const region = ref('')
 const selectedFarm = ref(null)
 const showFarmsList = ref(false)
 const cart = useCart()
@@ -221,9 +280,9 @@ const worldDataSet = {
 const colombiaDataSet = {
   CUNDINAMARCA: {
     name: 'Cundinamarca',
-    fincas: 8,
+    fincas: 54,
     tipo: 'Principal',
-    ciudad: 'Facatativá, Bogotá',
+    ciudad: 'Facatativá, Madrid, Tocancipa',
     fillKey: 'PRIMARY_FARM',
   },
   ANTIOQUIA: {
@@ -317,68 +376,299 @@ const kenyaDataSet = {
 const fincasData = {
   colombia: {
     CUNDINAMARCA: [
-      { id: 'CUN001', nombre: 'Finca La Esperanza', ciudad: 'Facatativá', hectareas: 15, estado: 'Activa' },
-      { id: 'CUN002', nombre: 'Finca San Rafael', ciudad: 'Facatativá', hectareas: 12, estado: 'Activa' },
-      { id: 'CUN003', nombre: 'Finca El Rosal', ciudad: 'Bogotá', hectareas: 8, estado: 'Activa' },
-      { id: 'CUN004', nombre: 'Finca Santa María', ciudad: 'Bogotá', hectareas: 10, estado: 'Mantenimiento' },
-      { id: 'CUN005', nombre: 'Finca Los Claveles', ciudad: 'Facatativá', hectareas: 18, estado: 'Activa' },
-      { id: 'CUN006', nombre: 'Finca Villa Flora', ciudad: 'Bogotá', hectareas: 14, estado: 'Activa' },
-      { id: 'CUN007', nombre: 'Finca El Jardín', ciudad: 'Facatativá', hectareas: 20, estado: 'Activa' },
-      { id: 'CUN008', nombre: 'Finca Primavera', ciudad: 'Bogotá', hectareas: 16, estado: 'Activa' }
+      { id: 'CUN001', nombre: 'MORADO', ciudad: 'Facatativá', hectareas: 15, estado: 'Activa' },
+      { id: 'CUN002', nombre: 'FLOREX', ciudad: 'Madrid', hectareas: 12, estado: 'Activa' },
+      { id: 'CUN003', nombre: 'ROSAL', ciudad: 'Facatativá', hectareas: 8, estado: 'Activa' },
+      {
+        id: 'CUN004',
+        nombre: 'SANTA MARIA',
+        ciudad: 'Facatativá',
+        hectareas: 10,
+        estado: 'Activa',
+      },
+      { id: 'CUN005', nombre: 'CARNATION', ciudad: 'Cota', hectareas: 18, estado: 'Activa' },
+      { id: 'CUN006', nombre: 'PALMAS', ciudad: 'Tocancipa', hectareas: 14, estado: 'Activa' },
+      { id: 'CUN007', nombre: 'VISTA FARM', ciudad: 'Facatativá', hectareas: 20, estado: 'Activa' },
+      { id: 'CUN008', nombre: 'MARGARITAS', ciudad: 'Facatativá', hectareas: 16, estado: 'Activa' },
+      { id: 'CUN009', nombre: 'MARLY', ciudad: 'Facatativá', hectareas: 6, estado: 'Activa' },
+      { id: 'CUN010', nombre: 'FANTASY', ciudad: 'Madrid', hectareas: 9, estado: 'Activa' },
+      { id: 'CUN011', nombre: 'TIKIYA', ciudad: 'Sibate', hectareas: 3, estado: 'Activa' },
+      { id: 'CUN012', nombre: 'EL RESPIRO', ciudad: 'Sibate', hectareas: 5, estado: 'Activa' },
+      { id: 'CUN013', nombre: 'CHUSACA', ciudad: 'Sibate', hectareas: 8, estado: 'Activa' },
+      { id: 'CUN014', nombre: 'TINZUQUE', ciudad: 'Sibate', hectareas: 7, estado: 'Activa' },
+      { id: 'CUN015', nombre: 'JARDINES', ciudad: 'Madrid', hectareas: 9, estado: 'Activa' },
+      { id: 'CUN016', nombre: 'GUACARI', ciudad: 'Tocancipa', hectareas: 12, estado: 'Activa' },
+      { id: 'CUN017', nombre: 'SAN PEDRO', ciudad: 'Facatativá', hectareas: 4, estado: 'Activa' },
+      { id: 'CUN018', nombre: 'VALENTINA', ciudad: 'Facatativá', hectareas: 3, estado: 'Activa' },
+      { id: 'CUN019', nombre: 'VALDAYA', ciudad: 'Madrid', hectareas: 12, estado: 'Activa' },
+      { id: 'CUN020', nombre: 'NORMANDIA', ciudad: 'Facatativá', hectareas: 4, estado: 'Activa' },
+      { id: 'CUN021', nombre: 'MIRAMONTE', ciudad: 'Marinilla', hectareas: 1, estado: 'Activa' },
+      { id: 'CUN022', nombre: 'ARANDANOS', ciudad: 'Sotaquira', hectareas: 6, estado: 'Activa' },
+      { id: 'CUN023', nombre: 'MERCEDES', ciudad: 'Facatativá', hectareas: 17, estado: 'Activa' },
+      { id: 'CUN024', nombre: 'WAYUU SUESCA', ciudad: 'Suesca', hectareas: 14, estado: 'Activa' },
+      { id: 'CUN025', nombre: 'LAS DELICIAS', ciudad: 'Cachipay', hectareas: 4, estado: 'Activa' },
+      { id: 'CUN026', nombre: 'EL COLEGIO', ciudad: 'Madrid', hectareas: 12, estado: 'Activa' },
+      { id: 'CUN027', nombre: 'WAYUU GUASCA', ciudad: 'Guasca', hectareas: 4, estado: 'Activa' },
+      { id: 'CUN028', nombre: 'POZO AZUL', ciudad: 'Facatativá', hectareas: 7, estado: 'Activa' },
+      { id: 'CUN029', nombre: 'BELCHITE', ciudad: 'Nemocon', hectareas: 21, estado: 'Activa' },
+      { id: 'CUN030', nombre: 'FLOREX 2', ciudad: 'Madrid', hectareas: 25, estado: 'Activa' },
+      { id: 'CUN031', nombre: 'EVEREST', ciudad: 'San vicente', hectareas: 11, estado: 'Activa' },
+      { id: 'CUN032', nombre: 'SALOME', ciudad: 'San vicente', hectareas: 21, estado: 'Activa' },
+      { id: 'CUN033', nombre: 'LEJANIAS', ciudad: 'San vicente', hectareas: 22, estado: 'Activa' },
+      { id: 'CUN034', nombre: 'HOJAS VERDES', ciudad: 'Rionegro', hectareas: 24, estado: 'Activa' },
+      {
+        id: 'CUN035',
+        nombre: 'EL DESQUITE',
+        ciudad: 'El carmen de vivoral',
+        hectareas: 26,
+        estado: 'Activa',
+      },
+      { id: 'CUN036', nombre: 'FLOREX 3', ciudad: 'Madrid', hectareas: 12, estado: 'Activa' },
+      { id: 'CUN037', nombre: 'SEVILLA', ciudad: 'Facatativá', hectareas: 34, estado: 'Activa' },
+      {
+        id: 'CUN038',
+        nombre: 'LA ESCONDIDA',
+        ciudad: 'San vicente',
+        hectareas: 12,
+        estado: 'Activa',
+      },
+      {
+        id: 'CUN039',
+        nombre: 'SAN IGNACIO',
+        ciudad: 'San vicente',
+        hectareas: 18,
+        estado: 'Activa',
+      },
+      { id: 'CUN040', nombre: 'LA NENA', ciudad: 'Madrid', hectareas: 12, estado: 'Activa' },
+      { id: 'CUN041', nombre: 'EL RUBY', ciudad: 'Sibate', hectareas: 28, estado: 'Activa' },
+      { id: 'CUN042', nombre: 'FLORESTA', ciudad: 'La ceja', hectareas: 17, estado: 'Activa' },
+      {
+        id: 'CUN043',
+        nombre: 'WAYUU EL FUTURO',
+        ciudad: 'Nemocon',
+        hectareas: 22,
+        estado: 'Activa',
+      },
+      { id: 'CUN044', nombre: 'LA PRIMAVERA', ciudad: 'Bogotá', hectareas: 12, estado: 'Activa' },
+      { id: 'CUN045', nombre: 'PONDEROSA', ciudad: 'Madrid', hectareas: 36, estado: 'Activa' },
+      { id: 'CUN046', nombre: 'LA ALDEA', ciudad: 'Suesca', hectareas: 37, estado: 'Activa' },
+      {
+        id: 'CUN047',
+        nombre: 'SAN JUAN EL RANCHO',
+        ciudad: 'Nemocon',
+        hectareas: 25,
+        estado: 'Activa',
+      },
+      { id: 'CUN048', nombre: 'SAN JUAN FUNZA', ciudad: 'Funza', hectareas: 11, estado: 'Activa' },
+      {
+        id: 'CUN049',
+        nombre: 'SAN JUAN NEMOCON',
+        ciudad: 'Nemocon',
+        hectareas: 16,
+        estado: 'Activa',
+      },
+      { id: 'CUN050', nombre: 'LUISIANA', ciudad: 'Nemocon', hectareas: 18, estado: 'Activa' },
+      { id: 'CUN051', nombre: 'SANTO DOMINGO', ciudad: 'Cota', hectareas: 12, estado: 'Activa' },
+      { id: 'CUN052', nombre: 'SANTA BARBARA', ciudad: 'Funza', hectareas: 15, estado: 'Activa' },
+      { id: 'CUN053', nombre: 'FLORANOVA', ciudad: 'Madrid', hectareas: 40, estado: 'Activa' },
+      { id: 'CUN054', nombre: 'SAN ALEJO', ciudad: 'Madrid', hectareas: 34, estado: 'Activa' },
     ],
     ANTIOQUIA: [
-      { id: 'ANT001', nombre: 'Finca Medellín Flores', ciudad: 'Medellín', hectareas: 22, estado: 'Activa' },
-      { id: 'ANT002', nombre: 'Finca Rionegro Verde', ciudad: 'Rionegro', hectareas: 25, estado: 'Activa' },
-      { id: 'ANT003', nombre: 'Finca El Valle', ciudad: 'Medellín', hectareas: 18, estado: 'Activa' },
-      { id: 'ANT004', nombre: 'Finca Las Orquídeas', ciudad: 'Rionegro', hectareas: 30, estado: 'Activa' },
-      { id: 'ANT005', nombre: 'Finca Antioquia Bella', ciudad: 'Medellín', hectareas: 28, estado: 'Mantenimiento' }
+      {
+        id: 'ANT001',
+        nombre: 'Finca Medellín Flores',
+        ciudad: 'Medellín',
+        hectareas: 22,
+        estado: 'Activa',
+      },
+      {
+        id: 'ANT002',
+        nombre: 'Finca Rionegro Verde',
+        ciudad: 'Rionegro',
+        hectareas: 25,
+        estado: 'Activa',
+      },
+      {
+        id: 'ANT003',
+        nombre: 'Finca El Valle',
+        ciudad: 'Medellín',
+        hectareas: 18,
+        estado: 'Activa',
+      },
+      {
+        id: 'ANT004',
+        nombre: 'Finca Las Orquídeas',
+        ciudad: 'Rionegro',
+        hectareas: 30,
+        estado: 'Activa',
+      },
+      {
+        id: 'ANT005',
+        nombre: 'Finca Antioquia Bella',
+        ciudad: 'Medellín',
+        hectareas: 28,
+        estado: 'Mantenimiento',
+      },
     ],
     'VALLE DEL CAUCA': [
-      { id: 'VAL001', nombre: 'Finca Cali Flores', ciudad: 'Cali', hectareas: 20, estado: 'Activa' },
-      { id: 'VAL002', nombre: 'Finca Palmira Rosa', ciudad: 'Palmira', hectareas: 15, estado: 'Activa' },
-      { id: 'VAL003', nombre: 'Finca Valle Hermoso', ciudad: 'Cali', hectareas: 12, estado: 'Activa' }
+      {
+        id: 'VAL001',
+        nombre: 'Finca Cali Flores',
+        ciudad: 'Cali',
+        hectareas: 20,
+        estado: 'Activa',
+      },
+      {
+        id: 'VAL002',
+        nombre: 'Finca Palmira Rosa',
+        ciudad: 'Palmira',
+        hectareas: 15,
+        estado: 'Activa',
+      },
+      {
+        id: 'VAL003',
+        nombre: 'Finca Valle Hermoso',
+        ciudad: 'Cali',
+        hectareas: 12,
+        estado: 'Activa',
+      },
     ],
     BOYACÁ: [
-      { id: 'BOY001', nombre: 'Finca Tunja Central', ciudad: 'Tunja', hectareas: 10, estado: 'Activa' },
-      { id: 'BOY002', nombre: 'Finca Duitama Norte', ciudad: 'Duitama', hectareas: 8, estado: 'Activa' }
+      {
+        id: 'BOY001',
+        nombre: 'Finca Tunja Central',
+        ciudad: 'Tunja',
+        hectareas: 10,
+        estado: 'Activa',
+      },
+      {
+        id: 'BOY002',
+        nombre: 'Finca Duitama Norte',
+        ciudad: 'Duitama',
+        hectareas: 8,
+        estado: 'Activa',
+      },
     ],
     QUINDÍO: [
-      { id: 'QUI001', nombre: 'Centro Distribución Armenia', ciudad: 'Armenia', hectareas: 5, estado: 'Activa' }
+      {
+        id: 'QUI001',
+        nombre: 'Centro Distribución Armenia',
+        ciudad: 'Armenia',
+        hectareas: 5,
+        estado: 'Activa',
+      },
     ],
     CALDAS: [
-      { id: 'CAL001', nombre: 'Centro Distribución Manizales', ciudad: 'Manizales', hectareas: 4, estado: 'Activa' }
-    ]
+      {
+        id: 'CAL001',
+        nombre: 'Centro Distribución Manizales',
+        ciudad: 'Manizales',
+        hectareas: 4,
+        estado: 'Activa',
+      },
+    ],
   },
   ecuador: {
     PICHINCHA: [
-      { id: 'PIC001', nombre: 'Finca Quito Flores', ciudad: 'Quito', hectareas: 25, estado: 'Activa' }
+      {
+        id: 'PIC001',
+        nombre: 'Finca Quito Flores',
+        ciudad: 'Quito',
+        hectareas: 25,
+        estado: 'Activa',
+      },
     ],
     COTOPAXI: [
-      { id: 'COT001', nombre: 'Finca Latacunga Verde', ciudad: 'Latacunga', hectareas: 18, estado: 'Activa' }
+      {
+        id: 'COT001',
+        nombre: 'Finca Latacunga Verde',
+        ciudad: 'Latacunga',
+        hectareas: 18,
+        estado: 'Activa',
+      },
     ],
     IMBABURA: [
-      { id: 'IMB001', nombre: 'Centro Distribución Ibarra Norte', ciudad: 'Ibarra', hectareas: 6, estado: 'Activa' },
-      { id: 'IMB002', nombre: 'Centro Distribución Ibarra Sur', ciudad: 'Ibarra', hectareas: 4, estado: 'Activa' },
-      { id: 'IMB003', nombre: 'Centro Distribución Ibarra Este', ciudad: 'Ibarra', hectareas: 5, estado: 'Activa' },
-      { id: 'IMB004', nombre: 'Centro Distribución Ibarra Oeste', ciudad: 'Ibarra', hectareas: 3, estado: 'Activa' }
-    ]
+      {
+        id: 'IMB001',
+        nombre: 'Centro Distribución Ibarra Norte',
+        ciudad: 'Ibarra',
+        hectareas: 6,
+        estado: 'Activa',
+      },
+      {
+        id: 'IMB002',
+        nombre: 'Centro Distribución Ibarra Sur',
+        ciudad: 'Ibarra',
+        hectareas: 4,
+        estado: 'Activa',
+      },
+      {
+        id: 'IMB003',
+        nombre: 'Centro Distribución Ibarra Este',
+        ciudad: 'Ibarra',
+        hectareas: 5,
+        estado: 'Activa',
+      },
+      {
+        id: 'IMB004',
+        nombre: 'Centro Distribución Ibarra Oeste',
+        ciudad: 'Ibarra',
+        hectareas: 3,
+        estado: 'Activa',
+      },
+    ],
   },
   kenya: {
     NAIROBI: [
-      { id: 'NAI001', nombre: 'Nairobi Flower Farm', ciudad: 'Nairobi', hectareas: 35, estado: 'Activa' }
+      {
+        id: 'NAI001',
+        nombre: 'Nairobi Flower Farm',
+        ciudad: 'Nairobi',
+        hectareas: 35,
+        estado: 'Activa',
+      },
     ],
     BARINGO: [
-      { id: 'BAR001', nombre: 'Baringo Distribution Center A', ciudad: 'Baringo', hectareas: 8, estado: 'Activa' },
-      { id: 'BAR002', nombre: 'Baringo Distribution Center B', ciudad: 'Baringo', hectareas: 6, estado: 'Activa' }
+      {
+        id: 'BAR001',
+        nombre: 'Baringo Distribution Center A',
+        ciudad: 'Baringo',
+        hectareas: 8,
+        estado: 'Activa',
+      },
+      {
+        id: 'BAR002',
+        nombre: 'Baringo Distribution Center B',
+        ciudad: 'Baringo',
+        hectareas: 6,
+        estado: 'Activa',
+      },
     ],
     MARSABIT: [
-      { id: 'MAR001', nombre: 'Marsabit Distribution Hub 1', ciudad: 'Marsabit', hectareas: 7, estado: 'Activa' },
-      { id: 'MAR002', nombre: 'Marsabit Distribution Hub 2', ciudad: 'Marsabit', hectareas: 5, estado: 'Activa' },
-      { id: 'MAR003', nombre: 'Marsabit Distribution Hub 3', ciudad: 'Marsabit', hectareas: 4, estado: 'Mantenimiento' }
-    ]
-  }
+      {
+        id: 'MAR001',
+        nombre: 'Marsabit Distribution Hub 1',
+        ciudad: 'Marsabit',
+        hectareas: 7,
+        estado: 'Activa',
+      },
+      {
+        id: 'MAR002',
+        nombre: 'Marsabit Distribution Hub 2',
+        ciudad: 'Marsabit',
+        hectareas: 5,
+        estado: 'Activa',
+      },
+      {
+        id: 'MAR003',
+        nombre: 'Marsabit Distribution Hub 3',
+        ciudad: 'Marsabit',
+        hectareas: 4,
+        estado: 'Mantenimiento',
+      },
+    ],
+  },
 }
-
 
 function loadScripts(sources) {
   return Promise.all(
@@ -535,6 +825,12 @@ async function createCountryMap(country) {
 
   if (topojsonData) {
     createCustomCountryMap(container, topojsonData, countryDataSet)
+
+    // Resaltar la región seleccionada si existe
+    if (cart.finca?.regionId) {
+      await nextTick()
+      highlightSelectedRegion(cart.finca.regionId)
+    }
   } else {
     createDefaultCountryMap(container, country, countryDataSet)
   }
@@ -639,6 +935,17 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
       })
       hideTooltip()
     })
+    .on('click', function (d) {
+      // Agregar el evento click directamente aquí
+      const regionData =
+        countryDataSet[d.properties.DPTO_CNMBR] ||
+        countryDataSet[d.properties.COUNTY_NAM] ||
+        countryDataSet[d.properties.dpa_despro]
+      const name = d.properties.DPTO_CNMBR || d.properties.COUNTY_NAM || d.properties.dpa_despro
+      if (name && regionData) {
+        region1(name)
+      }
+    })
 
   function showTooltip(d, event, dataSet) {
     const regionData =
@@ -669,6 +976,9 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
           <div style="margin-bottom: 4px;">
             <span>Ciudades: <strong>${regionData.ciudad}</strong></span>
           </div>
+          <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee; font-size: 11px; color: #007bff;">
+            🖱️ Haz clic para filtrar
+          </div>
         </div>`
     }
 
@@ -697,6 +1007,26 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
       projection.translate([newWidth / 2, height / 2])
       svg.selectAll('path').attr('d', path)
     },
+  }
+}
+
+const region1 = (name) => {
+  selectedMapRegion.value = name
+
+  // Encontrar la región correspondiente en los datos
+  const countryDataSet = getCountryDataSet(currentView.value)
+  const regions = Object.entries(countryDataSet).map(([key, data]) => ({
+    id: key,
+    ...data,
+  }))
+
+  if (regions) {
+    const region = {
+      id: name,
+      ...countryDataSet[name],
+    }
+
+    selectMapRegion(region)
   }
 }
 
@@ -757,15 +1087,13 @@ const currentCountryRegions = computed(() => {
   if (currentView.value === 'world') return []
 
   const countryDataSet = getCountryDataSet(currentView.value)
-  return Object.entries(countryDataSet).map(([key, data]) => ({
+  const regions = Object.entries(countryDataSet).map(([key, data]) => ({
     id: key,
-    ...data
+    ...data,
   }))
-})
 
-const hasFinca = computed(() => {
-  return cart.finca && Object.keys(cart.finca).length > 0;
-});
+  return regions
+})
 
 // 4. Computed para obtener fincas de la región seleccionada:
 const currentRegionFarms = computed(() => {
@@ -781,12 +1109,53 @@ function selectRegion(region) {
   showFarmsList.value = true
 }
 
+function selectMapRegion(region) {
+  selectedRegion.value = region
+  selectedFarm.value = null
+  showFarmsList.value = true
+
+  // También puedes resaltar la región en el mapa si es necesario
+  highlightSelectedRegion(region.id)
+}
+
 function selectFarm(farm) {
   selectedFarm.value = farm
-  cart.finca = farm
+  const regionEncontrada = encontrarRegionDeFinca(farm.id)
 
-  // Aquí puedes emitir un evento o actualizar un store global
-  // emit('farm-selected', farm)
+  if (regionEncontrada) {
+    selectedRegion.value = regionEncontrada
+    console.log(regionEncontrada.id)
+
+    // Guardar en el carrito con toda la información
+    cart.finca = {
+      ...farm,
+      pais: currentView.value,
+      region: selectedRegion.value,
+      regionId: regionEncontrada.id,
+      regionName: regionEncontrada.name,
+    }
+
+    // Resaltar la región en el mapa
+    nextTick(() => {
+      highlightSelectedRegion(regionEncontrada.id)
+    })
+  } else {
+    console.error('No se encontró la región para esta finca')
+  }
+}
+
+const encontrarRegionDeFinca = (farmId) => {
+  // Buscar en todas las regiones del país actual
+  for (const region of currentCountryRegions.value) {
+    // Buscar en las fincas de esta región
+    const fincasEnRegion = fincasData[currentView.value][region.id] || []
+    const fincaEncontrada = fincasEnRegion.find((f) => f.id === farmId)
+
+    if (fincaEncontrada) {
+      return region
+    }
+  }
+  return null
 }
 
 function backToRegions() {
@@ -813,6 +1182,41 @@ function zoomToCountry(country) {
   })
 }
 
+const restoreSelection = async () => {
+  if (cart.finca && cart.finca.pais) {
+    currentView.value = cart.finca.pais
+    await nextTick()
+
+    // Cargar el mapa del país
+    await createCountryMap(cart.finca.pais)
+
+    // Buscar y establecer la región
+    if (cart.finca.regionId) {
+      const region = currentCountryRegions.value.find((r) => r.id === cart.finca.regionId)
+      if (region) {
+        selectedRegion.value = cart.finca.region
+        showFarmsList.value = true
+        // Buscar y establecer la finca
+        const fincasEnRegion = fincasData[currentView.value][region.id] || []
+        const farm = fincasEnRegion.find((f) => f.id === cart.finca.id)
+        if (farm) {
+          selectedFarm.value = farm
+        }
+      }
+    }
+  } else {
+    createWorldMap()
+  }
+}
+
+function highlightSelectedRegion(regionId) {
+  const regionElement = document.querySelector(`[data-id="${regionId}"]`)
+  if (regionElement) {
+    regionElement.style.fill = '#FFD700' // Color dorado para resaltar
+    regionElement.style.stroke = '#FF0000'
+    regionElement.style.strokeWidth = '2px'
+  }
+}
 
 onMounted(async () => {
   try {
@@ -825,7 +1229,8 @@ onMounted(async () => {
     await waitForLibraries()
     await nextTick()
 
-    createWorldMap()
+    // Usar restoreSelection en lugar de createWorldMap directamente
+    await restoreSelection()
 
     let resizeTimeout
     window.addEventListener('resize', () => {
@@ -836,7 +1241,6 @@ onMounted(async () => {
         }
       }, 250)
     })
-
   } catch (error) {
     console.error('Error al inicializar el mapa:', error)
   }

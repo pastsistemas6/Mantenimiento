@@ -4,8 +4,8 @@
     class="bg-base-100 --prevent-on-load-init flex flex-col rounded-md shadow-base-300/20 shadow"
   >
     <div class="w-full pt-4 pb-2 px-5 flex justify-between">
-      <h2 class="text-[#545386] font-bold text-2xl">Gestión de plásticos</h2>
-      <button type="button" class="btn bg-[#545386]" @click="showModal = true">
+      <h2 class="text-[#545386] font-bold text-2xl">Gestión de invernaderos</h2>
+      <button type="button" class="btn bg-[#545386] shadow-none border-0" @click="showModal = true">
         Nuevo registro
       </button>
 
@@ -19,7 +19,7 @@
         <div class="modal-dialog opacity-100 duration-300">
           <div class="modal-content">
             <div class="modal-header">
-              <h3 class="modal-title">Registro de Plásticos</h3>
+              <h3 class="modal-title font-bold text-[#545386]">Registro de invernaderos</h3>
               <button
                 type="button"
                 class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
@@ -68,10 +68,12 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-soft" @click="showModal = false">
+                <button type="button" class="btn btn-soft shadow-none" @click="showModal = false">
                   Cancelar
                 </button>
-                <button type="submit" class="btn bg-[#545386] text-white">Guardar registro</button>
+                <button type="submit" class="btn bg-[#545386] text-white shadow-none border-0">
+                  Guardar registro
+                </button>
               </div>
             </form>
           </div>

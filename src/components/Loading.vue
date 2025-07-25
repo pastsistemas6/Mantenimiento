@@ -193,7 +193,7 @@
           <circle fill="#DFDFDF" r="7" cy="15" cx="15"></circle>
         </svg>
       </div>
-      <div class="road"></div>
+      <div class="road before:content-none! after:content-none!"></div>
 
       <svg
         xml:space="preserve"
@@ -230,5 +230,5 @@ const router = useRouter()
 
 setTimeout(() => {
   router.push({ name: 'BodyLayout' })
-}, 3000)
+}, 4000)
 </script>

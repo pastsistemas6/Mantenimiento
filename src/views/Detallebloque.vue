@@ -50,7 +50,7 @@ const featureActual = ref(null)
 const geojsonData = ref(null)
 
 function enviar() {
-  router.push({ name: 'Plasticos' })
+  router.push({ name: 'Invernaderos' })
 }
 
 async function cargarDatos() {
