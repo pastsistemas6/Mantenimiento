@@ -23,7 +23,7 @@
             <div class="modal-dialog opacity-100 duration-300">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h3 class="modal-title font-semibold text-[#545386]">Crear ticket</h3>
+                  <h3 class="modal-title font-bold text-[#545386]">Crear ticket</h3>
                   <button
                     type="button"
                     class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
@@ -273,7 +273,7 @@
               v-if="activeAccordion === 'usage'"
               class="accordion-content w-full overflow-hidden transition-[height] duration-300"
             >
-              <div class="px-5 pb-4">
+              <div class="px-6 pb-4">
                 <p class="text-base-content/80 font-normal">
                   Use los filtros superiores para buscar elementos por nombre, especialidad o tipo.
                   Los <strong>insumos</strong> son elementos generales disponibles para cada
@@ -302,7 +302,7 @@
               v-if="activeAccordion === 'types'"
               class="accordion-content w-full overflow-hidden transition-[height] duration-300"
             >
-              <div class="px-5 pb-4">
+              <div class="px-6 pb-4">
                 <p class="text-base-content/80 font-normal">
                   <strong>Especialidades:</strong> Eléctricos, Electromecánicos, Invernadores,
                   Mecánicos, Obras Civiles, Soldadores.<br /><br />
@@ -333,7 +333,7 @@
               v-if="activeAccordion === 'filters'"
               class="accordion-content w-full overflow-hidden transition-[height] duration-300"
             >
-              <div class="px-5 pb-4">
+              <div class="px-6 pb-4">
                 <p class="text-base-content/80 font-normal">
                   <strong>Búsqueda por nombre:</strong> Escriba el nombre del componente para
                   filtrar los resultados.<br /><br />
@@ -365,7 +365,7 @@
               v-if="activeAccordion === 'access'"
               class="accordion-content w-full overflow-hidden transition-[height] duration-300"
             >
-              <div class="px-5 pb-4">
+              <div class="px-6 pb-4">
                 <p class="text-base-content/80 font-normal">
                   Después de seleccionar un elemento, encontrará enlaces directos a SmartSheet donde
                   podrá ver toda la información detallada, historial de uso, disponibilidad y

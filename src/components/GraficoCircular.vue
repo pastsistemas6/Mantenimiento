@@ -1,6 +1,6 @@
 <template>
   <div class="shadow rounded-md w-full flex flex-col items-center justify-center">
-    <h2 class="text-black text-xl font-semibold p-4 w-full mb-auto">Mantenimientos por Tipo</h2>
+    <h2 class="text-[#545386] text-2xl font-bold p-4 w-full mb-auto">Mantenimientos por Tipo</h2>
     <div id="apex-doughnut-chart" class="mb-auto"></div>
   </div>
 </template>

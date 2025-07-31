@@ -17,7 +17,7 @@ import Page404 from '@/views/Page404.vue'
 import Users from '@/layouts/Users.vue'
 import Map from '@/layouts/Map.vue'
 import About from '@/layouts/about.vue'
-import Datatable2 from '@/components/Datatable2.vue'
+import TablaLecturas from '@/components/TablaLecturas.vue'
 import Support from '@/layouts/Support.vue'
 import Detallebloque from '@/views/Detallebloque.vue'
 import Biblioteca from '@/layouts/Biblioteca.vue'
@@ -88,7 +88,7 @@ const router = createRouter({
             {
               path: '/data-tabla',
               name: 'Data-tabla',
-              component: Datatable2,
+              component: TablaLecturas,
             },
           ],
         },

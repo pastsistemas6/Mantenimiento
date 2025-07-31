@@ -1,7 +1,7 @@
 <template>
   <div class="card not-prose w-full shadow-none">
     <div class="flex flex-col shadow p-4 rounded-lg">
-      <h2 class="text-2xl font-bold text-[#545386] mb-4">Calendario</h2>
+      <h2 class="text-2xl font-bold text-[#545386] mb-4">Calendario de consumo</h2>
       <div id="calendar-custom" ref="calendarRef" class="w-full"></div>
     </div>
   </div>
@@ -25,7 +25,7 @@
     <div class="modal-dialog opacity-100 duration-300">
       <div class="modal-content overflow-y-auto">
         <div class="modal-header pb-2 flex flex-col items-start">
-          <h2 class="font-semibold text-lg">Gestionar lecturas del día</h2>
+          <h2 class="font-bold text-[#545386] text-xl">Gestionar lecturas del día</h2>
           <div class="divider text-base-content/50 py-2"></div>
           <div class="w-full flex items-center gap-2">
             <h3 class="text-md">Fecha seleccionada:</h3>
@@ -43,7 +43,7 @@
         <form id="eventForm">
           <div class="modal-body pt-0 flex flex-col gap-2">
             <div class="w-full">
-              <label class="label-text">Seleccione una cuenta</label>
+              <label class="label-text cursor-default!">Seleccione una cuenta</label>
               <select id="accountSelect" class="select" required>
                 <option disabled selected>Seleccione una cuenta...</option>
                 <option value="EMGESA 635">EMGESA 635</option>
@@ -61,11 +61,11 @@
               </select>
             </div>
             <div>
-              <label class="label-text"> Código del operador </label>
+              <label class="label-text cursor-default!"> Código del operador </label>
               <input id="operatorCode" type="text" class="input" placeholder="Ej: OP001" required />
             </div>
             <div>
-              <label class="label-text"> Nombre del operador </label>
+              <label class="label-text cursor-default!"> Nombre del operador </label>
               <input
                 id="operatorName"
                 type="text"
@@ -75,33 +75,41 @@
               />
             </div>
             <div>
-              <label class="label-text"> Lectura (kWh) </label>
+              <label class="label-text cursor-default!"> Lectura (kWh) </label>
               <input id="reading" type="number" class="input" placeholder="0.00" required />
             </div>
             <div>
-              <label class="label-text"> Observaciones </label>
+              <label class="label-text cursor-default!"> Observaciones </label>
               <textarea
                 id="observations"
-                class="input pt-1"
+                class="textarea textarea-bordered w-full border-base-content/30"
                 placeholder="Observaciones adicionales (opcional)"
+                rows="3"
               ></textarea>
             </div>
-            <div class="mb-4">
-              <label class="label-text" for="eventTitle">Información</label>
+            <div>
+              <label class="label-text cursor-default!" for="eventTitle">Información</label>
               <input
                 type="text"
                 id="eventTitle"
                 class="input"
-                placeholder="Resumen del evento"
+                placeholder="Resumen de la lectura"
                 disabled
               />
             </div>
+
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-soft text-black/55" @click="closeModal">
+            <button type="button" class="btn btn-soft text-black/55 shadow-none border-0" @click="closeModal">
               Cancelar
             </button>
-            <button type="submit" class="btn bg-[#545386]">Guardar lectura</button>
+            <button type="submit" class="btn bg-[#545386] shadow-none border-0">Guardar lectura</button>
+          </div>
+          <div class="modal-body pt-0 flex flex-col gap-2 mb-3">
+            <div class="flex flex-col gap-2">
+              <label class="label-text cursor-default!" for="eventTitle">Lecturas existentes:</label>
+              <span class="text-center text-sm text-gray-500! border-1 border-gray-300 rounded-md py-8!">No hay lecturas registradas para este día.</span>
+            </div>
           </div>
         </form>
       </div>
@@ -188,8 +196,7 @@ onMounted(async () => {
     },
     {
       title: 'Confirm tech stack',
-      start: addDays(today, 0).toISOString().split('T')[0] + 'T10:00:00',
-      end: addDays(today, 0).toISOString().split('T')[0] + 'T18:00:00',
+      start: addDays(today, 0).toISOString().split('T')[0],
       classNames: ['fc-event-success'],
     },
     {

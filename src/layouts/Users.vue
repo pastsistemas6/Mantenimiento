@@ -3,7 +3,7 @@
     <div class="py-3 pr-5 pb-6">
       <div class="flex flex-col gap-4 shadow p-4 rounded-lg">
         <div class="flex gap-2 items-center">
-          <h2 class="text-[#545386] font-bold text-2xl">Administración de usuarios</h2>
+          <h2 class="text-[#545386] font-bold text-3xl">Administración de usuarios</h2>
           <div id="dropdown-datatable-with-export" class="dropdown relative inline-flex ml-auto">
             <button
               id="datatable-export-dropdown"
@@ -109,7 +109,7 @@
             <div :class="!isModalOpen ? 'modal-dialog' : 'modal-dialog opacity-100 duration-300'">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h3 class="modal-title">Agregar usuario</h3>
+                  <h3 class="modal-title font-bold text-2xl text-[#545386]">Agregar usuario</h3>
                   <button
                     type="button"
                     class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
@@ -136,7 +136,7 @@
                         <label class="label-text" for="email"> Correo </label>
                         <input
                           type="email"
-                          placeholder="johndoe@123@eliteflower.com"
+                          placeholder="johndoe123@eliteflower.com"
                           class="input"
                           id="email"
                           required
@@ -146,12 +146,11 @@
                         <label class="label-text" for="favorite-simpson">Rol</label>
                         <select class="select" id="favorite-simpson" required>
                           <option selected disabled>Seleccione un rol...</option>
-                          <option>Admin</option>
-                          <option>Asistente zona</option>
-                          <option>Operario</option>
-                          <option>Ingeniero soporte</option>
+                          <option>Gerente</option>
+                          <option>Asistente</option>
+                          <option>Técnico</option>
                           <option>Pasante</option>
-                          <option>Usuario general</option>
+                          <option>Operador</option>
                         </select>
                       </div>
                     </div>
@@ -159,10 +158,7 @@
                       <label class="label-text" for="favorite-simpson">Ubicación</label>
                       <select class="select" id="favorite-simpson" required>
                         <option selected disabled>Seleccione una finca...</option>
-                        <option>Finca la nena</option>
-                        <option>Finca santa maria</option>
-                        <option>Finca el morado</option>
-                        <option>Finca florex</option>
+                        <option v-for="finca in fincas" :key="finca.id">{{ finca.name }}</option>
                       </select>
                     </div>
                   </div>
@@ -177,66 +173,34 @@
             </div>
           </div>
         </div>
-        <div class="flex items-center justify-evenly gap-3">
+        <div class="flex items-center justify-evenly gap-3 mt-2">
           <div class="stat shadow-sm rounded-md">
             <div class="stat-figure">
-              <div class="avatar">
-                <div class="size-12 rounded-full">
-                  <img
-                    src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png"
-                    alt="User Avatar"
-                  />
-                </div>
-              </div>
+              <span class="icon-[fa6-solid--users-viewfinder] size-11 text-[#545386]"></span>
             </div>
             <div class="stat-title">Total usuarios</div>
-            <div class="stat-value">89,400</div>
-            <div class="stat-desc">21% ↗︎ than last month</div>
+            <div class="stat-value text-[#545386]!">{{ users.length }}</div>
           </div>
           <div class="stat shadow-sm rounded-md">
             <div class="stat-figure">
-              <div class="avatar">
-                <div class="size-12 rounded-full">
-                  <img
-                    src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png"
-                    alt="User Avatar"
-                  />
-                </div>
-              </div>
+              <span class="icon-[fa6-solid--user-check] size-11 text-[#545386]"></span>
             </div>
             <div class="stat-title">Total activos</div>
-            <div class="stat-value">89,400</div>
-            <div class="stat-desc">21% ↗︎ than last month</div>
+            <div class="stat-value text-[#545386]!">{{ activo }}</div>
           </div>
           <div class="stat shadow-sm rounded-md">
             <div class="stat-figure">
-              <div class="avatar">
-                <div class="size-12 rounded-full">
-                  <img
-                    src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png"
-                    alt="User Avatar"
-                  />
-                </div>
-              </div>
+              <span class="icon-[fa6-solid--user-xmark] size-11 text-[#545386]"></span>
             </div>
             <div class="stat-title">Total inactivos</div>
-            <div class="stat-value">89,400</div>
-            <div class="stat-desc">21% ↗︎ than last month</div>
+            <div class="stat-value text-[#545386]!">{{ inactivo }}</div>
           </div>
           <div class="stat shadow-sm rounded-md">
             <div class="stat-figure">
-              <div class="avatar">
-                <div class="size-12 rounded-full">
-                  <img
-                    src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png"
-                    alt="User Avatar"
-                  />
-                </div>
-              </div>
+               <span class="icon-[fa6-solid--user-clock] size-11 text-[#545386]"></span>
             </div>
             <div class="stat-title">Total pendientes</div>
-            <div class="stat-value">89,400</div>
-            <div class="stat-desc">21% ↗︎ than last month</div>
+            <div class="stat-value text-[#545386]!">{{ pendiente }}</div>
           </div>
         </div>
         <div>
@@ -249,10 +213,16 @@
 
 <script setup>
 import TablaUsers from '@/components/TablaUsers.vue'
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { users as usersData, fincas as fincasData } from '../services/auth'
 
 const isOpen = ref(false)
 const isModalOpen = ref(false)
+const users = ref([])
+const fincas = ref([])
+const activo = ref(0)
+const inactivo = ref(0)
+const pendiente = ref(0)
 
 function abrir() {
   if (isOpen.value == false) {
@@ -274,7 +244,29 @@ const closeModal = () => {
   isModalOpen.value = false
 }
 
+function activos() {
+  for (let index = 0; index < users.value.length; index++) {
+
+    if (users.value[index].estado == 'activo') {
+      activo.value += 1
+    }
+
+    if (users.value[index].estado == 'inactivo') {
+      inactivo.value += 1
+    }
+
+    if (users.value[index].estado == 'pendiente') {
+      pendiente.value += 1
+    }
+  }
+}
+
 onMounted(async () => {
+  users.value = usersData
+  fincas.value = fincasData
+
+  activos()
+
   const dataTable = $('#datatable-with-export table').DataTable({
     dom: 'B', // Required for buttons to work
     pageLength: 5,

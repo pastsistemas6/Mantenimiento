@@ -88,6 +88,11 @@
 
         <div class="space-y-2">
           <div
+            v-if="cart.finca.name || selectedFarm"
+            @click="cart.resetCart(0,'finca'), resetToWorld()"
+            class="btn btn-sm btn-primary shadow-none border-0"
+            >eliminar filtro</div>
+          <div
             v-for="farm in currentRegionFarms"
             :key="farm.id"
             @click="selectFarm(farm)"
@@ -128,8 +133,8 @@
                   class="inline-block px-2 py-1 rounded-full text-xs mt-1"
                   :class="
                     farm.estado === 'Activa'
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-yellow-100 text-yellow-800'
+                      ? 'bg-green-100 text-green-800 font-semibold'
+                      : 'bg-yellow-100 text-yellow-800 font-semibold'
                   "
                 >
                   {{ farm.estado }}

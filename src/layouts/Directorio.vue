@@ -9,7 +9,7 @@
             <input
               type="text"
               class="grow"
-              placeholder="Nombre..."
+              placeholder="Nombre del contacto..."
               id="groupInput"
               v-model="searchQuery"
             />
@@ -43,7 +43,7 @@
 
         <!-- Filtros aplicados -->
         <div
-          v-if="hasActiveFilters && hasSearched"
+          v-if="hasActiveFilters"
           class="w-full filter flex items-center justify-start gap-2"
         >
           <input
@@ -91,7 +91,7 @@
               <li
                 v-for="person in paginatedPeople"
                 :key="person.email"
-                class="flex justify-between gap-x-6 px-3 py-2 cursor-pointer hover:bg-base-content/20 rounded-lg border-1 border-gray-200"
+                class="flex justify-between gap-x-6 p-4 cursor-pointer hover:bg-base-content/20 rounded-lg border-1 border-gray-200"
                 @click="selectPerson(person)"
               >
                 <div class="flex min-w-0 gap-x-4">
@@ -107,7 +107,7 @@
                   </div>
                 </div>
                 <div class="flex items-center shrink-0">
-                  <p class="text-sm/6 text-gray-900">{{ person.cargo }}</p>
+                  <p class="text-sm/6 text-gray-500">{{ person.cargo }}</p>
                 </div>
               </li>
             </ul>
@@ -115,34 +115,36 @@
             <!-- Paginación -->
             <div
               v-if="hasSearched && filteredPeople.length > 0"
-              class="flex justify-center items-center gap-1 mt-2"
-            >
-              <button
-                class="btn btn-sm bg-[#D8D2C4] border-0 text-black shadow-none"
-                :disabled="currentPage === 1"
-                @click="currentPage--"
-              >
-                Previous
-              </button>
-              <button
-                v-for="page in totalPages"
-                :key="page"
-                :class="
-                  page === currentPage
-                    ? 'btn btn-sm bg-[#545386] border-0 shadow-none'
-                    : 'btn btn-sm bg-[#D8D2C4] border-0 text-black shadow-none'
-                "
-                @click="currentPage = page"
-              >
-                {{ page }}
-              </button>
-              <button
-                class="btn btn-sm bg-[#D8D2C4] shadow-none border-0 text-black"
-                :disabled="currentPage === totalPages"
-                @click="currentPage++"
-              >
-                Next
-              </button>
+              class="px-6 py-4 border-t border-gray-200 flex items-center justify-center">
+              <div class="flex items-center space-x-2">
+                <button
+                  @click="currentPage--"
+                  :disabled="currentPage === 1"
+                  class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Anterior
+                </button>
+                <button
+                  v-for="page in totalPages"
+                  :key="page"
+                  @click="goToPage(page)"
+                  :class="[
+                    'px-3 py-1 text-sm border rounded-md',
+                    page === currentPage
+                      ? 'bg-[#545386] text-white border-[#545386]'
+                      : 'border-gray-300 hover:bg-gray-50',
+                  ]"
+                >
+                  {{ page }}
+                </button>
+                <button
+                  @click="currentPage++"
+                  :disabled="currentPage === totalPages"
+                  class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Siguiente
+                </button>
+              </div>
             </div>
 
             <!-- Mensaje cuando no hay resultados -->
@@ -592,6 +594,12 @@ const paginatedPeople = computed(() => {
   const end = start + itemsPerPage
   return filteredPeople.value.slice(start, end)
 })
+
+const goToPage = (page) => {
+  if (page !== '...') {
+    currentPage.value = page
+  }
+}
 
 const hasActiveFilters = computed(() => {
   return searchQuery.value || selectedDepartamento.value || selectedCargo.value

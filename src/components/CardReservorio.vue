@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-100 shadow rounded-lg w-full flex flex-wrap items-center justify-between">
     <h2 class="text-xl text-[#545386] font-semibold m-3 ml-5">Reservorio #1</h2>
-    <span class="bg-green-300 rounded-md m-3 mr-5 px-3 py-1">Operativo</span>
+    <span class="bg-green-100 text-green-600 rounded-xl m-3 mr-5 px-3 py-1">Operativo</span>
     <ul class="*:py-3 px-6 bg-white grid grid-cols-2 w-full border-t-1 border-t-base-content/25">
       <li class="text-black text-sm">Capacidad:</li>
       <li class="text-[#545386] text-right font-bold text-2xl">5000L</li>

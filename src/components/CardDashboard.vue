@@ -15,27 +15,27 @@
 
     <div class="stats w-full">
       <div class="stat place-items-center">
-        <div class="stat-title">Total Sales</div>
-        <div class="stat-value">$52K</div>
-        <div class="stat-desc">From Jan 1st to Feb 1st</div>
+        <div class="stat-title">Total de mantenimientos</div>
+        <div class="stat-value">128</div>
+        <div class="stat-desc">+12% vs período anterior</div>
       </div>
 
       <div class="stat place-items-center">
-        <div class="stat-title">Active Customers</div>
-        <div class="stat-value">$8,350</div>
-        <div class="stat-desc">↗︎ 150 (1.8%)</div>
+        <div class="stat-title">Costo total</div>
+        <div class="stat-value">$12,450</div>
+        <div class="stat-desc">-5% vs período anterior</div>
       </div>
 
       <div class="stat place-items-center">
-        <div class="stat-title">New Signups</div>
-        <div class="stat-value">$2,400</div>
-        <div class="stat-desc">↘︎ 180 (7%)</div>
+        <div class="stat-title">Promedio por mantenimiento</div>
+        <div class="stat-value">$97.27</div>
+        <div class="stat-desc">+3% vs período anterior</div>
       </div>
 
       <div class="stat place-items-center">
-        <div class="stat-title">Active Customers</div>
-        <div class="stat-value">$8,350</div>
-        <div class="stat-desc">↗︎ 150 (1.8%)</div>
+        <div class="stat-title">Tiempo promedio</div>
+        <div class="stat-value">2.5h</div>
+        <div class="stat-desc">-15% vs período anterior</div>
       </div>
     </div>
   </div>

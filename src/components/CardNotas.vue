@@ -8,7 +8,7 @@
       </li>
     </ul>
     <div class="w-full flex justify-between items-center gap-2 px-4 py-2 rounded-b-lg">
-      <span class="bg-red-200 text-red-500 p-1 px-2 rounded-xl text-xs">Alta</span>
+      <span class="bg-red-200 text-red-500 p-1 px-2 rounded-md text-xs">Alta</span>
       <div class="flex gap-4">
         <button type="button" class="bg-[#C2DFEA] px-3 py-1.5 rounded-md text-black text-sm">
           Editar

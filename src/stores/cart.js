@@ -1,4 +1,3 @@
-import { update } from 'lodash'
 import { defineStore } from 'pinia'
 
 export const useCart = defineStore('cart', {
@@ -80,10 +79,13 @@ export const useCart = defineStore('cart', {
         pedido.productos.splice(index, 1);
       }
     },*/
-    resetCart(id) {
-      if (id) {
+    resetCart(id, modulo) {
+      if (id && modulo == 'disable') {
         delete this.disable[id]
-      } else {
+      } else if (modulo == 'finca') {
+        this.finca = {}
+      }
+      else {
         this.disable = {}
         this.name = ''
         this.rol = ''

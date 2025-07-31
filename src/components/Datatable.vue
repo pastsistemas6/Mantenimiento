@@ -82,7 +82,7 @@
     </div>
 
     <div class="border-base-content/25 flex items-center border-b px-5 py-3 gap-3">
-      <div class="input input-sm max-w-60">
+      <div class="input input-md max-w-md">
         <span
           class="icon-[tabler--search] text-base-content/80 my-auto me-3 size-4 shrink-0"
         ></span>
@@ -160,7 +160,7 @@
         <div class="overflow-hidden">
           <table class="table min-w-full">
             <thead>
-              <tr>
+              <tr class="bg-gray-100">
                 <th scope="col" class="--exclude-from-ordering w-3.5 pe-0">
                   <div class="flex h-5 items-center">
                     <input
@@ -172,7 +172,7 @@
                     <label class="sr-only">Checkbox</label>
                   </div>
                 </th>
-                <th scope="col" class="group w-fit" @click="sortBy('id')">
+                <th scope="col" class="group w-fit hover:bg-gray-200" @click="sortBy('id')">
                   <div class="flex items-center justify-between cursor-pointer">
                     ID
                     <span
@@ -187,7 +187,7 @@
                     ></span>
                   </div>
                 </th>
-                <th scope="col" class="group w-fit" @click="sortBy('tipo')">
+                <th scope="col" class="group w-fit hover:bg-gray-200" @click="sortBy('tipo')">
                   <div class="flex items-center justify-between cursor-pointer">
                     TIPO
                     <span
@@ -202,7 +202,7 @@
                     ></span>
                   </div>
                 </th>
-                <th scope="col" class="group w-fit" @click="sortBy('bloque')">
+                <th scope="col" class="group w-fit hover:bg-gray-200" @click="sortBy('bloque')">
                   <div class="flex items-center justify-between cursor-pointer">
                     BLOQUE
                     <span
@@ -217,7 +217,7 @@
                     ></span>
                   </div>
                 </th>
-                <th scope="col" class="group w-fit" @click="sortBy('cultivo')">
+                <th scope="col" class="group w-fit hover:bg-gray-200" @click="sortBy('cultivo')">
                   <div class="flex items-center justify-between cursor-pointer">
                     TIPO DE CULTIVO
                     <span
@@ -232,7 +232,7 @@
                     ></span>
                   </div>
                 </th>
-                <th scope="col" class="group w-fit" @click="sortBy('estado')">
+                <th scope="col" class="group w-fit hover:bg-gray-200" @click="sortBy('estado')">
                   <div class="flex items-center justify-between cursor-pointer">
                     ESTADO
                     <span
@@ -251,7 +251,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in paginatedData" :key="item.id">
+              <tr v-for="item in paginatedData" :key="item.id" class="hover:bg-gray-100 cursor-pointer">
                 <td class="w-3.5 pe-0">
                   <div class="flex h-5 items-center">
                     <input
@@ -271,9 +271,8 @@
                   <span
                     class="badge badge-soft badge-sm"
                     :class="{
-                      'badge-success': item.estado === 'Disponible',
-                      'badge-warning': item.estado === 'Limitado',
-                      'badge-error': item.estado === 'Agotado',
+                      'badge-success': item.estado === 'Activo',
+                      'badge-warning': item.estado === 'Mantenimiento',
                     }"
                   >
                     {{ item.estado }}
@@ -294,9 +293,6 @@
                   >
                     <span class="icon-[tabler--trash] size-5"></span>
                   </button>
-                  <button class="btn btn-circle btn-text btn-sm" aria-label="More options">
-                    <span class="icon-[tabler--dots-vertical] size-5"></span>
-                  </button>
                 </td>
               </tr>
             </tbody>
@@ -306,51 +302,43 @@
     </div>
 
     <!-- Paginación -->
-    <div
-      class="border-base-content/25 flex items-center justify-between gap-3 border-t p-3 max-md:flex-wrap max-md:justify-center"
-    >
-      <div class="text-base-content/80 text-sm">
+    <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+      <div class="text-sm text-gray-700">
         Mostrando {{ startIndex + 1 }} a
         {{ Math.min(startIndex + pageLength, filteredData.length) }} de
         {{ filteredData.length }} registros
       </div>
-      <div class="flex items-center space-x-1">
+      <div class="flex items-center space-x-2">
         <button
           @click="previousPage"
           :disabled="currentPage === 1"
-          type="button"
-          class="btn btn-text btn-circle btn-sm"
-          :class="{ 'opacity-50 cursor-not-allowed': currentPage === 1 }"
+          class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span aria-hidden="true">«</span>
-          <span class="sr-only">Previous</span>
+          Anterior
         </button>
-
-        <div class="flex items-center space-x-1">
-          <button
-            v-for="page in visiblePages"
-            :key="page"
-            @click="goToPage(page)"
-            type="button"
-            class="btn btn-text btn-circle btn-sm"
-            :class="{ 'bg-[#545386] text-white': page === currentPage }"
-          >
-            {{ page }}
-          </button>
-        </div>
-
+        <button
+          v-for="page in visiblePages"
+          :key="page"
+          @click="goToPage(page)"
+          :class="[
+            'px-3 py-1 text-sm border rounded-md',
+            page === currentPage
+              ? 'bg-[#545386] text-white border-[#545386]'
+              : 'border-gray-300 hover:bg-gray-50',
+          ]"
+        >
+          {{ page }}
+        </button>
         <button
           @click="nextPage"
           :disabled="currentPage === totalPages"
-          type="button"
-          class="btn btn-text btn-circle btn-sm"
-          :class="{ 'opacity-50 cursor-not-allowed': currentPage === totalPages }"
+          class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span class="sr-only">Next</span>
-          <span aria-hidden="true">»</span>
+          Siguiente
         </button>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -359,21 +347,9 @@ import { ref, computed, onMounted } from 'vue'
 
 // Data reactiva
 const data = ref([
-  { id: 1, tipo: 'Polietileno', bloque: 'Bloque 1', cultivo: 'Rosas', estado: 'Disponible' },
-  { id: 2, tipo: 'Polipropileno', bloque: 'Bloque 2', cultivo: 'Hortencias', estado: 'Limitado' },
-  { id: 3, tipo: 'PVC', bloque: 'Bloque 3', cultivo: 'Rosas', estado: 'Agotado' },
-  { id: 4, tipo: 'Poliestireno', bloque: 'Bloque 4', cultivo: 'Claveles', estado: 'Disponible' },
-  { id: 5, tipo: 'ABS', bloque: 'Bloque 5', cultivo: 'Claveles', estado: 'Limitado' },
-  { id: 6, tipo: 'Nylon', bloque: 'Bloque 6', cultivo: 'Rosas', estado: 'Disponible' },
-  { id: 7, tipo: 'Policarbonato', bloque: 'Bloque 7', cultivo: 'Claveles', estado: 'Agotado' },
-  { id: 8, tipo: 'PETG', bloque: 'Bloque 8', cultivo: 'Hortencias', estado: 'Limitado' },
-  { id: 9, tipo: 'TPU', bloque: 'Bloque 9', cultivo: 'Hortencias', estado: 'Disponible' },
-  { id: 10, tipo: 'HDPE', bloque: 'Bloque 10', cultivo: 'Rosas', estado: 'Agotado' },
-  { id: 11, tipo: 'LDPE', bloque: 'Bloque 1', cultivo: 'Rosas', estado: 'Disponible' },
-  { id: 12, tipo: 'PP-R', bloque: 'Bloque 1', cultivo: 'Rosas', estado: 'Limitado' },
-  { id: 13, tipo: 'PE-X', bloque: 'Bloque 1', cultivo: 'Rosas', estado: 'Disponible' },
-  { id: 14, tipo: 'POM', bloque: 'Bloque 1', cultivo: 'Rosas', estado: 'Limitado' },
-  { id: 15, tipo: 'PA6', bloque: 'Bloque 1', cultivo: 'Rosas', estado: 'Disponible' },
+  { id: 'PL-001', tipo: 'Polietileno', bloque: 'Bloque 1', cultivo: 'Rosas', estado: 'Activo' },
+  { id: 'PL-002', tipo: 'Polipropileno', bloque: 'Bloque 2', cultivo: 'Hortencias', estado: 'Mantenimiento' },
+  { id: 'PL-003', tipo: 'PVC', bloque: 'Bloque 3', cultivo: 'Claveles', estado: 'Activo' },
 ])
 
 // Estados del componente
@@ -392,7 +368,7 @@ const newRecord = ref({
   tipo: '',
   bloque: '',
   cultivo: '',
-  estado: 'Disponible',
+  estado: 'Activo',
 })
 
 // Computed properties
@@ -522,7 +498,7 @@ const addNewRecord = () => {
     tipo: '',
     bloque: '',
     cultivo: '',
-    estado: 'Disponible',
+    estado: 'Activo',
   }
 
   showModal.value = false
@@ -775,3 +751,4 @@ onMounted(() => {
   })
 })
 </script>
+

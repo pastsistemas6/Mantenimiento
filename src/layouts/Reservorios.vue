@@ -2,7 +2,7 @@
   <div class="min-h-full">
     <div class="py-3 pr-5 pb-6">
       <div class="grid grid-cols-2 gap-4 place-content-center shadow p-4 rounded-lg">
-        <h2 class="text-[#545386] font-bold text-2xl">Control de reservorios</h2>
+        <h2 class="text-[#545386] font-bold text-3xl">Control de reservorios</h2>
         <button
           v-if="disable[2][2]"
           type="button"
@@ -19,7 +19,7 @@
           <CardReservorio></CardReservorio>
         </div>
         <div class="flex flex-col pt-2">
-          <h3 class="font-semibold text-xl">Ubicación de reservorios</h3>
+          <h3 class="text-[#545386] font-semibold text-xl">Ubicación de reservorios</h3>
           <div class="divider text-base-content/50 py-4"></div>
           <div class="w-full h-full">
             <iframe

@@ -1,6 +1,6 @@
 <template>
   <div class="shadow rounded-md w-full">
-    <h2 class="text-black text-xl font-semibold p-4">Costos por Mes (Últimos 6 meses)</h2>
+    <h2 class="text-[#545386] text-2xl font-bold p-4">Costos por Mes (Últimos 6 meses)</h2>
     <div id="apex-multiple-area-charts-compare-alt" class="w-full"></div>
   </div>
 </template>

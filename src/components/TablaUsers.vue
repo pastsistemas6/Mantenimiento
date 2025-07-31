@@ -17,7 +17,7 @@
         <input
           v-model="searchTerm"
           type="text"
-          placeholder="Buscar por nombre"
+          placeholder="Buscar usuarios..."
           class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent"
         />
       </div>
@@ -27,7 +27,7 @@
         <!-- Page Size -->
         <select
           v-model="pageSize"
-          class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent target:border-r-2"
+          class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent"
         >
           <option value="5">5</option>
           <option value="10">10</option>
@@ -35,15 +35,40 @@
           <option value="30">30</option>
         </select>
 
-        <!-- Status Filter -->
+        <!-- Estado Filter -->
         <select
-          v-model="statusFilter"
-          class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent target:border-b-2"
+          v-model="estadoFilter"
+          class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent"
         >
-          <option value="All">All</option>
-          <option value="In Stock">In Stock</option>
-          <option value="Limited">Limited</option>
-          <option value="Out of Stock">Out of Stock</option>
+          <option value="Todos">Todos los estados</option>
+          <option value="activo">Activo</option>
+          <option value="inactivo">Inactivo</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="suspendido">Suspendido</option>
+        </select>
+
+        <!-- Rol Filter -->
+        <select
+          v-model="rolFilter"
+          class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent"
+        >
+          <option value="Todos">Todos los roles</option>
+          <option value="gerente">Gerente</option>
+          <option value="asistente">Asistente</option>
+          <option value="tecnico">Técnico</option>
+          <option value="pasante">Pasante</option>
+          <option value="operador">Operador</option>
+        </select>
+
+        <!-- Ubicación Filter -->
+        <select
+          v-model="ubicacionFilter"
+          class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent"
+        >
+          <option value="Todas">Todas las ubicaciones</option>
+          <option v-for="finca in fincas" :key="finca.id" :value="finca.name">
+            {{ finca.name }}
+          </option>
         </select>
       </div>
     </div>
@@ -51,7 +76,7 @@
     <!-- Table -->
     <div class="overflow-x-auto">
       <table class="w-full">
-        <thead class="bg-gray-50">
+        <thead class="bg-gray-100">
           <tr>
             <th class="w-8 px-4 py-3 text-left">
               <input
@@ -64,7 +89,7 @@
             <th
               v-for="column in columns"
               :key="column.key"
-              class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+              class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-200"
               @click="sortBy(column.key)"
             >
               <div class="flex items-center justify-between">
@@ -100,37 +125,51 @@
             <th
               class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Actions
+              Acciones
             </th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-          <tr v-for="item in paginatedItems" :key="item.id" class="hover:bg-gray-50">
+          <tr v-for="usuario in paginatedItems" :key="usuario.id" class="hover:bg-gray-200">
             <td class="px-4 py-4">
               <input
                 v-model="selectedItems"
-                :value="item.id"
+                :value="usuario.id"
                 type="checkbox"
                 class="h-4 w-4 text-[#545386] border-gray-300 rounded focus:ring-[#545386]"
               />
             </td>
-            <td class="px-4 py-4 text-sm text-gray-900">{{ item.productName }}</td>
-            <td class="px-4 py-4 text-sm text-gray-900">${{ item.price }}</td>
-            <td class="px-4 py-4 text-sm text-gray-900">{{ item.bloque }}</td>
+            <td class="px-4 py-4">
+              <div class="flex flex-col">
+                <div class="text-sm font-medium text-gray-900">{{ usuario.nombre }}</div>
+                <div class="text-sm text-gray-500">{{ usuario.correo }}</div>
+              </div>
+            </td>
             <td class="px-4 py-4">
               <span
-                :class="getStatusBadgeClass(item.availability)"
-                class="px-2 py-1 text-xs font-medium rounded-full"
+                :style="{ backgroundColor: `var(--color-${usuario.rol.toLowerCase()})` }"
+                class="px-3 py-1.5 text-xs font-medium rounded-lg capitalize text-white"
               >
-                {{ item.availability }}
+                {{ usuario.rol }}
               </span>
             </td>
+
+            <td class="px-4 py-4">
+              <span
+                :class="getEstadoBadgeClass(usuario.estado)"
+                class="px-3 py-1.5 text-xs font-medium rounded-lg capitalize"
+              >
+                {{ usuario.estado }}
+              </span>
+            </td>
+            <td class="px-4 py-4 text-sm text-gray-900">{{ usuario.ubicacion }}</td>
+            <td class="px-4 py-4 text-sm text-gray-900">{{ formatDate(usuario.ultimaConexion) }}</td>
             <td class="px-4 py-4">
               <div class="flex items-center space-x-2">
                 <button
-                  @click="editItem(item)"
+                  @click="editItem(usuario)"
                   class="p-1 text-gray-400 hover:text-blue-600 transition-colors"
-                  title="Edit"
+                  title="Editar"
                 >
                   <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -142,9 +181,9 @@
                   </svg>
                 </button>
                 <button
-                  @click="deleteItem(item)"
+                  @click="deleteItem(usuario)"
                   class="p-1 text-gray-400 hover:text-red-600 transition-colors"
-                  title="Delete"
+                  title="Eliminar"
                 >
                   <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -152,17 +191,6 @@
                       stroke-linejoin="round"
                       stroke-width="2"
                       d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    />
-                  </svg>
-                </button>
-                <button
-                  @click="moreActions(item)"
-                  class="p-1 text-gray-400 hover:text-gray-600 transition-colors"
-                  title="More actions"
-                >
-                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                      d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
                     />
                   </svg>
                 </button>
@@ -184,19 +212,19 @@
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
           />
         </svg>
-        <p class="mt-4 text-sm text-gray-500">No search results</p>
+        <p class="mt-4 text-sm text-gray-500">No se encontraron usuarios</p>
       </div>
     </div>
 
     <!-- Pagination -->
     <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
       <div class="text-sm text-gray-700">
-        Showing {{ startIndex + 1 }} to
-        {{ Math.min(startIndex + pageSize, filteredItems.length) }} of
-        {{ filteredItems.length }} products
+        Mostrando {{ startIndex + 1 }} a
+        {{ Math.min(startIndex + pageSize, filteredItems.length) }} de
+        {{ filteredItems.length }} usuarios
       </div>
       <div class="flex items-center space-x-2">
         <button
@@ -204,7 +232,7 @@
           :disabled="currentPage === 1"
           class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Previous
+          Anterior
         </button>
         <button
           v-for="page in visiblePages"
@@ -224,7 +252,7 @@
           :disabled="currentPage === totalPages"
           class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Next
+          Siguiente
         </button>
       </div>
     </div>
@@ -232,200 +260,79 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
+import { users as usersData, fincas as fincasData } from '../services/auth'
 
 // Reactive data
 const searchTerm = ref('')
 const pageSize = ref(5)
-const statusFilter = ref('All')
+const estadoFilter = ref('Todos')
+const rolFilter = ref('Todos')
+const ubicacionFilter = ref('Todas')
 const currentPage = ref(1)
 const sortColumn = ref('')
 const sortDirection = ref('asc')
 const selectedItems = ref([])
 const selectAll = ref(false)
 
+// Data sources
+const users = ref([])
+const fincas = ref([])
+
 // Table columns
 const columns = [
-  { key: 'productName', label: 'Product Name' },
-  { key: 'price', label: 'Price' },
-  { key: 'bloque', label: 'Bloque' },
-  { key: 'availability', label: 'Availability' },
+  { key: 'nombre', label: 'Usuario' },
+  { key: 'rol', label: 'Rol' },
+  { key: 'estado', label: 'Estado' },
+  { key: 'ubicacion', label: 'Ubicación' },
+  { key: 'ultimaConexion', label: 'Última Conexión' },
 ]
 
-// Sample data
-const maintenanceData = ref([
-  {
-    id: 1,
-    productName: 'Apple iPhone 15',
-    price: 999,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
-  },
-  {
-    id: 2,
-    productName: 'Samsung Galaxy S23',
-    price: 899,
-    bloque: 'Bloque 1',
-    availability: 'Limited',
-  },
-  {
-    id: 3,
-    productName: 'Sony WH-1000XM5',
-    price: 399,
-    bloque: 'Bloque 1',
-    availability: 'Out of Stock',
-  },
-  { id: 4, productName: 'Dell XPS 15', price: 1299, bloque: 'Bloque 1', availability: 'In Stock' },
-  {
-    id: 5,
-    productName: 'Logitech MX Master 3',
-    price: 99,
-    bloque: 'Bloque 1',
-    availability: 'Limited',
-  },
-  {
-    id: 6,
-    productName: 'Microsoft Surface Laptop 5',
-    price: 1499,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
-  },
-  {
-    id: 7,
-    productName: 'HP Spectre x360',
-    price: 1199,
-    bloque: 'Bloque 1',
-    availability: 'Out of Stock',
-  },
-  {
-    id: 8,
-    productName: 'Apple Watch Series 9',
-    price: 499,
-    bloque: 'Bloque 1',
-    availability: 'Limited',
-  },
-  {
-    id: 9,
-    productName: 'Google Pixel 7',
-    price: 599,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
-  },
-  {
-    id: 10,
-    productName: 'Bose QuietComfort Earbuds II',
-    price: 279,
-    bloque: 'Bloque 1',
-    availability: 'Out of Stock',
-  },
-  {
-    id: 11,
-    productName: 'Asus ROG Zephyrus G14',
-    price: 1899,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
-  },
-  {
-    id: 12,
-    productName: 'Sony PlayStation 5',
-    price: 499,
-    bloque: 'Bloque 1',
-    availability: 'Limited',
-  },
-  {
-    id: 13,
-    productName: 'Amazon Echo Dot (5th Gen)',
-    price: 49,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
-  },
-  {
-    id: 14,
-    productName: 'NVIDIA GeForce RTX 4090',
-    price: 1599,
-    bloque: 'Bloque 1',
-    availability: 'Limited',
-  },
-  {
-    id: 15,
-    productName: 'Lenovo ThinkPad X1 Carbon',
-    price: 1799,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
-  },
-  {
-    id: 16,
-    productName: 'Google Nest Hub (2nd Gen)',
-    price: 99,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
-  },
-  {
-    id: 17,
-    productName: 'Fitbit Charge 6',
-    price: 149,
-    bloque: 'Bloque 1',
-    availability: 'Limited',
-  },
-  {
-    id: 18,
-    productName: 'Razer Blade 16',
-    price: 2499,
-    bloque: 'Bloque 1',
-    availability: 'Out of Stock',
-  },
-  {
-    id: 19,
-    productName: 'Oculus Quest 3',
-    price: 499,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
-  },
-  { id: 20, productName: 'Canon EOS R8', price: 1699, bloque: 'Bloque 1', availability: 'Limited' },
-  {
-    id: 21,
-    productName: 'DJI Mavic 3 Pro',
-    price: 2199,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
-  },
-  {
-    id: 22,
-    productName: 'Alienware Aurora R15',
-    price: 2899,
-    bloque: 'Bloque 1',
-    availability: 'Out of Stock',
-  },
-  {
-    id: 23,
-    productName: 'SteelSeries Arctis Nova Pro',
-    price: 349,
-    bloque: 'Bloque 1',
-    availability: 'Limited',
-  },
-])
+// Load data on component mount
+onMounted(() => {
+  users.value = usersData
+  fincas.value = fincasData
+})
 
 // Computed properties
 const filteredItems = computed(() => {
-  let filtered = maintenanceData.value
+  let filtered = users.value
 
   // Apply search filter
   if (searchTerm.value) {
-    filtered = filtered.filter((item) =>
-      item.productName.toLowerCase().includes(searchTerm.value.toLowerCase()),
+    const search = searchTerm.value.toLowerCase()
+    filtered = filtered.filter((usuario) =>
+      usuario.nombre.toLowerCase().includes(search) ||
+      usuario.correo.toLowerCase().includes(search)
     )
   }
 
-  // Apply status filter
-  if (statusFilter.value !== 'All') {
-    filtered = filtered.filter((item) => item.availability === statusFilter.value)
+  // Apply estado filter
+  if (estadoFilter.value !== 'Todos') {
+    filtered = filtered.filter((usuario) => usuario.estado === estadoFilter.value)
+  }
+
+  // Apply rol filter
+  if (rolFilter.value !== 'Todos') {
+    filtered = filtered.filter((usuario) => usuario.rol === rolFilter.value)
+  }
+
+  // Apply ubicacion filter
+  if (ubicacionFilter.value !== 'Todas') {
+    filtered = filtered.filter((usuario) => usuario.ubicacion === ubicacionFilter.value)
   }
 
   // Apply sorting
   if (sortColumn.value) {
     filtered = [...filtered].sort((a, b) => {
-      const aVal = a[sortColumn.value]
-      const bVal = b[sortColumn.value]
+      let aVal = a[sortColumn.value]
+      let bVal = b[sortColumn.value]
+
+      // Special handling for nested values like nombre
+      if (sortColumn.value === 'ultimaConexion') {
+        aVal = new Date(aVal)
+        bVal = new Date(bVal)
+      }
 
       if (typeof aVal === 'string') {
         return sortDirection.value === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal)
@@ -506,42 +413,55 @@ const nextPage = () => {
 
 const toggleSelectAll = () => {
   if (selectAll.value) {
-    selectedItems.value = paginatedItems.value.map((item) => item.id)
+    selectedItems.value = paginatedItems.value.map((usuario) => usuario.id)
   } else {
     selectedItems.value = []
   }
 }
 
-const getStatusBadgeClass = (status) => {
-  switch (status) {
-    case 'In Stock':
+const getEstadoBadgeClass = (estado) => {
+  switch (estado) {
+    case 'activo':
       return 'bg-green-100 text-green-800'
-    case 'Limited':
+    case 'inactivo':
+      return 'bg-gray-100 text-gray-800'
+    case 'pendiente':
       return 'bg-yellow-100 text-yellow-800'
-    case 'Out of Stock':
+    case 'suspendido':
       return 'bg-red-100 text-red-800'
     default:
       return 'bg-gray-100 text-gray-800'
   }
 }
 
-const editItem = (item) => {
-  console.log('Edit item:', item)
-  // Implement edit functionality
+const formatDate = (dateString) => {
+  const date = new Date(dateString)
+  return date.toLocaleString('es-ES', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  })
 }
 
-const deleteItem = (item) => {
-  console.log('Delete item:', item)
-  // Implement delete functionality
+const editItem = (usuario) => {
+  console.log('Editar usuario:', usuario)
+  // Implementar funcionalidad de edición
 }
 
-const moreActions = (item) => {
-  console.log('More actions for item:', item)
-  // Implement more actions functionality
+const deleteItem = (usuario) => {
+  console.log('Eliminar usuario:', usuario)
+  // Implementar funcionalidad de eliminación
+}
+
+const moreActions = (usuario) => {
+  console.log('Más acciones para usuario:', usuario)
+  // Implementar más acciones
 }
 
 // Watchers
-watch([searchTerm, statusFilter, pageSize], () => {
+watch([searchTerm, estadoFilter, rolFilter, ubicacionFilter, pageSize], () => {
   currentPage.value = 1
 })
 
@@ -550,7 +470,7 @@ watch(
   () => {
     const allSelected =
       paginatedItems.value.length > 0 &&
-      paginatedItems.value.every((item) => selectedItems.value.includes(item.id))
+      paginatedItems.value.every((usuario) => selectedItems.value.includes(usuario.id))
     selectAll.value = allSelected
   },
   { deep: true },
@@ -559,7 +479,7 @@ watch(
 watch(paginatedItems, () => {
   const allSelected =
     paginatedItems.value.length > 0 &&
-    paginatedItems.value.every((item) => selectedItems.value.includes(item.id))
+    paginatedItems.value.every((usuario) => selectedItems.value.includes(usuario.id))
   selectAll.value = allSelected
 })
 </script>

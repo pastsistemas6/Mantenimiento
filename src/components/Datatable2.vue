@@ -69,10 +69,10 @@
             <th
               v-for="column in columns"
               :key="column.key"
-              class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+              class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-widest cursor-pointer hover:bg-gray-100"
               @click="sortBy(column.key)"
             >
-              <div class="flex items-center justify-between">
+              <div class="flex items-center justify-between w-30 gap-2">
                 {{ column.label }}
                 <div class="flex flex-col">
                   <svg
@@ -102,11 +102,6 @@
                 </div>
               </div>
             </th>
-            <th
-              class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Actions
-            </th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
@@ -119,59 +114,20 @@
                 class="h-4 w-4 text-[#545386] border-gray-300 rounded focus:ring-[#545386]"
               />
             </td>
-            <td class="px-4 py-4 text-sm text-gray-900">{{ item.productName }}</td>
-            <td class="px-4 py-4 text-sm text-gray-900">${{ item.price }}</td>
+            <td class="px-4 py-4 text-sm text-gray-900">{{ item.id }}</td>
+            <td class="px-4 py-4 text-sm text-gray-900">{{ item.fecha }}</td>
+            <td class="px-4 py-4 text-sm text-gray-900">{{ item.tipoplastico }}</td>
             <td class="px-4 py-4 text-sm text-gray-900">{{ item.bloque }}</td>
+            <td class="px-4 py-4 text-sm text-gray-900">{{ item.tipomantenimiento }}</td>
+            <td class="px-4 py-4 text-sm text-gray-900">{{ item.responsable }}</td>
+            <td class="px-4 pl-8 py-4 text-sm text-gray-900">${{ item.costo }}.00</td>
             <td class="px-4 py-4">
               <span
-                :class="getStatusBadgeClass(item.availability)"
+                :class="getStatusBadgeClass(item.estado)"
                 class="px-2 py-1 text-xs font-medium rounded-full"
               >
-                {{ item.availability }}
+                {{ item.estado }}
               </span>
-            </td>
-            <td class="px-4 py-4">
-              <div class="flex items-center space-x-2">
-                <button
-                  @click="editItem(item)"
-                  class="p-1 text-gray-400 hover:text-blue-600 transition-colors"
-                  title="Edit"
-                >
-                  <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  @click="deleteItem(item)"
-                  class="p-1 text-gray-400 hover:text-red-600 transition-colors"
-                  title="Delete"
-                >
-                  <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    />
-                  </svg>
-                </button>
-                <button
-                  @click="moreActions(item)"
-                  class="p-1 text-gray-400 hover:text-gray-600 transition-colors"
-                  title="More actions"
-                >
-                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                      d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
-                    />
-                  </svg>
-                </button>
-              </div>
             </td>
           </tr>
         </tbody>
@@ -199,9 +155,9 @@
     <!-- Pagination -->
     <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
       <div class="text-sm text-gray-700">
-        Showing {{ startIndex + 1 }} to
-        {{ Math.min(startIndex + pageSize, filteredItems.length) }} of
-        {{ filteredItems.length }} products
+        Mostrando {{ startIndex + 1 }} a
+        {{ Math.min(startIndex + pageSize, filteredItems.length) }} de
+        {{ filteredItems.length }} mantenimientos
       </div>
       <div class="flex items-center space-x-2">
         <button
@@ -209,7 +165,7 @@
           :disabled="currentPage === 1"
           class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Previous
+          Anterior
         </button>
         <button
           v-for="page in visiblePages"
@@ -229,7 +185,7 @@
           :disabled="currentPage === totalPages"
           class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Next
+          Siguiente
         </button>
       </div>
     </div>
@@ -251,162 +207,67 @@ const selectAll = ref(false)
 
 // Table columns
 const columns = [
-  { key: 'productName', label: 'Product Name' },
-  { key: 'price', label: 'Price' },
+  { key: 'id', label: 'ID' },
+  { key: 'fecha', label: 'FECHA' },
+  { key: 'tipoplastico', label: 'Tipo de plástico' },
   { key: 'bloque', label: 'Bloque' },
-  { key: 'availability', label: 'Availability' },
+  { key: 'tipomantenimiento', label: 'Tipo de mantenimiento' },
+  { key: 'responsable', label: 'Responsable' },
+  { key: 'costo', label: 'Costo' },
+  { key: 'estado', label: 'Estado' },
 ]
 
 // Sample data
 const maintenanceData = ref([
   {
-    id: 1,
-    productName: 'Apple iPhone 15',
-    price: 999,
+    id: 'MT-2023-128',
+    fecha: '28/05/2023',
+    tipoplastico: 'Polietileno',
     bloque: 'Bloque 1',
-    availability: 'In Stock',
+    tipomantenimiento: 'Limpieza general',
+    responsable: 'Carlos Méndez',
+    costo: 120,
+    estado: 'completado',
   },
   {
-    id: 2,
-    productName: 'Samsung Galaxy S23',
-    price: 899,
-    bloque: 'Bloque 1',
-    availability: 'Limited',
+    id: 'MT-2023-127',
+    fecha: '27/05/2023',
+    tipoplastico: 'Malla sombra',
+    bloque: 'Bloque 3',
+    tipomantenimiento: 'Reemplazo',
+    responsable: 'Ana Rodríguez',
+    costo: 450,
+    estado: 'completado',
   },
   {
-    id: 3,
-    productName: 'Sony WH-1000XM5',
-    price: 399,
-    bloque: 'Bloque 1',
-    availability: 'Out of Stock',
-  },
-  { id: 4, productName: 'Dell XPS 15', price: 1299, bloque: 'Bloque 1', availability: 'In Stock' },
-  {
-    id: 5,
-    productName: 'Logitech MX Master 3',
-    price: 99,
-    bloque: 'Bloque 1',
-    availability: 'Limited',
+    id: 'MT-2023-126',
+    fecha: '25/05/2023',
+    tipoplastico: 'Plástico de cubierta',
+    bloque: 'Bloque 2',
+    tipomantenimiento: 'Reparación',
+    responsable: 'Luis García',
+    costo: 320,
+    estado: 'completado',
   },
   {
-    id: 6,
-    productName: 'Microsoft Surface Laptop 5',
-    price: 1499,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
+    id: 'MT-2023-125',
+    fecha: '22/05/2023',
+    tipoplastico: 'Polietileno',
+    bloque: 'Bloque 4',
+    tipomantenimiento: 'Limpieza general',
+    responsable: 'Maria López',
+    costo: 110,
+    estado: 'completado',
   },
   {
-    id: 7,
-    productName: 'HP Spectre x360',
-    price: 1199,
+    id: 'MT-2023-124',
+    fecha: '18/05/2023',
+    tipoplastico: 'Malla sombra',
     bloque: 'Bloque 1',
-    availability: 'Out of Stock',
-  },
-  {
-    id: 8,
-    productName: 'Apple Watch Series 9',
-    price: 499,
-    bloque: 'Bloque 1',
-    availability: 'Limited',
-  },
-  {
-    id: 9,
-    productName: 'Google Pixel 7',
-    price: 599,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
-  },
-  {
-    id: 10,
-    productName: 'Bose QuietComfort Earbuds II',
-    price: 279,
-    bloque: 'Bloque 1',
-    availability: 'Out of Stock',
-  },
-  {
-    id: 11,
-    productName: 'Asus ROG Zephyrus G14',
-    price: 1899,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
-  },
-  {
-    id: 12,
-    productName: 'Sony PlayStation 5',
-    price: 499,
-    bloque: 'Bloque 1',
-    availability: 'Limited',
-  },
-  {
-    id: 13,
-    productName: 'Amazon Echo Dot (5th Gen)',
-    price: 49,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
-  },
-  {
-    id: 14,
-    productName: 'NVIDIA GeForce RTX 4090',
-    price: 1599,
-    bloque: 'Bloque 1',
-    availability: 'Limited',
-  },
-  {
-    id: 15,
-    productName: 'Lenovo ThinkPad X1 Carbon',
-    price: 1799,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
-  },
-  {
-    id: 16,
-    productName: 'Google Nest Hub (2nd Gen)',
-    price: 99,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
-  },
-  {
-    id: 17,
-    productName: 'Fitbit Charge 6',
-    price: 149,
-    bloque: 'Bloque 1',
-    availability: 'Limited',
-  },
-  {
-    id: 18,
-    productName: 'Razer Blade 16',
-    price: 2499,
-    bloque: 'Bloque 1',
-    availability: 'Out of Stock',
-  },
-  {
-    id: 19,
-    productName: 'Oculus Quest 3',
-    price: 499,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
-  },
-  { id: 20, productName: 'Canon EOS R8', price: 1699, bloque: 'Bloque 1', availability: 'Limited' },
-  {
-    id: 21,
-    productName: 'DJI Mavic 3 Pro',
-    price: 2199,
-    bloque: 'Bloque 1',
-    availability: 'In Stock',
-  },
-  {
-    id: 22,
-    productName: 'Alienware Aurora R15',
-    price: 2899,
-    bloque: 'Bloque 1',
-    availability: 'Out of Stock',
-  },
-  {
-    id: 23,
-    productName: 'SteelSeries Arctis Nova Pro',
-    price: 349,
-    bloque: 'Bloque 1',
-    availability: 'Limited',
+    tipomantenimiento: 'Revisión',
+    responsable: 'Pedro Ramírez',
+    costo: 85,
+    estado: 'completado',
   },
 ])
 
@@ -417,13 +278,13 @@ const filteredItems = computed(() => {
   // Apply search filter
   if (searchTerm.value) {
     filtered = filtered.filter((item) =>
-      item.productName.toLowerCase().includes(searchTerm.value.toLowerCase()),
+      item.tipoplastico.toLowerCase().includes(searchTerm.value.toLowerCase()),
     )
   }
 
   // Apply status filter
   if (statusFilter.value !== 'All') {
-    filtered = filtered.filter((item) => item.availability === statusFilter.value)
+    filtered = filtered.filter((item) => item.estado === statusFilter.value)
   }
 
   // Apply sorting
@@ -519,12 +380,10 @@ const toggleSelectAll = () => {
 
 const getStatusBadgeClass = (status) => {
   switch (status) {
-    case 'In Stock':
+    case 'completado':
       return 'bg-green-100 text-green-800'
-    case 'Limited':
+    case 'proceso':
       return 'bg-yellow-100 text-yellow-800'
-    case 'Out of Stock':
-      return 'bg-red-100 text-red-800'
     default:
       return 'bg-gray-100 text-gray-800'
   }

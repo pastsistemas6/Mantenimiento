@@ -15,7 +15,7 @@
           </div>
           <button
             type="button"
-            class="btn bg-[#545386]"
+            class="btn bg-[#545386] shadow-none border-0"
             aria-haspopup="dialog"
             aria-expanded="false"
             @click="openModal"
