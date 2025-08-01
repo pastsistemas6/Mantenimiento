@@ -42,10 +42,7 @@
         </div>
 
         <!-- Filtros aplicados -->
-        <div
-          v-if="hasActiveFilters"
-          class="w-full filter flex items-center justify-start gap-2"
-        >
+        <div v-if="hasActiveFilters" class="w-full filter flex items-center justify-start gap-2">
           <input
             type="button"
             class="btn bg-[#D8D2C4] text-white font-bold border-0 shadow-none flex items-center justify-center"
@@ -115,7 +112,8 @@
             <!-- Paginación -->
             <div
               v-if="hasSearched && filteredPeople.length > 0"
-              class="px-6 py-4 border-t border-gray-200 flex items-center justify-center">
+              class="px-6 py-4 border-t border-gray-200 flex items-center justify-center"
+            >
               <div class="flex items-center space-x-2">
                 <button
                   @click="currentPage--"

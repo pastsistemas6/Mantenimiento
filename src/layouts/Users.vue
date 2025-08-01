@@ -197,7 +197,7 @@
           </div>
           <div class="stat shadow-sm rounded-md">
             <div class="stat-figure">
-               <span class="icon-[fa6-solid--user-clock] size-11 text-[#545386]"></span>
+              <span class="icon-[fa6-solid--user-clock] size-11 text-[#545386]"></span>
             </div>
             <div class="stat-title">Total pendientes</div>
             <div class="stat-value text-[#545386]!">{{ pendiente }}</div>
@@ -246,7 +246,6 @@ const closeModal = () => {
 
 function activos() {
   for (let index = 0; index < users.value.length; index++) {
-
     if (users.value[index].estado == 'activo') {
       activo.value += 1
     }

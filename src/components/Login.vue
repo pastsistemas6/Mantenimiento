@@ -90,13 +90,11 @@ const logearse = async () => {
     cart.name = 'Usuario admin'
     cart.rol = 'Administrador'
     router.push({ name: 'Loading' })
-
   } catch (error) {
     console.error('Error al iniciar sesión.', error)
     alertTitle.value = 'Error al iniciar sesión'
     alertText.value = 'No se pudo iniciar sesión. Por favor, revisa el nombre y contraseña.'
     alertRef.value.showAlert()
-
   }
 }
 </script>

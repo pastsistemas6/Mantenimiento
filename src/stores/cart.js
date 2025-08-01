@@ -84,8 +84,7 @@ export const useCart = defineStore('cart', {
         delete this.disable[id]
       } else if (modulo == 'finca') {
         this.finca = {}
-      }
-      else {
+      } else {
         this.disable = {}
         this.name = ''
         this.rol = ''

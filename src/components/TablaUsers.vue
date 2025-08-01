@@ -163,7 +163,9 @@
               </span>
             </td>
             <td class="px-4 py-4 text-sm text-gray-900">{{ usuario.ubicacion }}</td>
-            <td class="px-4 py-4 text-sm text-gray-900">{{ formatDate(usuario.ultimaConexion) }}</td>
+            <td class="px-4 py-4 text-sm text-gray-900">
+              {{ formatDate(usuario.ultimaConexion) }}
+            </td>
             <td class="px-4 py-4">
               <div class="flex items-center space-x-2">
                 <button
@@ -301,9 +303,10 @@ const filteredItems = computed(() => {
   // Apply search filter
   if (searchTerm.value) {
     const search = searchTerm.value.toLowerCase()
-    filtered = filtered.filter((usuario) =>
-      usuario.nombre.toLowerCase().includes(search) ||
-      usuario.correo.toLowerCase().includes(search)
+    filtered = filtered.filter(
+      (usuario) =>
+        usuario.nombre.toLowerCase().includes(search) ||
+        usuario.correo.toLowerCase().includes(search),
     )
   }
 
@@ -441,7 +444,7 @@ const formatDate = (dateString) => {
     month: '2-digit',
     day: '2-digit',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   })
 }
 

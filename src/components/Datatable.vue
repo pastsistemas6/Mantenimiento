@@ -251,7 +251,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in paginatedData" :key="item.id" class="hover:bg-gray-100 cursor-pointer">
+              <tr
+                v-for="item in paginatedData"
+                :key="item.id"
+                class="hover:bg-gray-100 cursor-pointer"
+              >
                 <td class="w-3.5 pe-0">
                   <div class="flex h-5 items-center">
                     <input
@@ -338,7 +342,6 @@
         </button>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -348,7 +351,13 @@ import { ref, computed, onMounted } from 'vue'
 // Data reactiva
 const data = ref([
   { id: 'PL-001', tipo: 'Polietileno', bloque: 'Bloque 1', cultivo: 'Rosas', estado: 'Activo' },
-  { id: 'PL-002', tipo: 'Polipropileno', bloque: 'Bloque 2', cultivo: 'Hortencias', estado: 'Mantenimiento' },
+  {
+    id: 'PL-002',
+    tipo: 'Polipropileno',
+    bloque: 'Bloque 2',
+    cultivo: 'Hortencias',
+    estado: 'Mantenimiento',
+  },
   { id: 'PL-003', tipo: 'PVC', bloque: 'Bloque 3', cultivo: 'Claveles', estado: 'Activo' },
 ])
 
@@ -751,4 +760,3 @@ onMounted(() => {
   })
 })
 </script>
-

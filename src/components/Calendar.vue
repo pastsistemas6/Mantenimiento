@@ -98,18 +98,28 @@
                 disabled
               />
             </div>
-
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-soft text-black/55 shadow-none border-0" @click="closeModal">
+            <button
+              type="button"
+              class="btn btn-soft text-black/55 shadow-none border-0"
+              @click="closeModal"
+            >
               Cancelar
             </button>
-            <button type="submit" class="btn bg-[#545386] shadow-none border-0">Guardar lectura</button>
+            <button type="submit" class="btn bg-[#545386] shadow-none border-0">
+              Guardar lectura
+            </button>
           </div>
           <div class="modal-body pt-0 flex flex-col gap-2 mb-3">
             <div class="flex flex-col gap-2">
-              <label class="label-text cursor-default!" for="eventTitle">Lecturas existentes:</label>
-              <span class="text-center text-sm text-gray-500! border-1 border-gray-300 rounded-md py-8!">No hay lecturas registradas para este día.</span>
+              <label class="label-text cursor-default!" for="eventTitle"
+                >Lecturas existentes:</label
+              >
+              <span
+                class="text-center text-sm text-gray-500! border-1 border-gray-300 rounded-md py-8!"
+                >No hay lecturas registradas para este día.</span
+              >
             </div>
           </div>
         </form>

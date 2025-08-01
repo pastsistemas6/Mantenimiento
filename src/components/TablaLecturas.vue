@@ -49,7 +49,6 @@
             {{ finca.name }}
           </option>
         </select>
-
       </div>
     </div>
 
@@ -126,10 +125,7 @@
             >
               {{ item.lectura ? item.lectura : 'sin lectura' }}
             </td>
-            <td
-              class="px-4 py-4 text-sm text-gray-900"
-              :class="item.fecha ? '' : 'text-gray-400!'"
-            >
+            <td class="px-4 py-4 text-sm text-gray-900" :class="item.fecha ? '' : 'text-gray-400!'">
               {{ item.fecha ? item.fecha : '-----' }}
             </td>
             <td class="px-4 py-4">
@@ -212,7 +208,7 @@
     </div>
   </div>
 
-   <div
+  <div
     v-if="showModal"
     id="calendar-event-modal"
     class="overlay modal opacity-100 duration-300 bg-base-content/50 w-full h-dvh"
@@ -294,18 +290,28 @@
                 disabled
               />
             </div>
-
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-soft text-black/55 shadow-none border-0" @click="showModal = false">
+            <button
+              type="button"
+              class="btn btn-soft text-black/55 shadow-none border-0"
+              @click="showModal = false"
+            >
               Cancelar
             </button>
-            <button type="submit" class="btn bg-[#545386] shadow-none border-0">Guardar lectura</button>
+            <button type="submit" class="btn bg-[#545386] shadow-none border-0">
+              Guardar lectura
+            </button>
           </div>
           <div class="modal-body pt-0 flex flex-col gap-2 mb-3">
             <div class="flex flex-col gap-2">
-              <label class="label-text cursor-default!" for="eventTitle">Lecturas existentes:</label>
-              <span class="text-center text-sm text-gray-500! border-1 border-gray-300 rounded-md py-8!">No hay lecturas registradas para este día.</span>
+              <label class="label-text cursor-default!" for="eventTitle"
+                >Lecturas existentes:</label
+              >
+              <span
+                class="text-center text-sm text-gray-500! border-1 border-gray-300 rounded-md py-8!"
+                >No hay lecturas registradas para este día.</span
+              >
             </div>
           </div>
         </form>
@@ -398,7 +404,7 @@ const maintenanceData = ref([
     cuenta: 'EMGESA 50006191',
     lectura: '',
     fecha: '',
-  }
+  },
 ])
 
 // Computed properties

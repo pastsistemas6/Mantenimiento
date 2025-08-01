@@ -4,7 +4,6 @@
     <TransitionRoot as="template" :show="open">
       <!-- Componente Dialog de Headless UI. Se cierra cuando se dispara el evento `@close` -->
       <Dialog class="relative z-10" @close="open = false">
-
         <!-- Fondo semitransparente del modal con transición de opacidad -->
         <TransitionChild
           as="template"

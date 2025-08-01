@@ -88,7 +88,7 @@
 
         <div
           v-if="cart.finca.name || selectedFarm"
-          @click="cart.resetCart(0,'finca'), resetToWorld()"
+          @click="(cart.resetCart(0, 'finca'), resetToWorld())"
           class="btn w-full bg-[#545386] shadow-none border-0 mb-8"
         >
           Eliminar selección
