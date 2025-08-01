@@ -6,6 +6,7 @@
 }
 
 :root {
+  --color-administrador: #F7EC41FF;
   --color-gerente: #22c55e8c;
   --color-asistente: #3b82f68c;
   --color-técnico: #ce86098c;

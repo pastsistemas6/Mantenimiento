@@ -1,11 +1,12 @@
 <template>
+  <!-- Calendario de consumo -->
   <div class="card not-prose w-full shadow-none">
     <div class="flex flex-col shadow p-4 rounded-lg">
       <h2 class="text-2xl font-bold text-[#545386] mb-4">Calendario de consumo</h2>
       <div id="calendar-custom" ref="calendarRef" class="w-full"></div>
     </div>
   </div>
-
+  <!-- Modal para gestionar lecturas -->
   <button
     type="button"
     class="btn hidden"
@@ -118,17 +119,24 @@
 </template>
 
 <script setup>
+/* Calendario de consumo con FullCalendar
+ Este componente utiliza FullCalendar para mostrar un calendario interactivo
+ donde se pueden agregar, editar y eliminar eventos relacionados con lecturas de consumo.
+*/
+// Importar dependencias necesarias
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { Calendar } from '@fullcalendar/core'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 
+// Referencia al calendario y variables para manejar eventos
 const calendarRef = ref(null)
 let calendarInstance = null
 let selectedEvent = null
 let selectedDateInfo = null
 
+// Funciones para abrir y cerrar el modal de eventos
 const openModal = () => {
   const modal = document.getElementById('calendar-event-modal')
   if (modal) {
@@ -146,7 +154,7 @@ const closeModal = () => {
     document.body.style.overflow = 'auto'
   }
 }
-
+// Función para actualizar el título del evento basado en los campos del formulario
 const updateEventTitle = () => {
   const account = document.getElementById('accountSelect').value
   const code = document.getElementById('operatorCode').value
@@ -156,19 +164,21 @@ const updateEventTitle = () => {
   const title = `${account} | ${code} - ${name} | Lectura: ${reading}kWh`
   document.getElementById('eventTitle').value = title
 }
-
+// Montar el componente y configurar el calendario
 onMounted(async () => {
   await nextTick()
-
+  // Asegurarse de que el calendarioRef esté disponible
   const calendarEl = calendarRef.value
   const today = new Date()
 
+  // Verificar que calendarEl no sea nulo
   function addDays(date, days) {
     const result = new Date(date)
     result.setDate(result.getDate() + days)
     return result
   }
 
+  // Formatear la fecha para mostrarla en el modal
   function formatDate(date) {
     return date.toLocaleDateString('en-GB', {
       day: 'numeric',
@@ -177,6 +187,7 @@ onMounted(async () => {
     })
   }
 
+  // Definir los eventos del calendario
   const events = [
     {
       title: 'Past Event',
@@ -262,6 +273,7 @@ onMounted(async () => {
     },
   ]
 
+  // Inicializar el calendario
   calendarInstance = new Calendar(calendarEl, {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
     initialView: 'dayGridMonth',
@@ -282,6 +294,7 @@ onMounted(async () => {
       list: 'Lista',
     },
     events: events,
+    // Mostrar eventos en la parte superior del día
     dayCellDidMount: function (info) {
       // Agregar event listener a cada celda del día
       info.el.addEventListener('click', function (e) {
@@ -317,6 +330,7 @@ onMounted(async () => {
         openModal()
       })
     },
+    // Manejar la selección de rango de fechas
     select: function (info) {
       // Check if the selected range overlaps with the blocked range
       const blockedStart = addDays(today, 17).getTime()
@@ -342,6 +356,7 @@ onMounted(async () => {
       // Abrir el modal
       openModal()
     },
+    // Manejar el clic en un evento existente
     eventClick: function (info) {
       selectedEvent = info.event
       selectedDateInfo = { startStr: info.event.startStr, endStr: info.event.endStr }
@@ -351,6 +366,7 @@ onMounted(async () => {
       // Abrir el modal
       openModal()
     },
+    // Configuración de estilos y formato
     eventTimeFormat: {
       hour: '2-digit',
       minute: '2-digit',
@@ -359,6 +375,7 @@ onMounted(async () => {
     allDayText: 'All day',
   })
 
+  // Renderizar el calendario
   calendarInstance.render()
 
   // Agregar event listeners para actualizar el título
@@ -367,6 +384,7 @@ onMounted(async () => {
   document.getElementById('operatorName').addEventListener('input', updateEventTitle)
   document.getElementById('reading').addEventListener('input', updateEventTitle)
 
+  // Manejar el envío del formulario para crear o actualizar eventos
   document.getElementById('eventForm').addEventListener('submit', function (e) {
     e.preventDefault()
     const title = document.getElementById('eventTitle').value
@@ -389,6 +407,7 @@ onMounted(async () => {
   })
 })
 
+// Limpiar el calendario al desmontar el componente
 onBeforeUnmount(() => {
   if (calendarInstance) {
     calendarInstance.destroy()
@@ -407,11 +426,11 @@ onBeforeUnmount(() => {
 :deep(.fc-daygrid-day) {
   cursor: pointer;
 }
-
+/* Cambiar el color de fondo al pasar el mouse por encima */
 :deep(.fc-daygrid-day:hover) {
   background-color: rgba(84, 83, 134, 0.1);
 }
-
+/* Cambiar el cursor al pasar sobre los números de los días */
 :deep(.fc-daygrid-day-number) {
   cursor: pointer;
 }

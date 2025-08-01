@@ -86,12 +86,15 @@
         <h3 class="text-lg font-bold text-[#545386] mb-2">{{ selectedRegion.name }}</h3>
         <p class="text-sm text-gray-600 mb-4">{{ currentRegionFarms.length }} fincas disponibles</p>
 
+        <div
+          v-if="cart.finca.name || selectedFarm"
+          @click="cart.resetCart(0,'finca'), resetToWorld()"
+          class="btn w-full bg-[#545386] shadow-none border-0 mb-8"
+        >
+          Eliminar selección
+        </div>
+
         <div class="space-y-2">
-          <div
-            v-if="cart.finca.name || selectedFarm"
-            @click="cart.resetCart(0,'finca'), resetToWorld()"
-            class="btn btn-sm btn-primary shadow-none border-0"
-            >eliminar filtro</div>
           <div
             v-for="farm in currentRegionFarms"
             :key="farm.id"

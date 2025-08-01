@@ -1,20 +1,25 @@
 <template>
+  <!-- Contenedor principal centrado -->
   <div class="flex flex-col w-xl items-center">
     <div class="w-full flex flex-col justify-center items-center mb-8">
+      <!-- Títulos del sistema -->
       <h2 class="text-[#545386] text-6xl font-bold mb-5">MANTENIMIENTO</h2>
       <h3 class="text-[#545386] text-2xl">Sistema de gestión</h3>
     </div>
+    <!-- Animación principal de flores y césped -->
     <div class="not-loaded">
       <div class="night"></div>
       <div class="flowers">
+        <!-- Flor 1 -->
         <div class="flower flower--1">
           <div class="flower__leafs flower__leafs--1">
+            <!-- Pétalos y círculo central -->
             <div class="flower__leaf flower__leaf--1"></div>
             <div class="flower__leaf flower__leaf--2"></div>
             <div class="flower__leaf flower__leaf--3"></div>
             <div class="flower__leaf flower__leaf--4"></div>
             <div class="flower__white-circle"></div>
-
+            <!-- Luces animadas -->
             <div class="flower__light flower__light--1"></div>
             <div class="flower__light flower__light--2"></div>
             <div class="flower__light flower__light--3"></div>
@@ -24,6 +29,7 @@
             <div class="flower__light flower__light--7"></div>
             <div class="flower__light flower__light--8"></div>
           </div>
+          <!-- Tallo y hojas laterales -->
           <div class="flower__line">
             <div class="flower__line__leaf flower__line__leaf--1"></div>
             <div class="flower__line__leaf flower__line__leaf--2"></div>
@@ -33,7 +39,7 @@
             <div class="flower__line__leaf flower__line__leaf--6"></div>
           </div>
         </div>
-
+        <!-- Flor 2 -->
         <div class="flower flower--2">
           <div class="flower__leafs flower__leafs--2">
             <div class="flower__leaf flower__leaf--1"></div>
@@ -58,7 +64,7 @@
             <div class="flower__line__leaf flower__line__leaf--4"></div>
           </div>
         </div>
-
+        <!-- Flor 3 -->
         <div class="flower flower--3">
           <div class="flower__leafs flower__leafs--3">
             <div class="flower__leaf flower__leaf--1"></div>
@@ -83,14 +89,14 @@
             <div class="flower__line__leaf flower__line__leaf--4"></div>
           </div>
         </div>
-
+        <!-- Tallo largo animado -->
         <div class="grow-ans" style="--d: 1.2s">
           <div class="flower__g-long">
             <div class="flower__g-long__top"></div>
             <div class="flower__g-long__bottom"></div>
           </div>
         </div>
-
+        <!-- Césped animado 1 -->
         <div class="growing-grass">
           <div class="flower__grass flower__grass--1">
             <div class="flower__grass--top"></div>
@@ -106,7 +112,7 @@
             <div class="flower__grass__overlay"></div>
           </div>
         </div>
-
+        <!-- Césped animado 2 -->
         <div class="growing-grass">
           <div class="flower__grass flower__grass--2">
             <div class="flower__grass--top"></div>
@@ -122,7 +128,7 @@
             <div class="flower__grass__overlay"></div>
           </div>
         </div>
-
+        <!-- Tallos y hojas adicionales animadas -->
         <div class="grow-ans" style="--d: 2.4s">
           <div class="flower__g-right flower__g-right--1">
             <div class="leaf"></div>
@@ -134,7 +140,7 @@
             <div class="leaf"></div>
           </div>
         </div>
-
+        <!-- Hojas frontales animadas -->
         <div class="grow-ans" style="--d: 2.8s">
           <div class="flower__g-front">
             <div class="flower__g-front__leaf-wrapper flower__g-front__leaf-wrapper--1">
@@ -164,7 +170,7 @@
             <div class="flower__g-front__line"></div>
           </div>
         </div>
-
+        <!-- Hojas traseras animadas -->
         <div class="grow-ans" style="--d: 3.2s">
           <div class="flower__g-fr">
             <div class="leaf"></div>
@@ -178,7 +184,7 @@
             <div class="flower__g-fr__leaf flower__g-fr__leaf--8"></div>
           </div>
         </div>
-
+        <!-- Bloques de césped largo animado -->
         <div class="long-g long-g--0">
           <div class="grow-ans" style="--d: 3s">
             <div class="leaf leaf--0"></div>
@@ -193,7 +199,7 @@
             <div class="leaf leaf--3"></div>
           </div>
         </div>
-
+        <!-- Repetición de bloques de césped largo con diferentes posiciones y animaciones -->
         <div class="long-g long-g--1">
           <div class="grow-ans" style="--d: 3.6s">
             <div class="leaf leaf--0"></div>
@@ -208,7 +214,7 @@
             <div class="leaf leaf--3"></div>
           </div>
         </div>
-
+        <!-- Más bloques de césped largo animado -->
         <div class="long-g long-g--2">
           <div class="grow-ans" style="--d: 4s">
             <div class="leaf leaf--0"></div>
@@ -306,6 +312,7 @@
 <script></script>
 
 <style scoped>
+/* Bloque: contenedor de animación principal */
 .not-loaded {
   display: flex;
   align-items: center;
@@ -314,19 +321,19 @@
   height: 380px;
   overflow: hidden;
 }
-
+/* Bloque: fondo nocturno desenfocado */
 .night {
   width: 100%;
   height: 100%;
   filter: blur(0.1vmin);
 }
-
+/* Bloque: contenedor de flores */
 .flowers {
   width: 100%;
   height: 100%;
   transform: scale(0.9);
 }
-
+/* Bloque: estilos y animaciones de cada flor */
 .flower {
   position: absolute;
   bottom: 10vmin;
@@ -334,11 +341,13 @@
   z-index: 10;
   --fl-speed: 0.8s;
 }
+/* Flor 1: posición y animación */
 .flower--1 {
   left: -25%;
   bottom: 1%;
   animation: moving-flower-1 4s linear infinite;
 }
+/* Flor 1: tallo y hojas animadas */
 .flower--1 .flower__line {
   height: 24vmin;
   animation-delay: 0.3s;
@@ -361,12 +370,14 @@
 .flower--1 .flower__line__leaf--6 {
   animation: blooming-leaf-left var(--fl-speed) 2s backwards;
 }
+/* Flor 2: posición y animación */
 .flower--2 {
   left: 40%;
   bottom: 5%;
   transform: rotate(20deg);
   animation: moving-flower-2 4s linear infinite;
 }
+/* Flor 2: tallo y hojas animadas */
 .flower--2 .flower__line {
   height: 36vmin;
   animation-delay: 0.6s;
@@ -383,12 +394,14 @@
 .flower--2 .flower__line__leaf--4 {
   animation: blooming-leaf-left var(--fl-speed) 1.3s backwards;
 }
+/* Flor 3: posición y animación */
 .flower--3 {
   left: 35%;
   bottom: 5%;
   transform: rotate(-15deg);
   animation: moving-flower-3 4s linear infinite;
 }
+/* Flor 3: tallo y hojas animadas */
 .flower--3 .flower__line {
   height: 34vmin;
   animation-delay: 0.9s;
@@ -405,6 +418,7 @@
 .flower--3 .flower__line__leaf--4 {
   animation: blooming-leaf-left var(--fl-speed) 1.9s backwards;
 }
+/* Bloque: animación de pétalos de cada flor */
 .flower__leafs {
   position: relative;
   animation: blooming-flower 2s backwards;
