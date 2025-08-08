@@ -1,4 +1,5 @@
 <template>
+  <!-- Layout para la integración con SGMWIN -->
   <div class="min-h-full">
     <div class="py-2 pr-5 pb-6">
       <div class="rounded-lg shadow p-4 flex flex-col">
@@ -7,6 +8,7 @@
         <h3 class="mb-2 text-center">
           Aqui se hara la integración con los sistemas existentes de SGMWIN.
         </h3>
+        <!-- Botón para redirigir a SGMWIN -->
         <a href="https://mantenimiento.eliteflower.com/" class="btn bg-[#545386] mt-4 mx-auto"
           >Ir a SGMWIN</a
         >

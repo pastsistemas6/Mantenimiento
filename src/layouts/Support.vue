@@ -3,7 +3,7 @@
     <div class="py-3 pr-5 pb-6">
       <div class="py-8 shadow-sm rounded-lg">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <!-- Header -->
+          <!-- Encabezado -->
           <div class="relative mx-auto mb-18 w-fit">
             <h2 class="text-[#545386] text-3xl font-bold">Contáctanos</h2>
             <span
@@ -12,25 +12,25 @@
           </div>
 
           <div class="grid items-center gap-8 lg:grid-cols-2 pb-2">
-            <!-- Image Section -->
+            <!-- Imagen de contacto -->
             <img
               src="https://cdn.flyonui.com/fy-assets/blocks/marketing-ui/contact/contact-8.png"
               alt="Contact illustration"
               class="size-full"
             />
 
-            <!-- Contact Info Section -->
+            <!-- Información de contacto -->
             <div>
-              <!-- Section Title -->
+              <!-- Título y descripción -->
               <h3 class="text-base-content mb-6 text-2xl font-semibold">Felices de ayudarte!</h3>
               <p class="text-base-content/80 mb-10 text-lg font-medium">
                 Elite flower esta siempre disponible para responder y dar solución a tus
                 necesidades, proporcionando una atención amable y eficaz.
               </p>
 
-              <!-- Contact Info Grid -->
+              <!-- Información de contacto -->
               <div class="grid gap-6 md:grid-cols-2">
-                <!-- Office Hours -->
+                <!-- Horas de oficina -->
                 <div class="card shadow-sm">
                   <div class="card-body items-center gap-3">
                     <div class="avatar avatar-placeholder">
@@ -46,7 +46,7 @@
                   </div>
                 </div>
 
-                <!-- Our Address -->
+                <!-- Dirección -->
                 <div class="card shadow-sm">
                   <div class="card-body items-center gap-3 px-4">
                     <div class="avatar avatar-placeholder">
@@ -63,7 +63,7 @@
                   </div>
                 </div>
 
-                <!-- Office 2 -->
+                <!-- Oficina -->
                 <div class="card shadow-sm">
                   <div class="card-body items-center gap-3 px-4">
                     <div class="avatar avatar-placeholder">
@@ -80,7 +80,7 @@
                   </div>
                 </div>
 
-                <!-- Get in Touch -->
+                <!-- Teléfono -->
                 <div class="card shadow-sm">
                   <div class="card-body items-center gap-3">
                     <div class="avatar avatar-placeholder">
@@ -100,6 +100,8 @@
             </div>
           </div>
         </div>
+
+        <!-- Formulario de contacto -->
         <div class="isolate bg-white px-6 pt-15">
           <div class="mx-auto max-w-2xl text-center">
             <h2 class="text-4xl font-bold tracking-tight text-balance text-[#545386]">
@@ -112,6 +114,7 @@
           <form action="#" method="POST" class="mx-auto mt-10 max-w-xl">
             <div class="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
               <div>
+                <!-- Primer nombre -->
                 <label for="first-name" class="block text-sm/6 font-semibold text-gray-900"
                   >Primer nombre</label
                 >
@@ -126,6 +129,7 @@
                 </div>
               </div>
               <div>
+                <!-- Primer apellido -->
                 <label for="last-name" class="block text-sm/6 font-semibold text-gray-900"
                   >Primer apellido</label
                 >
@@ -140,6 +144,7 @@
                 </div>
               </div>
               <div class="sm:col-span-2">
+                <!-- Correo electrónico -->
                 <label for="email" class="block text-sm/6 font-semibold text-gray-900"
                   >Correo</label
                 >
@@ -154,6 +159,7 @@
                 </div>
               </div>
               <div class="sm:col-span-2">
+                <!-- Asunto -->
                 <label for="message" class="block text-sm/6 font-semibold text-gray-900"
                   >Descripción</label
                 >
@@ -168,6 +174,7 @@
               </div>
               <div class="flex gap-x-4 sm:col-span-2">
                 <div class="flex h-6 items-center">
+                  <!--- Checkbox para aceptar políticas -->
                   <div
                     class="group relative inline-flex w-8 shrink-0 rounded-full bg-gray-200 p-px inset-ring inset-ring-gray-900/5 outline-offset-2 outline-indigo-600 transition-colors duration-200 ease-in-out has-checked:bg-indigo-600 has-focus-visible:outline-2"
                   >
@@ -192,6 +199,7 @@
                 </label>
               </div>
             </div>
+            <!-- Botón de envío -->
             <div class="mt-10">
               <button
                 type="submit"
@@ -208,5 +216,6 @@
 </template>
 
 <script setup>
+// Importación de iconos necesarios
 import { ChevronDownIcon } from '@heroicons/vue/16/solid'
 </script>

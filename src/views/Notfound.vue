@@ -1,21 +1,26 @@
 <script setup lang="ts">
+// Importación de componentes necesarios
 import { RouterLink } from 'vue-router'
 import { useCart } from '@/stores/cart'
 
+// Variables de estado
 const cart = useCart()
 </script>
 
 <template>
+  <!-- Vista de error 404 personalizada -->
   <div class="frem">
     <p>ACCESO DENEGADO</p>
     <h2>Parece que estás perdido</h2>
     <h5>la página que buscas no esta disponible</h5>
+    <!-- Enlace para volver a la página principal o al layout del cuerpo -->
     <RouterLink
       v-if="cart.token"
       to="bodylayout"
       class="absolute bottom-4 bg-[#545386] p-3 px-4 text-md rounded-xl text-white"
       >Volver</RouterLink
     >
+    <!-- Enlace para volver a la página de inicio si no hay token -->
     <RouterLink
       v-if="!cart.token"
       to="/"
@@ -26,6 +31,7 @@ const cart = useCart()
 </template>
 
 <style scoped>
+/* Estilos para la vista de error 404 personalizada y el gif de fondo */
 .frem {
   width: 100%;
   height: 100vh;
@@ -37,7 +43,7 @@ const cart = useCart()
   background-position: center;
   background-repeat: no-repeat;
 }
-
+/* Estilos para el texto y los enlaces */
 .frem p {
   position: absolute;
   top: 1rem;

@@ -1,13 +1,17 @@
 <template>
+  <!-- Componente para mostrar un gráfico circular de mantenimientos por tipo -->
   <div class="shadow rounded-md chart-container cost-distribution">
     <h3 class="text-2xl font-bold text-[#545386]">
       Distribución de Costos por Tipo de Mantenimiento
     </h3>
+    <!-- Gráfico circular de ApexCharts -->
     <div class="cost-distribution-container">
+      <!-- Gráfico de distribución de costos -->
       <div class="chart-wrapper">
         <canvas id="costDistributionChart"></canvas>
       </div>
       <div class="cost-breakdown-container">
+        <!-- Desglose de costos -->
         <div class="cost-breakdown">
           <div class="cost-item">
             <div class="cost-label">Limpieza General</div>
@@ -44,8 +48,10 @@
 </template>
 
 <script setup>
+// Importar Chart.js para gráficos
 import { onMounted } from 'vue'
 
+// OnMounted hook para inicializar el gráfico
 onMounted(async () => {
   // Gráfico de Mantenimientos por Tipo
   const typeCtx = document.getElementById('costDistributionChart').getContext('2d')
@@ -74,21 +80,26 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+/* Estilos para el contenedor del gráfico circular */
 .cost-distribution {
   padding: 10px 20px;
 }
+/* Estilos para el título del gráfico */
 .cost-distribution-container {
   display: flex;
   flex-wrap: wrap;
 }
+/* Estilos para el contenedor del gráfico */
 .chart-wrapper {
   flex: 1;
   max-width: 400px;
 }
+/* Estilos para el contenedor del desglose de costos */
 .cost-breakdown-container {
   flex: 1;
   padding: 20px;
 }
+/* Estilos para el desglose de costos */
 .cost-bar {
   height: 20px;
   background-color: #f0f0f0;
@@ -96,38 +107,47 @@ onMounted(async () => {
   margin: 5px 0;
   overflow: hidden;
 }
+/* Estilos para las barras de costos */
 .cost-bar-fill {
   height: 100%;
   border-radius: 10px;
 }
+/* Estilos para cada tipo de costo */
 .cost-bar-fill-1 {
   width: 45%;
   background-color: #4e79a7;
 }
+/* Estilos para las barras de costos */
 .cost-bar-fill-2 {
   width: 30%;
   background-color: #f28e2b;
 }
+/* Estilos para las barras de costos */
 .cost-bar-fill-3 {
   width: 15%;
   background-color: #e15759;
 }
+/* Estilos para las barras de costos */
 .cost-bar-fill-4 {
   width: 10%;
   background-color: #76b7b2;
 }
+/* Estilos para los elementos de costo */
 .cost-item {
   margin-bottom: 15px;
 }
+/* Estilos para las etiquetas de costo */
 .cost-label {
   margin-bottom: 5px;
   font-weight: 500;
 }
+/* Estilos para los montos de costo */
 .cost-amount {
   margin-top: 5px;
   font-size: 0.9rem;
   color: #555;
 }
+/* Estilos para el título del gráfico */
 .historial-table {
   width: 100%;
   border-collapse: collapse;
@@ -137,37 +157,45 @@ onMounted(async () => {
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+/* Estilos para las celdas de la tabla */
 .historial-table th,
 .historial-table td {
   padding: 15px;
   text-align: left;
   border-bottom: 1px solid #eee;
 }
+/* Estilos para los encabezados de la tabla */
 .historial-table th {
   background-color: #f8f9fa;
   font-weight: 600;
   color: #555;
 }
+/* Estilos para las filas de la tabla */
 .historial-table tr:last-child td {
   border-bottom: none;
 }
+/* Estilos para las filas al pasar el mouse */
 .historial-table tr:hover {
   background-color: #f9f9f9;
 }
+/* Estilos para el badge de estado */
 .status-badge {
   padding: 5px 10px;
   border-radius: 12px;
   font-size: 0.8rem;
   font-weight: 600;
 }
+/* Estilos para los diferentes estados */
 .status-completed {
   background-color: #e6f7e6;
   color: #2e7d32;
 }
+/* Estilos para los diferentes estados */
 .status-pending {
   background-color: #fff8e1;
   color: #ff8f00;
 }
+/* Estilos para los diferentes estados */
 .status-in-progress {
   background-color: #e3f2fd;
   color: #1565c0;

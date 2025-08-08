@@ -1,4 +1,5 @@
 <template>
+  <!-- Layout principal del cuerpo de la aplicación -->
   <div class="min-h-full">
     <div class="py-4 pb-6 pr-5 flex flex-col gap-4">
       <CardDashboard></CardDashboard>

@@ -1,16 +1,20 @@
 <template>
+  <!-- Componente de inicio de sesión -->
   <div class="flex min-h-full flex-col justify-center items-center lg:px-4 w-lg">
     <div class="sm:mx-auto sm:w-full">
       <h2 class="text-center text-5xl font-bold tracking-tight text-[#545386]">Iniciar sesión</h2>
       <p class="text-center mt-4 text-lg text-gray-600">
         Por favor ingrese sus credenciales para continuar
       </p>
+      <!-- Logo de la empresa -->
       <img class="mx-auto h-28 w-auto mt-2" src="../assets/logo_elite1.webp" alt="Your Company" />
     </div>
 
     <div class="mt-6 sm:mx-auto sm:w-full sm:max-w-md">
+      <!-- Formulario de inicio de sesión -->
       <form class="space-y-4" action="#" @submit.prevent="logearse" method="POST">
         <div>
+          <!-- Campo de usuario -->
           <label for="email" class="block text-md font-medium text-[#545386]">Usuario</label>
           <div class="mt-2">
             <input
@@ -27,6 +31,7 @@
 
         <div>
           <div class="flex items-center justify-between">
+            <!-- Campo de contraseña -->
             <label for="password" class="block text-md/6 font-medium text-[#545386]"
               >Contraseña</label
             >
@@ -45,16 +50,19 @@
         </div>
 
         <div class="flex w-full flex-row justify-between text-sm mb-8 px-1">
+          <!-- Recordarme y enlace para recuperar contraseña -->
           <div class="flex gap-2">
             <input type="checkbox" name="" id="" class="" />
             <p class="text-md">Recordarme</p>
           </div>
 
+          <!-- Enlace para recuperar contraseña -->
           <a href="#" class="font-semibold text-[#545386] hover:text-indigo-800"
             >¿Olvidaste tu contraseña?</a
           >
         </div>
 
+        <!-- Botón de inicio de sesión -->
         <div>
           <button
             type="submit"
@@ -66,16 +74,19 @@
       </form>
     </div>
 
+    <!-- Componente de alerta para mostrar mensajes de error -->
     <Alert ref="alertRef" :title="alertTitle" :text="alertText" />
   </div>
 </template>
 
 <script setup>
+// Importar el router para navegación y al store
 import { useRouter } from 'vue-router'
 import { useCart } from '@/stores/cart'
 import { ref } from 'vue'
 import Alert from './Alert.vue'
 
+// Definir las variables reactivas para usuario, contraseña y alerta
 const router = useRouter()
 const cart = useCart()
 const usuario = ref('')
@@ -84,13 +95,21 @@ const alertRef = ref(null)
 const alertTitle = ref('')
 const alertText = ref('')
 
+// Función para iniciar sesión
+// Esta función se ejecuta al enviar el formulario de inicio de sesión
+// Aquí se simula un inicio de sesión exitoso y se redirige al usuario a la página de carga
 const logearse = async () => {
   try {
+    // Simular una llamada a la API para iniciar sesión
+    // Aquí se debería realizar una llamada real a la API para autenticar al usuario
+    // Si la autenticación es exitosa, se inicializa el store y se redirige al usuario
     cart.inicializar()
     cart.name = 'Usuario admin'
     cart.rol = 'Administrador'
     router.push({ name: 'Loading' })
   } catch (error) {
+    // Manejo de errores al iniciar sesión
+    // Si ocurre un error, se muestra un mensaje de alerta al usuario
     console.error('Error al iniciar sesión.', error)
     alertTitle.value = 'Error al iniciar sesión'
     alertText.value = 'No se pudo iniciar sesión. Por favor, revisa el nombre y contraseña.'

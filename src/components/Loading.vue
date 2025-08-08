@@ -1,4 +1,5 @@
 <style scoped>
+/* Estilos para el componente de carga */
 .loader {
   width: fit-content;
   height: fit-content;
@@ -6,7 +7,7 @@
   align-items: center;
   justify-content: center;
 }
-
+/* Contenedor del camión */
 .truckWrapper {
   width: 300px;
   height: 150px;
@@ -17,14 +18,14 @@
   justify-content: flex-end;
   overflow-x: hidden;
 }
-/* truck upper body */
+/* Cuerpo del camión */
 .truckBody {
   width: 160px;
   height: fit-content;
   margin-bottom: 12px;
   animation: motion 1s linear infinite;
 }
-/* truck suspension animation*/
+/* SVG del camión */
 @keyframes motion {
   0% {
     transform: translateY(0px);
@@ -36,7 +37,7 @@
     transform: translateY(0px);
   }
 }
-/* truck's tires */
+/* SVG del camión */
 .truckTires {
   width: 160px;
   height: fit-content;
@@ -47,10 +48,12 @@
   position: absolute;
   bottom: 0;
 }
+/* SVG de las ruedas del camión */
 .truckTires svg {
   width: 28px;
 }
 
+/* SVG del camión */
 .road {
   width: 100%;
   height: 2.5px;
@@ -60,6 +63,7 @@
   align-self: flex-end;
   border-radius: 3px;
 }
+/* Animación de la carretera */
 .road::before {
   content: '';
   position: absolute;
@@ -71,6 +75,7 @@
   animation: roadAnimation 1.4s linear infinite;
   border-left: 10px solid white;
 }
+/* Animación de la carretera */
 .road::after {
   content: '';
   position: absolute;
@@ -82,7 +87,7 @@
   animation: roadAnimation 1.4s linear infinite;
   border-left: 4px solid white;
 }
-
+/* SVG del poste de luz */
 .lampPost {
   position: absolute;
   bottom: 0;
@@ -90,7 +95,7 @@
   height: 130px;
   animation: roadAnimation 1.4s linear infinite;
 }
-
+/* SVG del camión */
 @keyframes roadAnimation {
   0% {
     transform: translateX(0px);
@@ -102,10 +107,14 @@
 </style>
 
 <template>
+  <!-- Componente de carga -->
   <div class="loader flex flex-col">
+    <!-- Contenedor del camión -->
     <div class="truckWrapper">
       <div class="truckBody">
+        <!-- SVG del camión -->
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 198 93" class="trucksvg">
+          <!-- Cuerpo del camión -->
           <path
             stroke-width="3"
             stroke="#282828"
@@ -169,6 +178,7 @@
           ></rect>
         </svg>
       </div>
+      <!-- Ruedas del camión -->
       <div class="truckTires">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" class="tiresvg">
           <circle
@@ -193,6 +203,7 @@
           <circle fill="#DFDFDF" r="7" cy="15" cx="15"></circle>
         </svg>
       </div>
+      <!-- Carretera y poste de luz -->
       <div class="road before:content-none! after:content-none!"></div>
 
       <svg
@@ -218,16 +229,21 @@
         ></path>
       </svg>
     </div>
+    <!-- Mensaje de carga -->
     <h2 class="mt-5 text-lg font-medium text-[#545386]">Iniciando sesión...</h2>
   </div>
 </template>
 
 <script setup>
+// Importar el router para navegación
 import { useRouter } from 'vue-router'
 import logo from '../assets/logo.png'
 
 const router = useRouter()
 
+// Redirigir al usuario a la página principal después de 4 segundos
+// Esto simula un tiempo de carga antes de mostrar el contenido principal
+// Puedes ajustar el tiempo según sea necesario
 setTimeout(() => {
   router.push({ name: 'BodyLayout' })
 }, 4000)

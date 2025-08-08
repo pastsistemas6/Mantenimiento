@@ -1,3 +1,5 @@
+// src/router/index.js
+// Importaciones necesarias para Vue Router y Pinia
 import { createRouter, createWebHistory } from 'vue-router'
 import { useCart } from '@/stores/cart'
 import Homeview from '../views/HomeView.vue'
@@ -27,8 +29,11 @@ import Tickets from '@/layouts/Tickets.vue'
 import Pendientes from '@/components/Pendientes.vue'
 import Solucionados from '@/components/Solucionados.vue'
 
+// Crear una instancia del router con las rutas definidas
 const router = createRouter({
+  // Usar el historial de navegación de Vue Router
   history: createWebHistory(import.meta.env.BASE_URL),
+  // Definir las rutas de la aplicación
   routes: [
     {
       path: '/',
@@ -184,17 +189,20 @@ const router = createRouter({
   ],
 })
 
-// 👉 Detecta conexión antes de cada navegación
+// Detecta conexión antes de cada navegación
 router.beforeEach((to, from, next) => {
+  // Verifica si el usuario está en línea
   const disableId = to.meta?.disableId
   const token = to.meta?.token
 
+  // Si el usuario no está en línea y la ruta no es 'Offline', redirige a 'Offline'
   if (!navigator.onLine && to.name !== 'Offline') {
     next({ name: 'Offline' })
   } else if (navigator.onLine && to.name === 'Offline') {
     next({ name: 'home' })
   }
 
+  // Verifica si se requiere un token o un disableId para la navegación
   if (disableId !== undefined) {
     const cart = useCart()
 
@@ -203,6 +211,7 @@ router.beforeEach((to, from, next) => {
     }
   }
 
+  // Verifica si se requiere un token para la navegación
   if (token !== undefined) {
     const cart = useCart()
 
@@ -211,6 +220,7 @@ router.beforeEach((to, from, next) => {
     }
   }
 
+  // Si todas las condiciones se cumplen, permite la navegación
   return next()
 })
 

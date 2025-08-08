@@ -1,13 +1,14 @@
 <template>
+  <!-- Componente TablaLecturas.vue -->
   <div class="bg-white rounded-lg shadow-sm border border-gray-200">
     <!-- Header -->
     <div class="px-6 py-4 border-b border-gray-200">
       <h2 class="text-2xl font-bold text-[#545386]">Administración de consumo</h2>
     </div>
 
-    <!-- Filters -->
+    <!-- Filtros -->
     <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between gap-4">
-      <!-- Search -->
+      <!-- Busqueda -->
       <div class="relative flex-1 max-w-sm">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -27,9 +28,9 @@
         />
       </div>
 
-      <!-- Controls -->
+      <!-- Controles -->
       <div class="flex items-center gap-3">
-        <!-- Page Size -->
+        <!-- Select para el tamaño de página -->
         <select
           v-model="pageSize"
           class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent target:border-r-2"
@@ -52,7 +53,7 @@
       </div>
     </div>
 
-    <!-- Table -->
+    <!-- Tabla -->
     <div class="overflow-x-auto">
       <table class="w-full">
         <thead class="bg-gray-100">
@@ -65,6 +66,7 @@
                 @change="toggleSelectAll"
               />
             </th>
+            <!-- Columnas de la tabla -->
             <th
               v-for="column in columns"
               :key="column.key"
@@ -108,6 +110,7 @@
             </th>
           </tr>
         </thead>
+        <!-- Cuerpo de la tabla -->
         <tbody class="bg-white divide-y divide-gray-200">
           <tr v-for="item in paginatedItems" :key="item.id" class="hover:bg-gray-100">
             <td class="px-4 py-4">
@@ -118,16 +121,20 @@
                 class="h-4 w-4 text-[#545386] border-gray-300 rounded focus:ring-[#545386]"
               />
             </td>
+            <!-- item de la cuenta -->
             <td class="px-4 py-4 text-sm text-gray-900">{{ item.cuenta }}</td>
+            <!-- item de la lectura -->
             <td
               class="px-4 py-4 text-sm text-gray-900"
               :class="item.lectura ? '' : 'text-gray-400!'"
             >
               {{ item.lectura ? item.lectura : 'sin lectura' }}
             </td>
+            <!-- item de la fecha -->
             <td class="px-4 py-4 text-sm text-gray-900" :class="item.fecha ? '' : 'text-gray-400!'">
               {{ item.fecha ? item.fecha : '-----' }}
             </td>
+            <!-- Acciones -->
             <td class="px-4 py-4">
               <div class="flex items-center space-x-2">
                 <button
@@ -150,7 +157,7 @@
         </tbody>
       </table>
 
-      <!-- Empty State -->
+      <!-- Si no hay resultados -->
       <div v-if="paginatedItems.length === 0" class="text-center py-12">
         <svg
           class="mx-auto h-12 w-12 text-gray-400"
@@ -169,7 +176,7 @@
       </div>
     </div>
 
-    <!-- Pagination -->
+    <!-- Paginacion -->
     <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
       <div class="text-sm text-gray-700">
         Mostrando {{ startIndex + 1 }} a
@@ -208,6 +215,7 @@
     </div>
   </div>
 
+  <!-- Modal para agregar o consultar lecturas -->
   <div
     v-if="showModal"
     id="calendar-event-modal"
@@ -217,13 +225,16 @@
   >
     <div class="modal-dialog opacity-100 duration-300">
       <div class="modal-content overflow-y-auto">
+        <!-- Encabezado del modal -->
         <div class="modal-header pb-2 flex flex-col items-start">
           <h2 class="font-bold text-[#545386] text-xl">Gestionar lecturas del día</h2>
           <div class="divider text-base-content/50 py-2"></div>
           <div class="w-full flex items-center gap-2">
+            <!-- Fecha seleccionada -->
             <h3 class="text-md">Fecha seleccionada:</h3>
             <h4 class="modal-title" id="modalTitle">Event</h4>
           </div>
+          <!-- Botón para cerrar el modal -->
           <button
             type="button"
             class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
@@ -233,9 +244,11 @@
             <span class="icon-[tabler--x] size-4"></span>
           </button>
         </div>
+        <!-- Formulario para agregar o consultar lecturas -->
         <form id="eventForm">
           <div class="modal-body pt-0 flex flex-col gap-2">
             <div class="w-full">
+              <!--- Select para la cuenta -->
               <label class="label-text cursor-default!">Seleccione una cuenta</label>
               <select id="accountSelect" class="select" required>
                 <option disabled selected>Seleccione una cuenta...</option>
@@ -254,10 +267,12 @@
               </select>
             </div>
             <div>
+              <!-- Ingresar codigo de la cuenta -->
               <label class="label-text cursor-default!"> Código del operador </label>
               <input id="operatorCode" type="text" class="input" placeholder="Ej: OP001" required />
             </div>
             <div>
+              <!--- Ingresar nombre del operador -->
               <label class="label-text cursor-default!"> Nombre del operador </label>
               <input
                 id="operatorName"
@@ -268,10 +283,12 @@
               />
             </div>
             <div>
+              <!-- Ingresar lectura -->
               <label class="label-text cursor-default!"> Lectura (kWh) </label>
               <input id="reading" type="number" class="input" placeholder="0.00" required />
             </div>
             <div>
+              <!-- Observaciones -->
               <label class="label-text cursor-default!"> Observaciones </label>
               <textarea
                 id="observations"
@@ -281,6 +298,7 @@
               ></textarea>
             </div>
             <div>
+              <!-- Información de la lectura -->
               <label class="label-text cursor-default!" for="eventTitle">Información</label>
               <input
                 type="text"
@@ -291,6 +309,7 @@
               />
             </div>
           </div>
+          <!-- Botones de acción del modal -->
           <div class="modal-footer">
             <button
               type="button"
@@ -303,6 +322,7 @@
               Guardar lectura
             </button>
           </div>
+          <!-- Si no hay lecturas registradas -->
           <div class="modal-body pt-0 flex flex-col gap-2 mb-3">
             <div class="flex flex-col gap-2">
               <label class="label-text cursor-default!" for="eventTitle"
@@ -321,10 +341,11 @@
 </template>
 
 <script setup>
+// Importar dependencias necesarias
 import { ref, computed, watch, onMounted } from 'vue'
 import { fincas as fincasData } from '../services/auth'
 
-// Reactive data
+// Variables reactivas
 const searchTerm = ref('')
 const pageSize = ref(5)
 const statusFilter = ref('All')
@@ -336,14 +357,14 @@ const selectAll = ref(false)
 const fincas = ref([])
 const showModal = ref(false)
 
-// Table columns
+// Cargar datos de fincas
 const columns = [
   { key: 'cuenta', label: 'Cuenta' },
   { key: 'lectura', label: 'Lectura actual' },
   { key: 'fecha', label: 'Fecha lectura' },
 ]
 
-// Sample data
+// Cargar datos de fincas al montar el componente
 const maintenanceData = ref([
   {
     id: 1,
@@ -407,23 +428,23 @@ const maintenanceData = ref([
   },
 ])
 
-// Computed properties
+// Filtrar y ordenar los datos
 const filteredItems = computed(() => {
   let filtered = maintenanceData.value
 
-  // Apply search filter
+  // Filtrar por término de búsqueda
   if (searchTerm.value) {
     filtered = filtered.filter((item) =>
       item.cuenta.toLowerCase().includes(searchTerm.value.toLowerCase()),
     )
   }
 
-  // Apply status filter
+  // Filtrar por estado
   if (statusFilter.value !== 'All') {
     filtered = filtered.filter((item) => item.availability === statusFilter.value)
   }
 
-  // Apply sorting
+  // Ordenar por columna y dirección
   if (sortColumn.value) {
     filtered = [...filtered].sort((a, b) => {
       const aVal = a[sortColumn.value]
@@ -440,16 +461,20 @@ const filteredItems = computed(() => {
   return filtered
 })
 
+// Paginación
 const totalPages = computed(() => Math.ceil(filteredItems.value.length / pageSize.value))
 
+// Calcular el índice de inicio para la paginación
 const startIndex = computed(() => (currentPage.value - 1) * pageSize.value)
 
+// Calcular los elementos paginados
 const paginatedItems = computed(() => {
   const start = startIndex.value
   const end = start + pageSize.value
   return filteredItems.value.slice(start, end)
 })
 
+// Calcular las páginas visibles para la paginación
 const visiblePages = computed(() => {
   const pages = []
   const total = totalPages.value
@@ -477,7 +502,7 @@ const visiblePages = computed(() => {
   return pages
 })
 
-// Methods
+// Variable para manejar la selección de todas las filas
 const sortBy = (column) => {
   if (sortColumn.value === column) {
     sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
@@ -488,24 +513,28 @@ const sortBy = (column) => {
   currentPage.value = 1
 }
 
+// Variable para manejar la paginación
 const goToPage = (page) => {
   if (page !== '...') {
     currentPage.value = page
   }
 }
 
+// Variable para devolver a la página anterior
 const prevPage = () => {
   if (currentPage.value > 1) {
     currentPage.value--
   }
 }
 
+// Variable para avanzar a la siguiente página
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value++
   }
 }
 
+// Variable para manejar la selección de todos los elementos
 const toggleSelectAll = () => {
   if (selectAll.value) {
     selectedItems.value = paginatedItems.value.map((item) => item.id)
@@ -514,6 +543,7 @@ const toggleSelectAll = () => {
   }
 }
 
+// Variable para manejar el estado de los elementos seleccionados
 const getStatusBadgeClass = (status) => {
   switch (status) {
     case 'In Stock':
@@ -527,16 +557,19 @@ const getStatusBadgeClass = (status) => {
   }
 }
 
+// Variable para editar el elemento seleccionado
 const editItem = (item) => {
   console.log('Edit item:', item)
   // Implement edit functionality
 }
 
+// Variable para eliminar el elemento seleccionado
 const deleteItem = (item) => {
   console.log('Delete item:', item)
   // Implement delete functionality
 }
 
+// Variable para más acciones en el elemento seleccionado
 const moreActions = (item) => {
   console.log('More actions for item:', item)
   // Implement more actions functionality
@@ -547,6 +580,7 @@ watch([searchTerm, statusFilter, pageSize], () => {
   currentPage.value = 1
 })
 
+// Watch para actualizar la selección de todos los elementos
 watch(
   selectedItems,
   () => {
@@ -558,6 +592,7 @@ watch(
   { deep: true },
 )
 
+// Watch para paginación y selección de elementos
 watch(paginatedItems, () => {
   const allSelected =
     paginatedItems.value.length > 0 &&
@@ -565,7 +600,7 @@ watch(paginatedItems, () => {
   selectAll.value = allSelected
 })
 
-// Load data on component mount
+// Cargar los datos de fincas al montar el componente
 onMounted(() => {
   fincas.value = fincasData
 })

@@ -1,4 +1,5 @@
 <template>
+  <!-- Layout directorio de contactos -->
   <div class="min-h-full">
     <div class="py-2 pr-5 pb-6">
       <div class="flex flex-col gap-4 items-center shadow p-4 rounded-lg">
@@ -6,6 +7,7 @@
         <div class="join w-full flex gap-3">
           <div class="input rounded-md join-item flex justify-between h-12">
             <span class="icon-[tabler--user] text-[#545386] my-auto me-3 size-5 shrink-0"></span>
+            <!-- Campo de búsqueda -->
             <input
               type="text"
               class="grow"
@@ -14,6 +16,7 @@
               v-model="searchQuery"
             />
           </div>
+          <!-- Selector de filtro por departamento -->
           <select
             class="select join-item w-sm h-12 rounded-md"
             aria-label="select"
@@ -24,6 +27,7 @@
               {{ departamento }}
             </option>
           </select>
+          <!-- Selector de filtro por cargo -->
           <select
             class="select join-item w-sm h-12 rounded-md"
             aria-label="select"
@@ -32,6 +36,7 @@
             <option value="" disabled>Cargos</option>
             <option v-for="cargo in cargos" :key="cargo" :value="cargo">{{ cargo }}</option>
           </select>
+          <!-- Botón de búsqueda -->
           <button
             class="btn btn-outline bg-[#545386] rounded-md text-white join-item h-auto"
             :disabled="!hasActiveFilters"
@@ -49,6 +54,7 @@
             @click="clearFilters"
             value="x"
           />
+          <!-- Filtro por nombre -->
           <span
             v-if="searchQuery"
             @click="clearFilterOne('1')"
@@ -57,6 +63,7 @@
             <span class="group-hover:hidden duration-300">Nombre: {{ searchQuery }}</span>
             <span class="hidden group-hover:inline w-26 text-xl text-white duration-300">×</span>
           </span>
+          <!-- Filtro por departamento -->
           <span
             v-if="selectedDepartamento"
             @click="clearFilterOne('2')"
@@ -67,6 +74,8 @@
             >
             <span class="hidden group-hover:inline w-50 text-xl text-white duration-300">×</span>
           </span>
+          <!-- Filtro por cargo -->
+
           <span
             v-if="selectedCargo"
             @click="clearFilterOne('3')"
@@ -230,6 +239,7 @@
             </div>
           </div>
 
+          <!-- Información del contacto seleccionado -->
           <div class="shadow rounded-md p-4 px-6">
             <div v-if="selectedPerson">
               <div class="px-4 sm:px-0">
@@ -241,36 +251,42 @@
               <div class="mt-6 border-t border-base-content/25">
                 <dl class="divide-y divide-base-content/25">
                   <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
+                    <!-- Nombre del contacto -->
                     <dt class="font-medium text-base-content">Nombre</dt>
                     <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
                       {{ selectedPerson.name }}
                     </dd>
                   </div>
                   <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
+                    <!-- Correo electrónico del contacto -->
                     <dt class="font-medium text-base-content">Correo</dt>
                     <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
                       {{ selectedPerson.email }}
                     </dd>
                   </div>
                   <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
+                    <!-- Cargo del contacto -->
                     <dt class="font-medium text-base-content">Cargo</dt>
                     <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
                       {{ selectedPerson.cargo }}
                     </dd>
                   </div>
                   <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
+                    <!-- Área del contacto -->
                     <dt class="font-medium text-base-content">Área</dt>
                     <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
                       {{ selectedPerson.area }}
                     </dd>
                   </div>
                   <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
+                    <!-- Departamento del contacto -->
                     <dt class="font-medium text-base-content">Departamento</dt>
                     <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
                       {{ selectedPerson.departamento }}
                     </dd>
                   </div>
                   <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
+                    <!-- Finca del contacto -->
                     <dt class="font-medium text-base-content">Finca</dt>
                     <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
                       {{ selectedPerson.finca }}
@@ -291,30 +307,35 @@
               <div class="mt-6 border-t border-base-content/25">
                 <dl class="divide-y divide-base-content/25">
                   <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
+                    <!-- Total de empleados -->
                     <dt class="font-medium text-base-content">Total Empleados</dt>
                     <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
                       {{ people.length }}
                     </dd>
                   </div>
                   <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
+                    <!-- Departamentos registrados -->
                     <dt class="font-medium text-base-content">Departamentos registrados</dt>
                     <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
                       {{ departamentos.length }}
                     </dd>
                   </div>
                   <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
+                    <!-- Áreas de trabajo registradas -->
                     <dt class="font-medium text-base-content">Áreas de Trabajo</dt>
                     <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
                       Riego, Automatización, Electricidad, Administración
                     </dd>
                   </div>
                   <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
+                    <!-- Cargos laborales registrados -->
                     <dt class="font-medium text-base-content">Cargos laborales</dt>
                     <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
                       Gerente, Asistente, Técnico, Operario, Pasantes
                     </dd>
                   </div>
                   <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
+                    <!-- Última actualización del directorio -->
                     <dt class="font-medium text-base-content">Última Actualización</dt>
                     <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
                       {{ new Date().toLocaleDateString() }}
@@ -331,9 +352,11 @@
 </template>
 
 <script setup>
+// Importación de dependencias y componentes necesarios
 import { ref, computed } from 'vue'
 import { useCart } from '@/stores/cart'
 
+// Variables reactivas y estado del componente
 const cart = useCart()
 const searchQuery = ref('')
 const selectedDepartamento = ref('')
@@ -343,6 +366,7 @@ const hasSearched = ref(false)
 const currentPage = ref(1)
 const itemsPerPage = 6
 
+// Lista de contactos con información detallada
 const people = [
   // Finca Norte
   {
@@ -555,16 +579,19 @@ const people = [
   },
 ]
 
+// Computed properties para obtener datos por departamento
 const departamentos = computed(() => {
   const uniqueDepartamentos = [...new Set(people.map((person) => person.departamento))]
   return uniqueDepartamentos.sort()
 })
 
+// Computed properties para obtener datos por cargo
 const cargos = computed(() => {
   const uniqueCargos = [...new Set(people.map((person) => person.cargo))]
   return uniqueCargos.sort()
 })
 
+// Computed properties para filtrar personas según los criterios de búsqueda
 const filteredPeople = computed(() => {
   if (!hasSearched.value) return []
 
@@ -583,36 +610,43 @@ const filteredPeople = computed(() => {
   })
 })
 
+// Computed properties para calcular el total de páginas y la paginación
 const totalPages = computed(() => {
   return Math.ceil(filteredPeople.value.length / itemsPerPage)
 })
 
+// Computed properties para obtener las personas paginadas
 const paginatedPeople = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
   const end = start + itemsPerPage
   return filteredPeople.value.slice(start, end)
 })
 
+// Funciones para manejar la paginación y selección de personas
 const goToPage = (page) => {
   if (page !== '...') {
     currentPage.value = page
   }
 }
 
+// Computed properties para verificar si hay filtros activos
 const hasActiveFilters = computed(() => {
   return searchQuery.value || selectedDepartamento.value || selectedCargo.value
 })
 
+// Funciones para manejar la búsqueda y selección de personas
 const performSearch = () => {
   hasSearched.value = true
   currentPage.value = 1
   selectedPerson.value = null
 }
 
+// Función para seleccionar una persona y mostrar su información
 const selectPerson = (person) => {
   selectedPerson.value = person
 }
 
+// Función para limpiar los filtros y restablecer el estado
 const clearFilters = () => {
   searchQuery.value = ''
   selectedDepartamento.value = ''
@@ -622,6 +656,7 @@ const clearFilters = () => {
   selectedPerson.value = null
 }
 
+// Función para limpiar un filtro específico
 const clearFilterOne = (numero) => {
   if (searchQuery.value && numero == '1') {
     searchQuery.value = ''
@@ -640,6 +675,7 @@ const clearFilterOne = (numero) => {
   }
 }
 
+// Función para obtener las iniciales del nombre de la persona
 const getInitials = (name) => {
   console.log(name)
 
@@ -652,6 +688,7 @@ const getInitials = (name) => {
 </script>
 
 <style scoped>
+/* Estilos para el input de búsqueda y filtros */
 .filter {
   & input {
     &:not(:last-child) {

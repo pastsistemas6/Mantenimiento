@@ -1,19 +1,24 @@
 <template>
+  <!-- Componente GraficoColumnas.vue -->
   <div class="shadow rounded-md w-full flex flex-col items-center justify-center">
     <h2 class="text-black text-xl font-semibold p-4 w-full mb-auto">
       Nivel de Agua por Reservorio
     </h2>
+    <!-- Gráfico de columnas de ApexCharts -->
     <div id="apex-column-bar-chart" class="w-full"></div>
   </div>
 </template>
 
 <script setup>
+// Importar la función buildChart desde helpers/apexcharts
 import { onMounted } from 'vue'
 import { buildChart } from '@/assets/js/helpers/apexcharts'
 import { buildTooltip } from '@/assets/js/helpers/apexcharts'
 
+// OnMounted hook para inicializar el gráfico
 onMounted(() => {
   buildChart('#apex-column-bar-chart', (mode) => ({
+    // Gráfico de columnas
     chart: {
       type: 'bar',
       height: 400,
@@ -24,18 +29,21 @@ onMounted(() => {
         enabled: false,
       },
     },
+    // Data del gráfico
     series: [
       {
         name: 'Investment',
         data: [25000, 39000, 65000, 45000, 79000, 80000, 69000, 63000, 60000, 66000, 90000, 78000],
       },
     ],
+    // Configuración de las barras
     plotOptions: {
       bar: {
         horizontal: false,
         columnWidth: '30px',
       },
     },
+    // Estilos del gráfico
     legend: {
       show: false,
     },
@@ -43,6 +51,7 @@ onMounted(() => {
       enabled: false,
     },
     colors: ['var(--color-primary)', 'var(--color-base-100)'],
+    // Configuración de los ejes
     xaxis: {
       categories: [
         'Cook',
@@ -64,6 +73,7 @@ onMounted(() => {
       axisTicks: {
         show: false,
       },
+      // Estilos de las etiquetas del eje X
       labels: {
         style: {
           colors: 'var(--color-base-content)',
@@ -72,6 +82,7 @@ onMounted(() => {
         },
       },
     },
+    // Configuración del eje Y
     yaxis: {
       labels: {
         align: 'left',
@@ -85,6 +96,7 @@ onMounted(() => {
         formatter: (value) => (value >= 1000 ? `${value / 1000}k` : value),
       },
     },
+    // Configuración de la cuadrícula
     states: {
       hover: {
         filter: {
@@ -93,10 +105,13 @@ onMounted(() => {
         },
       },
     },
+    // Configuración de la animación
     tooltip: {
+      // Formatear el tooltip
       y: {
         formatter: (value) => `$${value >= 1000 ? `${value / 1000}k` : value}`,
       },
+      // Personalizar el tooltip
       custom: function (props) {
         const { categories } = props.ctx.opts.xaxis
         const { dataPointIndex } = props
@@ -113,6 +128,7 @@ onMounted(() => {
         })
       },
     },
+    // Configuración de la barra de herramientas
     responsive: [
       {
         breakpoint: 568,

@@ -1,6 +1,10 @@
+// src/stores/cart.js
+// Importar Pinia
 import { defineStore } from 'pinia'
 
+// Definir la variable de estado para mantener información
 export const useCart = defineStore('cart', {
+  // Declaracion de estados
   state: () => ({
     disable: {},
     name: '',
@@ -8,6 +12,7 @@ export const useCart = defineStore('cart', {
     token: false,
     finca: {},
   }),
+  // Getters para acceder a los estados
   getters: {
     /*total: (state) => (mesaId, pedidoId) => {
       const mesaProducts = state.products[mesaId]?.[pedidoId]?.productos || [];
@@ -17,6 +22,8 @@ export const useCart = defineStore('cart', {
       );
     },*/
   },
+  // Acciones para modificar los estados
+  // Aquí puedes definir acciones para modificar el estado, como agregar, actualizar y eliminar
   actions: {
     setRol(rolValue) {
       this.rol = rolValue
@@ -30,6 +37,7 @@ export const useCart = defineStore('cart', {
         this.products[mesaId][id_pedido] = { productos: [] };
       }
     },*/
+    // Aquí puedes inicializar el estado de los permisos y token
     inicializar() {
       const diccionario = this.disable
       for (let index = 1; index < 8; index++) {
@@ -79,6 +87,7 @@ export const useCart = defineStore('cart', {
         pedido.productos.splice(index, 1);
       }
     },*/
+    // Reiniciar los estados
     resetCart(id, modulo) {
       if (id && modulo == 'disable') {
         delete this.disable[id]
@@ -93,6 +102,7 @@ export const useCart = defineStore('cart', {
       }
     },
   },
+  // Persistencia del estado en localStorage
   persist: {
     enabled: true,
     strategies: [

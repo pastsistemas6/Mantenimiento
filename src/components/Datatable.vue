@@ -1,10 +1,12 @@
 <template>
+  <!-- Componente Datatable.vue -->
   <div
     id="datatable-with-export"
     class="bg-base-100 --prevent-on-load-init flex flex-col rounded-md shadow-base-300/20 shadow"
   >
     <div class="w-full pt-4 pb-2 px-5 flex justify-between">
       <h2 class="text-[#545386] font-bold text-2xl">Gestión de invernaderos</h2>
+      <!-- Botón para abrir el modal de nuevo registro -->
       <button type="button" class="btn bg-[#545386] shadow-none border-0" @click="showModal = true">
         Nuevo registro
       </button>
@@ -19,6 +21,7 @@
         <div class="modal-dialog opacity-100 duration-300">
           <div class="modal-content">
             <div class="modal-header">
+              <!-- Título del modal y boton para cerrarlo -->
               <h3 class="modal-title font-bold text-[#545386]">Registro de invernaderos</h3>
               <button
                 type="button"
@@ -29,9 +32,11 @@
                 <span class="icon-[tabler--x] size-4"></span>
               </button>
             </div>
+            <!-- Formulario para agregar un nuevo registro -->
             <form @submit.prevent="addNewRecord">
               <div class="modal-body pt-0">
                 <div class="mb-4">
+                  <!-- Campo para el ID del registro -->
                   <label class="label-text cursor-default" for="tipo">Tipo</label>
                   <input
                     v-model="newRecord.tipo"
@@ -44,6 +49,7 @@
                 </div>
                 <div class="mb-0.5 flex gap-4 max-sm:flex-col">
                   <div class="w-full">
+                    <!-- Campo para el bloque del registro -->
                     <label class="label-text cursor-default" for="bloque">Bloque</label>
                     <input
                       v-model="newRecord.bloque"
@@ -55,6 +61,7 @@
                     />
                   </div>
                   <div class="w-full">
+                    <!-- Campo para el tipo de cultivo del registro -->
                     <label class="label-text cursor-default" for="cultivo">Tipo de cultivo</label>
                     <input
                       v-model="newRecord.cultivo"
@@ -67,6 +74,7 @@
                   </div>
                 </div>
               </div>
+              <!-- Botones para guardar o cancelar -->
               <div class="modal-footer">
                 <button type="button" class="btn btn-soft shadow-none" @click="showModal = false">
                   Cancelar
@@ -81,11 +89,13 @@
       </div>
     </div>
 
+    <!-- Tabla de datos -->
     <div class="border-base-content/25 flex items-center border-b px-5 py-3 gap-3">
       <div class="input input-md max-w-md">
         <span
           class="icon-[tabler--search] text-base-content/80 my-auto me-3 size-4 shrink-0"
         ></span>
+        <!-- Campo de búsqueda -->
         <label class="sr-only" for="table-export-search"></label>
         <input
           v-model="searchQuery"
@@ -113,6 +123,7 @@
 
         <!-- Dropdown de exportación -->
         <div class="dropdown relative inline-flex">
+          <!-- Botón de exportación -->
           <button
             type="button"
             class="dropdown-toggle max-sm:btn-square btn bg-white text-base-content/100 border-gray-400 btn-sm shadow-none"
@@ -124,11 +135,13 @@
             </span>
             <span class="icon-[tabler--chevron-down] max-sm:hidden size-4"></span>
           </button>
+          <!-- Dropdown de opciones de exportación -->
           <div
             v-if="showExportDropdown"
             class="dropdown-menu opacity-100 absolute top-full right-0 mt-2 bg-white shadow-lg rounded-md py-2 z-10"
             role="menu"
           >
+            <!-- Opcion de copiar, imprimir y exportar a excel, csv y pdf -->
             <button type="button" class="dropdown-item" @click="exportData('copy')">
               <span class="icon-[tabler--clipboard-copy] size-3.5 shrink-0"></span>
               Copy
@@ -155,12 +168,14 @@
       </div>
     </div>
 
+    <!-- Tabla de datos -->
     <div class="overflow-x-auto">
       <div class="inline-block min-w-full align-middle">
         <div class="overflow-hidden">
           <table class="table min-w-full">
             <thead>
               <tr class="bg-gray-100">
+                <!-- Checkbox para seleccionar todos los registros -->
                 <th scope="col" class="--exclude-from-ordering w-3.5 pe-0">
                   <div class="flex h-5 items-center">
                     <input
@@ -172,7 +187,9 @@
                     <label class="sr-only">Checkbox</label>
                   </div>
                 </th>
+                <!-- Encabezados de la tabla con ordenamiento -->
                 <th scope="col" class="group w-fit hover:bg-gray-200" @click="sortBy('id')">
+                  <!-- Encabezado de ID con ordenamiento -->
                   <div class="flex items-center justify-between cursor-pointer">
                     ID
                     <span
@@ -188,6 +205,7 @@
                   </div>
                 </th>
                 <th scope="col" class="group w-fit hover:bg-gray-200" @click="sortBy('tipo')">
+                  <!-- Encabezado de tipo con ordenamiento -->
                   <div class="flex items-center justify-between cursor-pointer">
                     TIPO
                     <span
@@ -203,6 +221,7 @@
                   </div>
                 </th>
                 <th scope="col" class="group w-fit hover:bg-gray-200" @click="sortBy('bloque')">
+                  <!-- Encabezado de bloque con ordenamiento -->
                   <div class="flex items-center justify-between cursor-pointer">
                     BLOQUE
                     <span
@@ -218,6 +237,7 @@
                   </div>
                 </th>
                 <th scope="col" class="group w-fit hover:bg-gray-200" @click="sortBy('cultivo')">
+                  <!-- Encabezado de cultivo con ordenamiento -->
                   <div class="flex items-center justify-between cursor-pointer">
                     TIPO DE CULTIVO
                     <span
@@ -233,6 +253,7 @@
                   </div>
                 </th>
                 <th scope="col" class="group w-fit hover:bg-gray-200" @click="sortBy('estado')">
+                  <!-- Encabezado de estado con ordenamiento -->
                   <div class="flex items-center justify-between cursor-pointer">
                     ESTADO
                     <span
@@ -247,10 +268,12 @@
                     ></span>
                   </div>
                 </th>
+                <!-- Columna de acciones -->
                 <th scope="col" class="--exclude-from-ordering">ACCIONES</th>
               </tr>
             </thead>
             <tbody>
+              <!-- Filtrar y paginar los datos -->
               <tr
                 v-for="item in paginatedData"
                 :key="item.id"
@@ -267,11 +290,13 @@
                     <label class="sr-only">Checkbox</label>
                   </div>
                 </td>
+                <!-- Mostrar los datos de cada registro -->
                 <td>{{ item.id }}</td>
                 <td>{{ item.tipo }}</td>
                 <td>{{ item.bloque }}</td>
                 <td>{{ item.cultivo }}</td>
                 <td>
+                  <!-- Mostrar el estado del registro con colores -->
                   <span
                     class="badge badge-soft badge-sm"
                     :class="{
@@ -282,6 +307,7 @@
                     {{ item.estado }}
                   </span>
                 </td>
+                <!-- Botones de acción para editar y eliminar -->
                 <td>
                   <button
                     @click="editRecord(item)"
@@ -308,10 +334,12 @@
     <!-- Paginación -->
     <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
       <div class="text-sm text-gray-700">
+        <!-- Mostrar el rango de registros actuales -->
         Mostrando {{ startIndex + 1 }} a
         {{ Math.min(startIndex + pageLength, filteredData.length) }} de
         {{ filteredData.length }} registros
       </div>
+      <!-- Controles de paginación -->
       <div class="flex items-center space-x-2">
         <button
           @click="previousPage"
@@ -346,6 +374,7 @@
 </template>
 
 <script setup>
+// Importar las funciones de Vue
 import { ref, computed, onMounted } from 'vue'
 
 // Data reactiva
@@ -384,6 +413,7 @@ const newRecord = ref({
 const filteredData = computed(() => {
   if (!searchQuery.value) return sortedData.value
 
+  // Filtrar los datos según la búsqueda
   return sortedData.value.filter(
     (item) =>
       item.tipo.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
@@ -393,7 +423,9 @@ const filteredData = computed(() => {
   )
 })
 
+// Ordenar los datos
 const sortedData = computed(() => {
+  // Ordenar los datos según el campo y la dirección
   const sorted = [...data.value].sort((a, b) => {
     let aVal = a[sortField.value]
     let bVal = b[sortField.value]
@@ -403,6 +435,7 @@ const sortedData = computed(() => {
       bVal = bVal.toLowerCase()
     }
 
+    // Comparar los valores según la dirección de ordenamiento
     if (sortDirection.value === 'asc') {
       return aVal < bVal ? -1 : aVal > bVal ? 1 : 0
     } else {
@@ -413,25 +446,30 @@ const sortedData = computed(() => {
   return sorted
 })
 
+// Calcular el número total de páginas
 const totalPages = computed(() => {
   return Math.ceil(filteredData.value.length / pageLength.value)
 })
 
+// Calcular el índice de inicio para la paginación
 const startIndex = computed(() => {
   return (currentPage.value - 1) * pageLength.value
 })
 
+// Calcular los datos paginados
 const paginatedData = computed(() => {
   const start = startIndex.value
   const end = start + pageLength.value
   return filteredData.value.slice(start, end)
 })
 
+// Calcular las páginas visibles para la paginación
 const visiblePages = computed(() => {
   const pages = []
   const maxVisible = 5
   const total = totalPages.value
 
+  // Si el total de páginas es menor o igual al máximo visible, mostrar todas
   if (total <= maxVisible) {
     for (let i = 1; i <= total; i++) {
       pages.push(i)
@@ -448,8 +486,9 @@ const visiblePages = computed(() => {
   return pages
 })
 
-// Methods
+// Funciones para manejar la lógica del componente
 const sortBy = (field) => {
+  // Cambiar el campo de ordenamiento y la dirección
   if (sortField.value === field) {
     sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
   } else {
@@ -459,30 +498,36 @@ const sortBy = (field) => {
   currentPage.value = 1
 }
 
+// Filtrar los datos según la búsqueda
 const filterData = () => {
   currentPage.value = 1
 }
 
+// Actualizar la longitud de la página y reiniciar a la primera página
 const updatePageLength = () => {
   currentPage.value = 1
 }
 
+// Navegar a la página anterior o siguiente
 const previousPage = () => {
   if (currentPage.value > 1) {
     currentPage.value--
   }
 }
 
+// Navegar a la página siguiente
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value++
   }
 }
 
+// Ir a una página específica
 const goToPage = (page) => {
   currentPage.value = page
 }
 
+// Funciones para manejar la selección de registros
 const toggleSelectAll = () => {
   if (selectAll.value) {
     selectedRows.value = paginatedData.value.map((item) => item.id)
@@ -491,9 +536,11 @@ const toggleSelectAll = () => {
   }
 }
 
+// Agregar un nuevo registro
 const addNewRecord = () => {
   const newId = Math.max(...data.value.map((item) => item.id)) + 1
 
+  // Cargar el nuevo registro en la lista de datos
   data.value.push({
     id: newId,
     tipo: newRecord.value.tipo,
@@ -502,7 +549,7 @@ const addNewRecord = () => {
     estado: newRecord.value.estado,
   })
 
-  // Reset form
+  // Reiniciar el formulario y cerrar el modal
   newRecord.value = {
     tipo: '',
     bloque: '',
@@ -513,25 +560,31 @@ const addNewRecord = () => {
   showModal.value = false
 }
 
+// Editar un registro
 const editRecord = (item) => {
   // Aquí puedes implementar la lógica para editar
   console.log('Editar:', item)
 }
 
+// Eliminar un registro
 const deleteRecord = (id) => {
   if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
     data.value = data.value.filter((item) => item.id !== id)
   }
 }
 
+// Función para exportar los datos en diferentes formatos
 const exportData = (format) => {
+  // Filtrar los datos seleccionados o todos los datos si no hay selección
   const exportableData =
     selectedRows.value.length > 0
       ? data.value.filter((item) => selectedRows.value.includes(item.id))
       : filteredData.value
 
+  // Si hay datos para exportar, mostrar un mensaje
   switch (format) {
     case 'copy':
+      // Copiar los datos al portapapeles
       const copyText = exportableData
         .map((item) => `${item.id}\t${item.tipo}\t${item.bloque}\t${item.cultivo}\t${item.estado}`)
         .join('\n')
@@ -540,6 +593,7 @@ const exportData = (format) => {
       break
 
     case 'csv':
+      // Crear contenido CSV
       const csvContent = [
         'ID,Tipo,Bloque,Cultivo,Estado',
         ...exportableData.map(
@@ -694,6 +748,7 @@ const exportData = (format) => {
       break
 
     case 'print':
+      // Crear contenido HTML para imprimir
       const printContent = `
         <table border="1" style="border-collapse: collapse; width: 100%;">
           <thead>
@@ -723,6 +778,7 @@ const exportData = (format) => {
       `
 
       const printWindow = window.open('', '', 'height=600,width=800')
+      // Escribir el contenido HTML en la ventana de impresión
       printWindow.document.write(`
         <html>
           <head>

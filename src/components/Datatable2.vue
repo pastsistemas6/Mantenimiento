@@ -1,13 +1,14 @@
 <template>
+  <!-- Componente Datatable.vue -->
   <div class="bg-white rounded-lg shadow-sm border border-gray-200">
     <!-- Header -->
     <div class="px-6 py-4 border-b border-gray-200">
       <h2 class="text-2xl font-bold text-[#545386]">Historial reciente de mantenimientos</h2>
     </div>
 
-    <!-- Filters -->
+    <!-- Filtros -->
     <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between gap-4">
-      <!-- Search -->
+      <!-- Busqueda -->
       <div class="relative flex-1 max-w-sm">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -27,9 +28,9 @@
         />
       </div>
 
-      <!-- Controls -->
+      <!-- Controles -->
       <div class="flex items-center gap-3">
-        <!-- Page Size -->
+        <!-- Orden de elementos -->
         <select
           v-model="pageSize"
           class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent target:border-r-2"
@@ -40,7 +41,7 @@
           <option value="30">30</option>
         </select>
 
-        <!-- Status Filter -->
+        <!-- Estados filtros -->
         <select
           v-model="statusFilter"
           class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent target:border-b-2"
@@ -53,11 +54,12 @@
       </div>
     </div>
 
-    <!-- Table -->
+    <!-- Tabla -->
     <div class="overflow-x-auto">
       <table class="w-full">
         <thead class="bg-gray-50">
           <tr>
+            <!-- Checkbox para seleccionar todos los registros -->
             <th class="w-8 px-4 py-3 text-left">
               <input
                 v-model="selectAll"
@@ -66,6 +68,7 @@
                 @change="toggleSelectAll"
               />
             </th>
+            <!-- Encabezados de la tabla -->
             <th
               v-for="column in columns"
               :key="column.key"
@@ -104,7 +107,9 @@
             </th>
           </tr>
         </thead>
+        <!-- Cuerpo de la tabla -->
         <tbody class="bg-white divide-y divide-gray-200">
+          <!-- Iterar sobre los elementos filtrados y paginados -->
           <tr v-for="item in paginatedItems" :key="item.id" class="hover:bg-gray-50">
             <td class="px-4 py-4">
               <input
@@ -114,6 +119,7 @@
                 class="h-4 w-4 text-[#545386] border-gray-300 rounded focus:ring-[#545386]"
               />
             </td>
+            <!-- Mostrar los datos de cada columna -->
             <td class="px-4 py-4 text-sm text-gray-900">{{ item.id }}</td>
             <td class="px-4 py-4 text-sm text-gray-900">{{ item.fecha }}</td>
             <td class="px-4 py-4 text-sm text-gray-900">{{ item.tipoplastico }}</td>
@@ -133,7 +139,7 @@
         </tbody>
       </table>
 
-      <!-- Empty State -->
+      <!-- No hay resultados -->
       <div v-if="paginatedItems.length === 0" class="text-center py-12">
         <svg
           class="mx-auto h-12 w-12 text-gray-400"
@@ -152,13 +158,15 @@
       </div>
     </div>
 
-    <!-- Pagination -->
+    <!-- Paginación -->
     <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
       <div class="text-sm text-gray-700">
+        <!-- Mostrar el rango de elementos mostrados -->
         Mostrando {{ startIndex + 1 }} a
         {{ Math.min(startIndex + pageSize, filteredItems.length) }} de
         {{ filteredItems.length }} mantenimientos
       </div>
+      <!-- Controles de paginación -->
       <div class="flex items-center space-x-2">
         <button
           @click="prevPage"
@@ -193,9 +201,10 @@
 </template>
 
 <script setup>
+// Importar las funciones necesarias de Vue
 import { ref, computed, watch } from 'vue'
 
-// Reactive data
+// Variables reactivas
 const searchTerm = ref('')
 const pageSize = ref(5)
 const statusFilter = ref('All')
@@ -205,7 +214,7 @@ const sortDirection = ref('asc')
 const selectedItems = ref([])
 const selectAll = ref(false)
 
-// Table columns
+// Columnas de la tabla
 const columns = [
   { key: 'id', label: 'ID' },
   { key: 'fecha', label: 'FECHA' },
@@ -217,7 +226,7 @@ const columns = [
   { key: 'estado', label: 'Estado' },
 ]
 
-// Sample data
+// Datos de ejemplo
 const maintenanceData = ref([
   {
     id: 'MT-2023-128',
@@ -304,16 +313,20 @@ const filteredItems = computed(() => {
   return filtered
 })
 
+// Total de páginas
 const totalPages = computed(() => Math.ceil(filteredItems.value.length / pageSize.value))
 
+// Índice de inicio para la paginación
 const startIndex = computed(() => (currentPage.value - 1) * pageSize.value)
 
+// Elementos paginados
 const paginatedItems = computed(() => {
   const start = startIndex.value
   const end = start + pageSize.value
   return filteredItems.value.slice(start, end)
 })
 
+// Páginas visibles para la paginación
 const visiblePages = computed(() => {
   const pages = []
   const total = totalPages.value
@@ -341,8 +354,9 @@ const visiblePages = computed(() => {
   return pages
 })
 
-// Methods
+// Metodos
 const sortBy = (column) => {
+  // Cambiar la dirección de ordenamiento si ya está ordenado por esa columna
   if (sortColumn.value === column) {
     sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
   } else {
@@ -352,24 +366,28 @@ const sortBy = (column) => {
   currentPage.value = 1
 }
 
+// Funciones de paginación
 const goToPage = (page) => {
   if (page !== '...') {
     currentPage.value = page
   }
 }
 
+// Ir a la página anterior
 const prevPage = () => {
   if (currentPage.value > 1) {
     currentPage.value--
   }
 }
 
+// Ir a la página siguiente
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value++
   }
 }
 
+// Función para seleccionar o deseleccionar todos los registros
 const toggleSelectAll = () => {
   if (selectAll.value) {
     selectedItems.value = paginatedItems.value.map((item) => item.id)
@@ -378,6 +396,7 @@ const toggleSelectAll = () => {
   }
 }
 
+// Función para obtener la clase del badge de estado
 const getStatusBadgeClass = (status) => {
   switch (status) {
     case 'completado':
@@ -389,26 +408,30 @@ const getStatusBadgeClass = (status) => {
   }
 }
 
+// Funciones de acción para editar, eliminar y más acciones
 const editItem = (item) => {
   console.log('Edit item:', item)
   // Implement edit functionality
 }
 
+// Eliminar un registro
 const deleteItem = (item) => {
   console.log('Delete item:', item)
   // Implement delete functionality
 }
 
+// Más acciones para un registro
 const moreActions = (item) => {
   console.log('More actions for item:', item)
   // Implement more actions functionality
 }
 
-// Watchers
+// Mostrar modal de confirmación
 watch([searchTerm, statusFilter, pageSize], () => {
   currentPage.value = 1
 })
 
+// Actualizar la selección de todos los registros
 watch(
   selectedItems,
   () => {
@@ -420,6 +443,7 @@ watch(
   { deep: true },
 )
 
+// Actualizar la selección de todos los registros cuando cambian los elementos paginados
 watch(paginatedItems, () => {
   const allSelected =
     paginatedItems.value.length > 0 &&

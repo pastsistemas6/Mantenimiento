@@ -1,4 +1,5 @@
 <template>
+  <!-- Componente Datamaps.vue -->
   <h2 class="text-3xl font-bold text-[#545386] mb-3">Bienvenido al sistema de mantenimiento</h2>
   <p class="mb-5">
     Elite Flower es una empresa líder en la industria de las flores, dedicada a producir flores de
@@ -7,6 +8,7 @@
   </p>
 
   <!-- Controles de navegación -->
+  <!-- Botones para cambiar la vista del mapa -->
   <div class="map-controls mb-4" v-if="currentView !== 'world'">
     <button
       @click="resetToWorld"
@@ -33,6 +35,7 @@
           Regiones - {{ currentView.charAt(0).toUpperCase() + currentView.slice(1) }}
         </h3>
         <div class="space-y-2">
+          <!-- Mostrar regiones según el país -->
           <div
             v-for="region in currentCountryRegions"
             :key="region.id"
@@ -42,18 +45,21 @@
           >
             <div class="flex justify-between items-center">
               <div>
+                <!-- Nombre de la región -->
                 <h4
                   class="font-semibold text-gray-800"
                   :class="{ 'text-white!': cart.finca.regionName == region.name }"
                 >
                   {{ region.name }}
                 </h4>
+                <!-- Información de la región -->
                 <p
                   class="text-sm text-gray-600"
                   :class="{ 'text-gray-200!': cart.finca.regionName == region.name }"
                 >
                   {{ region.fincas }} fincas • {{ region.tipo }}
                 </p>
+                <!-- Ciudad de la región -->
                 <p
                   class="text-xs text-gray-500"
                   :class="{ 'text-gray-100!': cart.finca.regionName == region.name }"
@@ -61,6 +67,7 @@
                   {{ region.ciudad }}
                 </p>
               </div>
+              <!-- Icono de flecha para indicar selección -->
               <div
                 class="text-[#545386]"
                 :class="{ 'text-white!': cart.finca.regionName == region.name }"
@@ -83,9 +90,11 @@
           </button>
         </div>
 
+        <!-- Título de la región seleccionada -->
         <h3 class="text-lg font-bold text-[#545386] mb-2">{{ selectedRegion.name }}</h3>
         <p class="text-sm text-gray-600 mb-4">{{ currentRegionFarms.length }} fincas disponibles</p>
 
+        <!-- Botón para eliminar la selección de finca -->
         <div
           v-if="cart.finca.name || selectedFarm"
           @click="(cart.resetCart(0, 'finca'), resetToWorld())"
@@ -94,6 +103,7 @@
           Eliminar selección
         </div>
 
+        <!-- Lista de fincas en la región seleccionada -->
         <div class="space-y-2">
           <div
             v-for="farm in currentRegionFarms"
@@ -106,8 +116,10 @@
                 : cart.finca.id === farm.id,
             }"
           >
+            <!-- Información de la finca -->
             <div class="flex justify-between items-start">
               <div class="flex-1">
+                <!-- Nombre y detalles de la finca -->
                 <h4
                   class="font-semibold"
                   :class="
@@ -120,6 +132,7 @@
                 >
                   {{ farm.nombre }}
                 </h4>
+                <!-- Ciudad y hectáreas de la finca -->
                 <p
                   class="text-sm"
                   :class="
@@ -132,6 +145,7 @@
                 >
                   {{ farm.ciudad }} • {{ farm.hectareas }} hectáreas
                 </p>
+                <!-- Estado de la finca -->
                 <span
                   class="inline-block px-2 py-1 rounded-full text-xs mt-1"
                   :class="
@@ -143,6 +157,7 @@
                   {{ farm.estado }}
                 </span>
               </div>
+              <!-- Icono de selección -->
               <div
                 v-if="selectedFarm ? selectedFarm?.id === farm.id : cart.finca.id === farm.id"
                 class="text-white ml-2"
@@ -153,6 +168,7 @@
           </div>
         </div>
 
+        <!-- Mostrar información de la finca seleccionada -->
         <div
           v-if="(selectedFarm && cart.finca) || selectedFarm || hasFinca"
           class="mt-8 p-3 bg-[#f8f9fa] rounded-lg border-l-6 border-[#545386]"
@@ -198,9 +214,11 @@
 </template>
 
 <script setup>
+// Importar dependencias y hooks necesarios
 import { onMounted, nextTick, ref, computed } from 'vue'
 import { useCart } from '@/stores/cart'
 
+// Importar la librería Datamaps
 const currentView = ref('world') // 'world', 'colombia', 'ecuador', 'kenya'
 const currentViewLabel = computed(() => {
   switch (currentView.value) {
@@ -215,6 +233,7 @@ const currentViewLabel = computed(() => {
   }
 })
 
+// Variables reactivas para manejar el estado del mapa y la selección de regiones
 let currentDataMap = null
 const selectedRegion = ref(null)
 const selectedMapRegion = ref(null)
@@ -678,7 +697,9 @@ const fincasData = {
   },
 }
 
+// Función para inicializar el mapa al montar el componente
 function loadScripts(sources) {
+  // Cargar los scripts necesarios para Datamaps y sus dependencias
   return Promise.all(
     sources.map(
       (src) =>
@@ -697,7 +718,9 @@ function loadScripts(sources) {
   )
 }
 
+// Lista de scripts necesarios
 function waitForLibraries() {
+  // Esperar a que las librerías d3, topojson y Datamap estén disponibles
   return new Promise((resolve) => {
     const checkLibraries = () => {
       if (window.d3 && window.topojson && window.Datamap) {
@@ -710,21 +733,26 @@ function waitForLibraries() {
   })
 }
 
+// Función para inicializar el mapa mundial
 function createWorldMap() {
+  // Verificar si Datamaps ya está cargado
   const container = document.querySelector('#countries-datamap')
   if (!container) {
     console.error('El contenedor del mapa no se encontró.')
     return
   }
 
+  // Limpiar el contenedor y establecer su clase
   container.innerHTML = ''
   container.className = 'world-map'
 
+  // Asegurarse de que el contenedor tenga dimensiones
   if (container.offsetWidth === 0 || container.offsetHeight === 0) {
     container.style.width = '100%'
     container.style.height = '520px'
   }
 
+  // Crear el mapa mundial utilizando Datamaps
   currentDataMap = new window.Datamap({
     element: container,
     projection: 'mercator',
@@ -734,6 +762,7 @@ function createWorldMap() {
       MAJOR: '#545386',
     },
     data: worldDataSet,
+    // Configuración del mapa mundial
     done: function (datamap) {
       // Agregar eventos click para los 3 países
       datamap.svg.selectAll('.datamaps-subunit.COL').on('click', function () {
@@ -746,16 +775,19 @@ function createWorldMap() {
         zoomToCountry('kenya')
       })
     },
+    // Configuración de la geografía
     geographyConfig: {
       borderColor: '#000',
       highlightFillColor: '#f00',
       highlightBorderColor: '#f00',
+      // Resaltar el país al pasar el mouse
       popupTemplate: function (geo, data) {
         if (!data) return `<div class="datamap-hoverover">${geo.properties.name}</div>`
 
         const growUp = `↗️`
         const growDown = `↘️`
 
+        // Generar el contenido del popup
         return `
           <div class="datamap-hoverover" style="background: white; border: 1px solid #ccc; border-radius: 8px; padding: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-width: 200px; position: absolute; z-index: 1000;">
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #eee;">
@@ -793,8 +825,10 @@ function createWorldMap() {
   })
 }
 
+// Función para resaltar la región seleccionada
 async function loadCountryTopojson(country) {
   try {
+    // Cargar el archivo GeoJSON correspondiente al país
     const response = await fetch(`/lib/${country}.geojson`) // Ajusta la ruta según tu estructura
 
     if (!response.ok) {
@@ -803,11 +837,13 @@ async function loadCountryTopojson(country) {
 
     return await response.json()
   } catch (error) {
+    // Manejar errores al cargar el archivo
     console.error(`Error cargando geojson de ${country}:`, error)
     return null
   }
 }
 
+// Función para resaltar la región seleccionada
 function getCountryDataSet(country) {
   switch (country) {
     case 'colombia':
@@ -821,13 +857,17 @@ function getCountryDataSet(country) {
   }
 }
 
+// Función para resaltar la región seleccionada
 async function createCountryMap(country) {
+  // Asegurarse de que las librerías estén cargadas
   const container = document.querySelector('#countries-datamap')
   if (!container) return
 
+  // Limpiar el contenedor y establecer su clase
   container.innerHTML = ''
   container.className = `${country}-map`
 
+  // Asegurarse de que el contenedor tenga dimensiones
   const topojsonData = await loadCountryTopojson(country)
   const countryDataSet = getCountryDataSet(country)
 
@@ -840,14 +880,18 @@ async function createCountryMap(country) {
       highlightSelectedRegion(cart.finca.regionId)
     }
   } else {
+    // Si no se pudo cargar el Geojson, crear un mapa por defecto
     createDefaultCountryMap(container, country, countryDataSet)
   }
 }
 
+// Crear un mapa por defecto si no se encuentra el GeoJSON
 function createCustomCountryMap(container, topojsonData, countryDataSet) {
+  // Asegurarse de que el contenedor tenga dimensiones
   const width = container.offsetWidth || 800
   const height = 500
 
+  // Crear el SVG para el mapa
   const svg = window.d3
     .select(container)
     .append('svg')
@@ -886,8 +930,10 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
         .translate([width / 2, height / 2])
   }
 
+  // Crear el path generator
   const path = window.d3.geo.path().projection(projection)
 
+  // Agregar los datos GeoJSON al SVG
   svg
     .selectAll('path')
     .data(topojsonData.features)
@@ -896,6 +942,7 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
     .attr('d', path)
     .attr('class', 'region')
     .style('fill', function (d) {
+      // Determinar el color de relleno según los datos del país
       const regionData =
         countryDataSet[d.properties.DPTO_CNMBR] ||
         countryDataSet[d.properties.COUNTY_NAM] ||
@@ -917,6 +964,7 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
     .style('stroke', '#000')
     .style('stroke-width', 1)
     .style('cursor', 'pointer')
+    // Agregar eventos para mostrar tooltip y manejar clics
     .on('mouseover', function (d) {
       window.d3.select(this).style('fill', '#c2dfea')
       showTooltip(d, window.d3.event, countryDataSet)
@@ -955,7 +1003,9 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
       }
     })
 
+  // Agregar un grupo para el tooltip
   function showTooltip(d, event, dataSet) {
+    // Verificar si hay datos para la región
     const regionData =
       dataSet[d.properties.DPTO_CNMBR] ||
       dataSet[d.properties.COUNTY_NAM] ||
@@ -963,9 +1013,11 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
     const name =
       d.properties.DPTO_CNMBR || d.properties.COUNTY_NAM || d.properties.dpa_despro || 'Región'
 
+    // Crear el contenido del tooltip
     let content = `<div class="datamap-hoverover" style="background: white; border: 1px solid #ccc; border-radius: 8px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
       <div style="font-weight: bold; color: #333;">${name}</div>`
 
+    // Agregar datos específicos de la región
     if (regionData) {
       const iconMap = {
         Principal: '🏭',
@@ -973,6 +1025,7 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
         Distribución: '🚚',
       }
 
+      // Agregar icono y datos de la región
       content += `
         <div style="font-size: 12px; color: #666; margin-top: 8px;">
           <div style="margin-bottom: 4px;">
@@ -1004,10 +1057,12 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
       .style('top', event.pageY - 10 + 'px')
   }
 
+  // Función para ocultar el tooltip
   function hideTooltip() {
     window.d3.selectAll('.datamap-tooltip').remove()
   }
 
+  // Configurar el mapa para que sea responsivo
   currentDataMap = {
     resize: function () {
       const newWidth = container.offsetWidth || 800
@@ -1018,7 +1073,9 @@ function createCustomCountryMap(container, topojsonData, countryDataSet) {
   }
 }
 
+// Variables reactivas para el mapa y la región seleccionada:
 const region1 = (name) => {
+  // Cambiar la vista actual al país correspondiente
   selectedMapRegion.value = name
 
   // Encontrar la región correspondiente en los datos
@@ -1028,6 +1085,7 @@ const region1 = (name) => {
     ...data,
   }))
 
+  // Si la región existe, seleccionarla
   if (regions) {
     const region = {
       id: name,
@@ -1037,8 +1095,9 @@ const region1 = (name) => {
     selectMapRegion(region)
   }
 }
-
+// Crear un mapa por defecto si no se encuentra el GeoJSON
 function createDefaultCountryMap(container, country, countryDataSet) {
+  // Asegurarse de que el contenedor tenga dimensiones
   currentDataMap = new window.Datamap({
     element: container,
     scope: country,
@@ -1057,16 +1116,19 @@ function createDefaultCountryMap(container, country, countryDataSet) {
       highlightFillColor: '#c2dfea',
       highlightBorderColor: '#000',
       highlightBorderWidth: 2,
+      // Resaltar la región al pasar el mouse
       popupTemplate: function (geo, data) {
         if (!data)
           return `<div class="datamap-hoverover">${geo.properties.name || geo.properties.NAME_1}</div>`
 
+        // Asignar iconos según el tipo de región
         const iconMap = {
           Principal: '🏭',
           Secundaria: '🏪',
           Distribución: '🚚',
         }
 
+        // Generar el contenido del popup
         return `
           <div class="datamap-hoverover" style="background: white; border: 1px solid #ccc; border-radius: 8px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-width: 220px;">
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #eee;">
@@ -1094,6 +1156,7 @@ function createDefaultCountryMap(container, country, countryDataSet) {
 const currentCountryRegions = computed(() => {
   if (currentView.value === 'world') return []
 
+  // Obtener el conjunto de datos del país actual
   const countryDataSet = getCountryDataSet(currentView.value)
   const regions = Object.entries(countryDataSet).map(([key, data]) => ({
     id: key,
@@ -1107,6 +1170,7 @@ const currentCountryRegions = computed(() => {
 const currentRegionFarms = computed(() => {
   if (!selectedRegion.value || currentView.value === 'world') return []
 
+  // Obtener las fincas del país actual y la región seleccionada
   return fincasData[currentView.value]?.[selectedRegion.value.id] || []
 })
 
@@ -1117,6 +1181,7 @@ function selectRegion(region) {
   showFarmsList.value = true
 }
 
+// Función seleccionar mapa región
 function selectMapRegion(region) {
   selectedRegion.value = region
   selectedFarm.value = null
@@ -1126,15 +1191,18 @@ function selectMapRegion(region) {
   highlightSelectedRegion(region.id)
 }
 
+// Función para seleccionar una finca y resaltar la región en el mapa
 function selectFarm(farm) {
+  // Verificar si la finca es válida
   selectedFarm.value = farm
   const regionEncontrada = encontrarRegionDeFinca(farm.id)
 
+  // Si se encuentra la región, actualizar la selección
   if (regionEncontrada) {
     selectedRegion.value = regionEncontrada
     console.log(regionEncontrada.id)
 
-    // Guardar en el carrito con toda la información
+    // Guardar toda la información
     cart.finca = {
       ...farm,
       pais: currentView.value,
@@ -1166,6 +1234,7 @@ const encontrarRegionDeFinca = (farmId) => {
   return null
 }
 
+// Función para volver a la lista de regiones:
 function backToRegions() {
   showFarmsList.value = false
   selectedRegion.value = null
@@ -1183,6 +1252,7 @@ function resetToWorld() {
   })
 }
 
+// Función para hacer zoom a un país específico:
 function zoomToCountry(country) {
   currentView.value = country
   nextTick(() => {
@@ -1190,6 +1260,7 @@ function zoomToCountry(country) {
   })
 }
 
+// 7. Restaurar selección al cargar el componente:
 const restoreSelection = async () => {
   if (cart.finca && cart.finca.pais) {
     currentView.value = cart.finca.pais
@@ -1217,6 +1288,7 @@ const restoreSelection = async () => {
   }
 }
 
+// Función color para resaltar la región seleccionada:
 function highlightSelectedRegion(regionId) {
   const regionElement = document.querySelector(`[data-id="${regionId}"]`)
   if (regionElement) {
@@ -1226,20 +1298,24 @@ function highlightSelectedRegion(regionId) {
   }
 }
 
+// 8. Montar el componente y cargar el mapa:
 onMounted(async () => {
   try {
+    // Cargar los scripts necesarios
     await loadScripts([
       'https://d3js.org/d3.v3.min.js',
       'https://unpkg.com/topojson@1.6.9/topojson.min.js',
       'https://unpkg.com/datamaps@0.5.9/dist/datamaps.world.min.js',
     ])
 
+    // Esperar a que las librerías estén disponibles
     await waitForLibraries()
     await nextTick()
 
     // Usar restoreSelection en lugar de createWorldMap directamente
     await restoreSelection()
 
+    // Agregar el evento de resize para hacer el mapa responsivo
     let resizeTimeout
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimeout)
@@ -1256,10 +1332,12 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+/* Estilos para el mapa mundial */
 #countries-datamap.world-map {
   height: 550px !important;
 }
 
+/* Estilos para los mapas de países específicos */
 #countries-datamap.colombia-map,
 #countries-datamap.ecuador-map,
 #countries-datamap.kenya-map {
@@ -1271,6 +1349,7 @@ onMounted(async () => {
   padding-bottom: 0 !important;
 }
 
+/* Estilos para el contenedor del mapa */
 .map-controls {
   display: flex;
   align-items: center;
@@ -1279,11 +1358,13 @@ onMounted(async () => {
   gap: 10px;
 }
 
+/* Estilos para el título del mapa */
 .legend {
   border: 1px solid #ddd;
   margin-bottom: 30px;
 }
 
+/* Estilos para el mapa de Datamaps */
 :deep(.datamap) {
   width: 100% !important;
   height: 520px !important;
@@ -1292,6 +1373,7 @@ onMounted(async () => {
   background: #f8f9fa;
 }
 
+/* Estilos para las regiones del mapa */
 :global(.datamaps-subunit) {
   cursor: pointer;
   transition: fill 0.3s ease;
@@ -1300,18 +1382,21 @@ onMounted(async () => {
   stroke-width: 1px !important;
 }
 
+/* Estilos para las regiones de Colombia, Ecuador y Kenia */
 :global(.datamaps-subunit.COL),
 :global(.datamaps-subunit.ECU),
 :global(.datamaps-subunit.KEN) {
   fill: #545386 !important;
 }
 
+/* Estilos para resaltar las regiones al pasar el mouse */
 :global(.datamaps-subunit:hover) {
   fill: #c2dfea !important;
   stroke: black !important;
   stroke-width: 1px !important;
 }
 
+/* Estilos para el tooltip del mapa */
 :global(.datamap-hoverover) {
   z-index: 1000 !important;
   color: black;
@@ -1322,6 +1407,7 @@ onMounted(async () => {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+/* Estilos para las subunidades de Colombia, Ecuador y Kenia */
 :global(
   .datamaps-subunit[data-id*='CO-'],
   .datamaps-subunit[data-id*='EC-'],
@@ -1331,6 +1417,7 @@ onMounted(async () => {
   stroke-width: 1px !important;
 }
 
+/* Estilos para resaltar las subunidades de Colombia, Ecuador y Kenia al pasar el mouse */
 :global(
   .datamaps-subunit[data-id*='CO-']:hover,
   .datamaps-subunit[data-id*='EC-']:hover,

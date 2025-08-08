@@ -1,9 +1,11 @@
 <template>
+  <!-- Componente Pendientes.vue -->
   <div class="card not-prose w-full shadow-none">
     <div class="flex flex-col gap-4 shadow p-4 rounded-lg">
       <div
         class="flex items-center flex-nowrap border-2 border-base-content/20 rounded-lg px-0.5 mb-2"
       >
+        <!-- Botones para cambiar entre tipos de registro -->
         <button
           @click="registros('user')"
           class="btn w-[50%] bg-white rounded-none rounded-tl-md rounded-bl-md hover:bg-gray-200 border-0 shadow-none text-[#545386] font-bold text-md"
@@ -19,10 +21,12 @@
         </button>
       </div>
 
+      <!-- Contenido del componente dependiendo del tipo de registro -->
       <div v-if="tiporegistro" class="w-full">
         <div class="flex justify-between flex-nowrap items-center gap-4">
           <div class="w-full max-w-full">
             <div class="relative">
+              <!-- Campo de búsqueda -->
               <div class="relative">
                 <input
                   v-model="searchQuery"
@@ -60,6 +64,7 @@
           <div v-for="(tickets, dateGroup) in groupedTickets" :key="dateGroup" class="mb-6">
             <h3 class="text-lg font-semibold text-[#545386] mb-3 border-b pb-1">{{ dateGroup }}</h3>
             <div class="grid grid-cols-2 gap-4">
+              <!-- Iterar sobre los tickets y mostrarlos -->
               <div
                 v-for="ticket in tickets"
                 :key="ticket.id"
@@ -96,6 +101,7 @@
           </div>
         </div>
 
+        <!-- Si no hay tickets encontrados -->
         <div v-else-if="hasSearched" class="text-center py-8 text-gray-500">
           No se encontraron tickets
         </div>
@@ -131,11 +137,13 @@
         </div>
       </div>
 
+      <!-- Contenido para el registro de elementos -->
       <div v-if="!tiporegistro" class="w-full">
         <div class="flex justify-between flex-nowrap items-center gap-4">
           <div class="w-full max-w-full">
             <div class="relative">
               <div class="relative">
+                <!-- Campo de búsqueda para elementos -->
                 <input
                   v-model="searchQuery"
                   @input="performSearch"
@@ -152,6 +160,7 @@
             </div>
           </div>
 
+          <!-- Filtro por fechas para elementos -->
           <select
             v-model="selectedDateFilter"
             @change="performSearch"
@@ -171,6 +180,7 @@
           <div v-for="(elements, dateGroup) in groupedElements" :key="dateGroup" class="mb-6">
             <h3 class="text-lg font-semibold text-[#545386] mb-3 border-b pb-1">{{ dateGroup }}</h3>
             <div class="grid grid-cols-2 gap-4">
+              <!-- Iterar sobre los elementos y mostrarlos -->
               <div
                 v-for="element in elements"
                 :key="element.code"
@@ -206,6 +216,7 @@
           </div>
         </div>
 
+        <!-- Si no hay elementos encontrados -->
         <div v-else-if="hasSearched" class="text-center py-8 text-gray-500">
           No se encontraron elementos
         </div>
@@ -252,9 +263,11 @@
       <div class="modal-dialog opacity-100 duration-300">
         <div class="modal-content">
           <div class="modal-header border-b-1 border-base-content/20">
+            <!--- Título del modal con el código del ticket -->
             <h3 class="modal-title text-3xl font-bold text-[#545386]">
               Ticket #{{ selectedTicket.codigo }}
             </h3>
+            <!-- Botón para cerrar el modal -->
             <button
               type="button"
               class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
@@ -268,6 +281,7 @@
           <div class="modal-body pt-4 flex flex-col gap-3">
             <div>
               <div>
+                <!--- Información del ticket -->
                 <label class="label-text text-lg text-gray-500 font-bold cursor-default"
                   >Elemento</label
                 >
@@ -275,6 +289,7 @@
               </div>
 
               <div class="mt-2">
+                <!-- Categoría del ticket -->
                 <label class="label-text text-lg text-gray-500 font-bold cursor-default"
                   >Código</label
                 >
@@ -282,6 +297,7 @@
               </div>
 
               <div class="mt-2">
+                <!-- Información del creador del ticket -->
                 <label class="label-text text-lg text-gray-500 font-bold cursor-default"
                   >Creado por</label
                 >
@@ -289,6 +305,7 @@
               </div>
 
               <div class="mt-2">
+                <!-- Email del creador del ticket -->
                 <label class="label-text text-lg text-gray-500 font-bold cursor-default"
                   >Email</label
                 >
@@ -296,6 +313,7 @@
               </div>
 
               <div class="mt-2">
+                <!-- Fecha de creación del ticket -->
                 <label class="label-text text-lg text-gray-500 font-bold cursor-default"
                   >Fecha</label
                 >
@@ -305,6 +323,7 @@
               </div>
 
               <div class="mt-2">
+                <!-- Descripción del ticket -->
                 <label class="label-text text-lg text-gray-500 font-bold cursor-default"
                   >Descripción</label
                 >
@@ -312,6 +331,7 @@
               </div>
 
               <div class="mt-3 flex items-center gap-6">
+                <!-- Estado actual del ticket -->
                 <label class="label-text text-lg text-gray-500 font-bold cursor-default"
                   >Estado actual</label
                 >
@@ -324,6 +344,7 @@
               </div>
 
               <div class="mt-2">
+                <!-- Nota de rechazo del ticket -->
                 <label class="label-text text-lg text-gray-500 font-bold cursor-default"
                   >Nota</label
                 >
@@ -331,6 +352,7 @@
               </div>
             </div>
 
+            <!-- Imágenes adjuntas al ticket -->
             <div>
               <h4 class="text-lg font-bold mb-2">Imágenes adjuntadas</h4>
               <div class="grid grid-cols-2 gap-2">
@@ -363,9 +385,11 @@
       <div class="modal-dialog opacity-100 duration-300">
         <div class="modal-content">
           <div class="modal-header border-b-1 border-base-content/20">
+            <!-- Título del modal con el nombre del elemento -->
             <h3 class="modal-title text-3xl font-bold text-[#545386]">
               {{ selectedElement.name }}
             </h3>
+            <!-- Botón para cerrar el modal -->
             <button
               type="button"
               class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
@@ -378,12 +402,14 @@
 
           <div class="modal-body pt-4 flex flex-col gap-3">
             <div>
+              <!-- Información del elemento -->
               <label class="label-text text-lg text-gray-500 font-bold cursor-default"
                 >Ticket</label
               >
               <p class="text-sm bg-gray-50 p-3 rounded">{{ selectedElement.ticket }}</p>
             </div>
             <div>
+              <!-- Categoría del elemento -->
               <label class="label-text text-lg text-gray-500 font-bold cursor-default"
                 >Categoría</label
               >
@@ -391,6 +417,7 @@
             </div>
 
             <div class="mt-2">
+              <!-- Nombre del elemento -->
               <label class="label-text text-lg text-gray-500 font-bold cursor-default"
                 >Código</label
               >
@@ -398,6 +425,7 @@
             </div>
 
             <div class="mt-2">
+              <!-- Fecha que se registró el elemento -->
               <label class="label-text text-lg text-gray-500 font-bold cursor-default">Fecha</label>
               <p class="text-sm bg-gray-50 p-3 rounded">
                 {{ formatElementDate(selectedElement.date) }}
@@ -405,17 +433,20 @@
             </div>
 
             <div class="mt-2">
+              <!-- Descripción del elemento -->
               <label class="label-text text-lg text-gray-500 font-bold cursor-default"
                 >Especificación</label
               >
               <p class="text-sm bg-gray-50 p-3 rounded">{{ selectedElement.especification }}</p>
             </div>
 
+            <!-- Información del creador del elemento -->
             <div v-if="selectedElement.enlaces && selectedElement.enlaces.length > 0" class="mt-2">
               <label class="label-text text-lg text-gray-500 font-bold cursor-default"
                 >Enlaces relacionados</label
               >
               <div class="space-y-2">
+                <!-- Iterar sobre los enlaces del elemento -->
                 <div
                   v-for="(enlace, index) in selectedElement.enlaces"
                   :key="index"
@@ -423,6 +454,7 @@
                 >
                   <div class="flex justify-between items-center gap-4 flex-nowrap">
                     <div class="flex items-center gap-3">
+                      <!-- Nombre del enlace -->
                       <label class="label-text text-md text-gray-500 font-semibold cursor-default"
                         >Nombre:</label
                       >
@@ -430,6 +462,7 @@
                     </div>
 
                     <div class="flex items-center gap-3">
+                      <!-- Tipo del enlace -->
                       <label class="label-text text-md text-gray-500 font-semibold cursor-default"
                         >Tipo:</label
                       >
@@ -438,6 +471,7 @@
                   </div>
 
                   <div class="text-blue-600 flex flex-col items-start justify-center w-full">
+                    <!-- URL del enlace -->
                     <label class="label-text text-md text-gray-500 font-semibold cursor-default"
                       >link</label
                     >
@@ -466,11 +500,14 @@
       <div class="modal-dialog opacity-100 duration-300">
         <div class="modal-content">
           <div class="modal-header flex justify-center border-b-1 border-base-content/20">
+            <!-- Título del modal de imagen ampliada -->
             <h3 class="modal-title text-3xl font-semibold text-[#545386]">Referencia</h3>
           </div>
+          <!-- Contenido del modal de imagen ampliada -->
           <div class="modal-body pt-0 flex flex-col justify-center items-center gap-2">
             <img :src="selectedImage" alt="Imagen ampliada" class="w-xl h-full rounded-lg" />
           </div>
+          <!-- Botón para cerrar el modal de imagen ampliada -->
           <div class="modal-footer flex justify-center">
             <button @click="selectedImage = null" class="btn bg-[#545386] shadow-none">
               Volver
@@ -483,8 +520,10 @@
 </template>
 
 <script setup>
+// Importaciones necesarias
 import { ref, computed, defineProps } from 'vue'
 
+// Props para recibir los tickets resueltos y nuevos elementos
 const props = defineProps({
   resolvedTickets: {
     type: Array,
@@ -495,9 +534,8 @@ const props = defineProps({
     default: () => [],
   },
 })
-console.log(props.resolvedTickets)
-console.log(props.newElements)
 
+// Variables reactivas para manejar el estado del componente
 const searchQuery = ref('')
 const selectedDateFilter = ref('')
 const selectedTicket = ref(null)
@@ -512,6 +550,7 @@ const selectedImage = ref(null)
 const showApprovalModal = ref(false)
 const approvedTicket = ref(null)
 
+// Función para cambiar entre tipos de registro
 const filteredTickets = computed(() => {
   if (!hasSearched.value) return []
 
@@ -554,6 +593,7 @@ const filteredTickets = computed(() => {
   })
 })
 
+// Función para formatear la fecha de los elementos
 const filteredElements = computed(() => {
   if (!hasSearched.value) return []
 
@@ -596,6 +636,7 @@ const filteredElements = computed(() => {
   })
 })
 
+// Agrupar tickets por fecha
 const groupedTickets = computed(() => {
   if (!filteredTickets.value.length) return {}
 
@@ -604,6 +645,7 @@ const groupedTickets = computed(() => {
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
   const yesterday = new Date(today.getTime() - 86400000)
 
+  // Filtrar y agrupar tickets por fecha
   filteredTickets.value.forEach((ticket) => {
     const ticketDate = new Date(ticket.fechaCreacion)
     const ticketDay = new Date(
@@ -632,6 +674,7 @@ const groupedTickets = computed(() => {
   return groups
 })
 
+// Agrupar elementos por fecha
 const groupedElements = computed(() => {
   if (!filteredElements.value.length) return {}
 
@@ -668,10 +711,12 @@ const groupedElements = computed(() => {
   return groups
 })
 
+// Paginación de tickets
 const totalPages = computed(() => {
   return Math.ceil(filteredTickets.value.length / itemsPerPage)
 })
 
+// Paginación de elementos
 const totalElementPages = computed(() => {
   return Math.ceil(filteredElements.value.length / itemsPerPage)
 })
@@ -684,6 +729,7 @@ const performSearch = () => {
   currentPage.value = 1
 }
 
+// Función para cambiar el tipo de registro
 const registros = (tipo) => {
   if (tipo == 'user') {
     tiporegistro.value = true
@@ -692,30 +738,36 @@ const registros = (tipo) => {
   }
 }
 
+// Función para seleccionar un ticket
 const selectTicket = (ticket) => {
   selectedTicket.value = ticket
   newStatus.value = ''
   rejectionNote.value = ''
 }
 
+// Función para seleccionar un elemento
 const selectElement = (element) => {
   selectedElement.value = element
 }
 
+// Función para abrir el modal de imagen ampliada
 const openImageModal = (image) => {
   selectedImage.value = image
 }
 
+// Función para cerrar el modal de ticket
 const closeTicketModal = () => {
   selectedTicket.value = null
   newStatus.value = ''
   rejectionNote.value = ''
 }
 
+// Función para cerrar el modal de elemento
 const closeElementModal = () => {
   selectedElement.value = null
 }
 
+// Variable para las iniciales del creador
 const getInitials = (name) => {
   return name
     .split(' ')
@@ -724,6 +776,7 @@ const getInitials = (name) => {
     .toUpperCase()
 }
 
+// Variable para el estado del ticket aprobado
 const getStatusColor = (status) => {
   switch (status) {
     case 'aprobado':
@@ -735,6 +788,7 @@ const getStatusColor = (status) => {
   }
 }
 
+// Variable para formatear la fecha
 const formatDate = (date) => {
   return new Date(date).toLocaleString('es-ES', {
     day: '2-digit',
@@ -745,6 +799,7 @@ const formatDate = (date) => {
   })
 }
 
+// Variable para formatear la fecha de los elementos
 const formatElementDate = (date) => {
   if (!date) return 'Fecha no disponible'
   return new Date(date).toLocaleString('es-ES', {
@@ -769,6 +824,7 @@ const getCategoryColor = (category) => {
 </script>
 
 <style scoped>
+/* Estilos para el componente Pendientes.vue */
 .filter {
   & input {
     &:not(:last-child) {
@@ -777,6 +833,7 @@ const getCategoryColor = (category) => {
   }
 }
 
+/* Estilos para el modal */
 .modal {
   z-index: 1000;
 }

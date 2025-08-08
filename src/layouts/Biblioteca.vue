@@ -1,10 +1,12 @@
 <template>
+  <!-- Layout de la biblioteca virtual -->
   <div class="min-h-full">
     <div class="py-2 pr-5 pb-6">
       <div class="shadow rounded-lg p-4 flex flex-col items-center flex-nowrap">
         <div class="w-full mb-6 flex justify-between gap-4 px-4">
           <div class="w-[17%]"></div>
           <h2 class="text-3xl font-bold text-[#545386] mb-2">Biblioteca virtual</h2>
+          <!-- Botón para agregar un nuevo ticket -->
           <button
             type="button"
             class="btn w-[17%] bg-[#545386] border-0 shadow-none flex items-center"
@@ -14,6 +16,8 @@
             Agregar ticket
           </button>
 
+          <!-- Modal para crear un nuevo ticket -->
+          <!-- Showmodal es la variable que controla la visibilidad del modal-->
           <div
             v-if="showModal"
             class="overlay modal opacity-100 duration-300 bg-base-content/50 w-full h-full fixed inset-0 z-50"
@@ -24,6 +28,7 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <h3 class="modal-title font-bold text-[#545386]">Crear ticket</h3>
+                  <!--- Botón para cerrar el modal -->
                   <button
                     type="button"
                     class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
@@ -33,9 +38,11 @@
                     <span class="icon-[tabler--x] size-4"></span>
                   </button>
                 </div>
+                <!-- Formulario para crear un ticket -->
                 <form @submit.prevent="submitForm" class="overflow-y-auto">
                   <div class="modal-body pt-0 flex flex-col gap-2">
                     <div>
+                      <!-- Campo de texto para el elemento solicitado -->
                       <label class="label-text" for="campo">Elemento solicitado</label>
                       <input
                         type="text"
@@ -46,6 +53,7 @@
                       />
                     </div>
                     <div>
+                      <!-- Campo de texto para la descripción del elemento -->
                       <label class="label-text" for="description">Descripción</label>
                       <textarea
                         class="input py-2 h-28"
@@ -56,6 +64,7 @@
                       ></textarea>
                     </div>
                     <div>
+                      <!-- Campo para adjuntar imágenes -->
                       <label class="label-text" for="images">Adjunta imágenes alusivas</label>
                       <div
                         class="bg-base-200/60 rounded-box flex flex-col justify-center border-2 border-base-content/20 border-dashed"
@@ -114,6 +123,7 @@
                       </div>
                     </div>
                   </div>
+                  <!-- Botones del modal -->
                   <div class="modal-footer">
                     <button
                       type="button"
@@ -146,6 +156,7 @@
               ></span>
             </div>
 
+            <!-- Select para especialidades -->
             <select
               class="select join-item max-w-sm w-sm h-12"
               aria-label="select"
@@ -161,12 +172,14 @@
               </option>
             </select>
 
+            <!-- Select para tipo de componente -->
             <select class="select join-item max-w-xs w-xs h-12" v-model="selectedTipoComponente">
               <option value="" disabled>Tipo de componente</option>
               <option value="insumos">Insumos</option>
               <option value="equipos">Equipos</option>
             </select>
 
+            <!-- Botón de búsqueda -->
             <button
               class="btn btn-outline bg-[#545386] text-white join-item py-3 h-auto"
               :disabled="!hasActiveFilters"
@@ -187,6 +200,7 @@
               ✕
             </button>
 
+            <!-- Filtro de búsqueda por nombre -->
             <span
               v-if="searchTerm"
               @click="clearFilter('search')"
@@ -196,6 +210,7 @@
               <span class="hidden group-hover:inline text-xl duration-300 w-36">×</span>
             </span>
 
+            <!-- Filtros de especialidad -->
             <span
               v-if="selectedEspecialidad"
               @click="clearFilter('especialidad')"
@@ -207,6 +222,7 @@
               <span class="hidden group-hover:inline text-xl duration-300 w-36">×</span>
             </span>
 
+            <!-- Filtros de tipo de componente -->
             <span
               v-if="selectedTipoComponente"
               @click="clearFilter('tipo')"
@@ -399,36 +415,42 @@
           </div>
           <div class="mt-6 border-t border-base-content/25">
             <dl class="divide-y divide-base-content/25">
+              <!-- Detalle nombre del elemento -->
               <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
                 <dt class="font-medium text-base-content">Nombre del elemento</dt>
                 <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
                   {{ selectedComponent.name }}
                 </dd>
               </div>
+              <!-- Detalle especialidad -->
               <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
                 <dt class="font-medium text-base-content">Especialidad</dt>
                 <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
                   {{ selectedComponent.especialidad }}
                 </dd>
               </div>
+              <!-- Detalle categoría -->
               <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
                 <dt class="font-medium text-base-content">Categoría</dt>
                 <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
                   {{ selectedComponent.category }}
                 </dd>
               </div>
+              <!-- Detalle código del elemento -->
               <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
                 <dt class="font-medium text-base-content">Código</dt>
                 <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
                   {{ selectedComponent.code }}
                 </dd>
               </div>
+              <!-- Detalle descripción del elemento -->
               <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
                 <dt class="font-medium text-base-content">Especificaciones</dt>
                 <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
                   {{ selectedComponent.specifications }}
                 </dd>
               </div>
+              <!-- Detalle enlaces del elemento -->
               <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
                 <dt class="font-medium text-base-content">Enlaces</dt>
                 <dd class="mt-2 text-base-content sm:col-span-2 sm:mt-0">
@@ -464,6 +486,7 @@
 </template>
 
 <script setup>
+// Importar componentes vue necesarios
 import { ref, computed } from 'vue'
 
 // Estado reactivo
@@ -714,16 +737,19 @@ const triggerFileInput = () => {
   fileInput.value.click()
 }
 
+// Manejo de eventos de selección y arrastre de archivos
 const handleFileSelect = (event) => {
   const files = Array.from(event.target.files)
   processFiles(files)
 }
 
+// Manejo de eventos de arrastre y soltado de archivos
 const handleDrop = (event) => {
   const files = Array.from(event.dataTransfer.files)
   processFiles(files)
 }
 
+// Procesar archivos seleccionados
 const processFiles = (files) => {
   files.forEach((file) => {
     // Verificar que sea una imagen
@@ -752,10 +778,12 @@ const processFiles = (files) => {
   })
 }
 
+// Eliminar imagen seleccionada
 const removeImage = (index) => {
   selectedImages.value.splice(index, 1)
 }
 
+// Formatear tamaño de archivo para mostrar en la interfaz
 const formatFileSize = (bytes) => {
   if (bytes === 0) return '0 Bytes'
   const k = 1024
@@ -764,6 +792,7 @@ const formatFileSize = (bytes) => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
 }
 
+// Método para enviar el formulario
 const submitForm = () => {
   console.log('Formulario enviado:', {
     elemento: formData.value.elemento,
@@ -783,27 +812,33 @@ const hasActiveFilters = computed(() => {
   return searchTerm.value || selectedEspecialidad.value || selectedTipoComponente.value
 })
 
+// Computed para mostrar resultados
 const showResults = computed(() => {
   return hasSearched.value && hasActiveFilters.value
 })
 
+// Filtrar componentes según los criterios de búsqueda
 const filterComponents = () => {
   if (!searchTerm.value) return
   hasSearched.value = true
 }
 
+// Método para manejar el cambio de especialidad y tipo de componente
 const onEspecialidadChange = () => {
   hasSearched.value = true
 }
 
+// Método para manejar el cambio de tipo de componente
 const onTipoComponenteChange = () => {
   hasSearched.value = true
 }
 
+// Método para realizar la búsqueda
 const performSearch = () => {
   hasSearched.value = true
 }
 
+// Método para limpiar filtros específicos
 const clearFilter = (type) => {
   switch (type) {
     case 'search':
@@ -826,6 +861,7 @@ const clearFilter = (type) => {
   }
 }
 
+// Método para limpiar todos los filtros
 const clearAllFilters = () => {
   searchTerm.value = ''
   selectedEspecialidad.value = ''
@@ -875,6 +911,7 @@ const toggleAccordion = (section) => {
 </script>
 
 <style scoped>
+/* Estilos generales */
 .accordion-toggle {
   transition: all 0.3s ease;
 }
@@ -907,6 +944,7 @@ input:focus {
   background-color: #545386;
 }
 
+/* Estilos específicos para el modal */
 .input {
   &::file-selector-button {
     background-color: #545386 !important;

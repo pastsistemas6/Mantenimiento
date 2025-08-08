@@ -1,4 +1,5 @@
 <template>
+  <!-- Layout de la página Acerca de -->
   <div class="min-h-full">
     <div class="py-2 pr-5 pb-6">
       <div class="flex flex-col gap-8 shadow p-4 rounded-lg">
@@ -10,6 +11,7 @@
             Área de mantenimiento eléctrico y automatización
           </h3>
           <div class="flex h-100 justify-start">
+            <!-- Imagen del organigrama -->
             <img class="w-full rounded-lg shadow" src="../assets/image.png" alt="organigrama" />
           </div>
         </div>
@@ -259,6 +261,7 @@
 <script setup></script>
 
 <style scoped>
+/* Estilos para el layout de la página Acerca de */
 p {
   flex-grow: 0;
 }

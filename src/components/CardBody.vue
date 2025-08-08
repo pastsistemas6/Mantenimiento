@@ -2,6 +2,7 @@
   <div class="flex flex-row items-start gap-4">
     <div class="bg-[#545386] p-0 rounded-lg w-full">
       <h2 class="text-2xl text-white font-semibold m-3 ml-5">
+        <!-- Título dinámico basado en la finca seleccionada -->
         {{
           cart.finca.nombre != undefined
             ? `Resumen de ${cart.finca.nombre}`
@@ -55,6 +56,7 @@
               <span class="icon-[tabler--map-pin] size-10"></span>
             </div>
             <div class="stat-title">Ubicación</div>
+            <!-- Mostrar ciudad y región de la finca -->
             <div class="stat-value">{{ cart.finca.ciudad }}</div>
             <div class="stat-desc">{{ cart.finca.regionName }}</div>
           </div>
@@ -64,6 +66,7 @@
               <span class="icon-[tabler--ruler] size-10"></span>
             </div>
             <div class="stat-title">Área Total</div>
+            <!-- Mostrar hectáreas cultivadas -->
             <div class="stat-value">{{ cart.finca.hectareas }} hectáreas</div>
             <div class="stat-desc">Superficie cultivada</div>
           </div>
@@ -73,6 +76,8 @@
               <span class="icon-[tabler--activity] size-10"></span>
             </div>
             <div class="stat-title">Estado</div>
+            <!-- Mostrar estado de la finca con colores -->
+            <!-- Verde si está activa, amarillo si no -->
             <div
               class="stat-value"
               :class="{
@@ -100,8 +105,10 @@
 </template>
 
 <script setup>
+// Importar el store
 import { useCart } from '@/stores/cart'
 
+// Usar el store de cart
 const cart = useCart()
 </script>
 

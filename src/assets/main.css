@@ -1,10 +1,13 @@
+/* Importaciones de estilos base y Tailwind CSS */
 @import './base.css';
 
+/* Estilos personalizados */
 #overlay-navigation-example-backdrop {
   z-index: -2 !important;
   background-color: white;
 }
 
+/* Colores personalizados para roles */
 :root {
   --color-administrador: #f7ec41ff;
   --color-gerente: #22c55e8c;

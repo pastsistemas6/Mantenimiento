@@ -1,10 +1,13 @@
 <template>
+  <!-- Layout para la página 404 personalizada -->
   <div class="main">
     <div class="h-full">
       <h2 class="mt-20 mb-8 w-full text-center text-5xl font-bold text-[#545386]">
         404 Page not found.
       </h2>
+      <!-- SVG decorativo para la página 404 -->
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 355" class="w-full">
+        <!-- Definición de estilos para el SVG -->
         <g id="ocean">
           <path id="sky" class="st0" d="M0 0h1000v203.1H0z" />
           <linearGradient
@@ -29,6 +32,7 @@
             <path class="st0" d="M-374.8 275.2s83.7-28 179.9-28S2 275.2 2 275.2h-376.8z" />
           </g>
         </g>
+        <!-- Grupo de vías del tren -->
         <g id="tracks">
           <path class="st2" d="M9.8 282.4h-3L0 307.6h3z" />
           <path class="st2" d="M19.8 282.4h-3L10 307.6h3z" />
@@ -235,6 +239,7 @@
           <path class="st3" d="M-499.5 300.2H1000v5.1H-499.5z" />
           <path class="st3" d="M-499.5 283.8H1000v2.8H-499.5z" />
         </g>
+        <!-- Clouds Group -->
         <g id="cloudsAll">
           <path
             id="cloud1"
@@ -262,7 +267,7 @@
             d="M511.7 12.4s-21.3-.3-25 7c0 0-4.3 12.2 16 12.5 0 0-2.1 7 12.2 8.6 0 0 15 1.8 21.3-4 0 0 3.6 11.9 17.8 12.8 0 0 19.5 1.6 27-4.4 0 0 5-4.4 2.1-6.7 0 0 4.1 4.4 21.2-1.5 0 0 12.1-4.6 7-11.6 0 0 16-2.8 10.1-10.4 0 0-10.2-4.9-17.1.6 0 0-5.5-9.2-32.5-9.2 0 0-19.1-1.2-27 7.6 0 0 .5-5.8-13.3-6.1-.1.2-20.3-1.6-19.8 4.8z"
           />
         </g>
-
+        <!-- Train Group -->
         <g id="train">
           <path fill="#b3dcd" d="M344.5 248.5h507.2v37.8H344.5z" />
           <g id="wheels">
@@ -297,6 +302,7 @@
               d="M821.1 295.7c-5.6 0-10.1-4.5-10.1-10.1s4.5-10.1 10.1-10.1 10.1 4.5 10.1 10.1c0 5.5-4.6 10.1-10.1 10.1z"
             />
           </g>
+          <!-- Braces and Car Group -->
           <path id="bracefront" class="st7" d="M383.2 285.6h88.1" />
           <path id="braceback" class="st7" d="M733.2 285.6h88.1" />
           <g id="car-layers">
@@ -314,6 +320,7 @@
 
             <path class="st9" d="M320.3 257.8h549.9" />
 
+            <!-- Ladders and Window -->
             <g id="ladders">
               <g id="ladder-f">
                 <path id="front-ladder" class="fill-[#564D87]" d="M433.8 258.4h17.8v34.8h-17.8z" />
@@ -339,14 +346,16 @@
 </template>
 
 <script setup>
+// Importacion del logo
 import logo from '../assets/logo.png'
 </script>
 
 <style scoped>
+/* Estilos para la animacion del tren */
 .main {
   width: 100%;
 }
-
+/* Estilos para el SVG */
 .st0 {
   fill: #fff;
 }
@@ -385,6 +394,7 @@ import logo from '../assets/logo.png'
   fill: none;
 }
 
+/* Animaciones */
 #cloud1 {
   animation: cloud003 15s linear infinite;
 }
@@ -417,6 +427,7 @@ import logo from '../assets/logo.png'
   animation: land 10000ms linear infinite;
 }
 
+/* Animaciones de movimiento del tren */
 @keyframes jig {
   0% {
     transform: translateY(0px);
@@ -433,6 +444,7 @@ import logo from '../assets/logo.png'
   animation: jig 0.35s linear infinite;
 }
 
+/* Animaciones de movimiento de las nubes */
 @keyframes land {
   from {
     transform: translateX(0);
@@ -442,6 +454,7 @@ import logo from '../assets/logo.png'
   }
 }
 
+/* Animacion de movimiento de las vias del tren */
 @keyframes slide {
   from {
     transform: translateX(0px);
@@ -456,6 +469,7 @@ import logo from '../assets/logo.png'
   100% { transform: translateX(1000px) translateY(0); }
 } */
 
+/* Animaciones de movimiento de las nubes */
 @keyframes cloud001 {
   0% {
     transform: translateX(-1000px) translateY(3px);
@@ -483,6 +497,7 @@ import logo from '../assets/logo.png'
   }
 }
 
+/* Animaciones de movimiento de las nubes flotantes */
 @keyframes float {
   0% {
     transform: translateY(0px) translateX(0);
@@ -500,6 +515,7 @@ import logo from '../assets/logo.png'
   animation: braces 1s linear infinite;
 }
 
+/* Animacion de movimiento de las llantas del tren */
 @keyframes braces {
   0% {
     transform: translateX(-2px);

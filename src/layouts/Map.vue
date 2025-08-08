@@ -1,24 +1,29 @@
 <template>
+  <!-- Layout para el mapa de finca -->
   <div class="min-h-full">
     <div class="py-3 pr-5 pb-6">
       <div id="map-section" class="flex flex-col justify-between gap-4 shadow px-4 py-4 rounded-lg">
         <div class="flex justify-between">
           <h3 class="text-3xl font-bold text-[#545386]">Mapa de finca</h3>
+          <!-- Botón para filtrar capas -->
           <button id="layer-filter-btn" class="btn bg-[#545386] border-0" title="Filtrar capas">
             Filtro
           </button>
         </div>
         <div class="divider text-base-content/50 col-span-full"></div>
+        <!-- Contenedor del mapa y panel de gestión -->
         <div class="flex h-150 relative overflow-hidden rounded-md shadow">
           <div class="w-9/12 h-full relative overflow-hidden rounded-md">
             <div id="flower-map" class="w-full h-full relative z-1"></div>
             <div id="layer-filter-panel" class="layer-filter-panel shadow-md">
+              <!-- Panel de filtros de capas -->
               <div class="layer-filter-header">
                 <h4>Filtrar Capas</h4>
                 <button class="close-filter-btn">X</button>
               </div>
               <div class="layer-filter-content">
                 <div class="filter-group">
+                  <!-- Filtros para tipos de cultivo -->
                   <h5>Tipos de Cultivo</h5>
                   <div class="filter-options">
                     <label class="filter-option">
@@ -36,6 +41,7 @@
                   </div>
                 </div>
                 <div class="filter-group">
+                  <!-- Filtros para estados de cultivo -->
                   <h5>Estado</h5>
                   <div class="filter-options">
                     <label class="filter-option">
@@ -56,6 +62,7 @@
             </div>
           </div>
           <div class="w-4/12 p-4 bg-[#f8f9fa] overflow-y-auto">
+            <!-- Panel de gestión de finca -->
             <div class="p-4 shadow rounded-md flex flex-col gap-4">
               <h4 class="font-semibold">🌸 Gestión de Finca</h4>
               <div class="flex flex-col p-3 gap-3 bg-[#D8D2C4] rounded-md">
@@ -74,6 +81,7 @@
                 </div>
               </div>
               <div class="flex flex-col gap-2">
+                <!-- Controles para agregar, editar y eliminar bloques -->
                 <h5 class="font-semibold">Controles</h5>
                 <button id="add-block" class="btn bg-[#545386] border-0 text-sm">
                   <i class="icon-[mingcute--add-fill] size-4"></i> Agregar Bloque
@@ -104,13 +112,16 @@
 </template>
 
 <script setup>
+// Importar Leaflet y los estilos necesarios
 import { onMounted } from 'vue'
 
+// Onmounted para inicializar el mapa
 onMounted(async () => {
   // Crear el mapa de flores
   var flowerMap = L.map('flower-map').setView([4.78285, -74.28604], 16)
 
   // Definir las capas base
+  // Capa de OpenStreetMap
   var osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     minZoom: 1,
     maxZoom: 22,
@@ -118,6 +129,7 @@ onMounted(async () => {
     maxNativeZoom: 19,
   })
 
+  // Capa de satélite
   var satelliteLayer = L.tileLayer('http://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}', {
     minZoom: 1,
     maxZoom: 22,
@@ -197,6 +209,7 @@ onMounted(async () => {
   var drawnItems = new L.FeatureGroup()
   flowerMap.addLayer(drawnItems)
 
+  // Agregar el control de dibujo al mapa
   var drawControl = new L.Control.Draw({
     draw: {
       polygon: {
@@ -322,6 +335,7 @@ onMounted(async () => {
   right: 0;
 }
 
+/* Estilos para el encabezado del panel de filtros */
 .layer-filter-header {
   display: flex;
   justify-content: space-between;
@@ -335,6 +349,7 @@ onMounted(async () => {
   color: black;
 }
 
+/* Estilos para el botón de cerrar del panel de filtros */
 .close-filter-btn {
   background: none;
   border: none;
@@ -362,6 +377,7 @@ onMounted(async () => {
   font-size: 0.9rem;
 }
 
+/* Estilos para las opciones de filtro */
 .filter-options {
   display: flex;
   flex-direction: column;
@@ -375,6 +391,7 @@ onMounted(async () => {
   cursor: pointer;
 }
 
+/* Estilos para los inputs de checkbox */
 .filter-option input[type='checkbox'] {
   width: 16px;
   height: 16px;

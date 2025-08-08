@@ -1,10 +1,12 @@
 <template>
+  <!-- View principal del cuerpo de la aplicación-->
   <div class="w-full overflow-hidden">
     <header class="bg-white shadow-sm fixed w-full z-2">
       <div
         class="mx-auto max-w-full px-3 py-1.5 flex gap-5 items-center border-b-3 border-[#D8D2C4]"
       >
         <div class="flex justify-center items-center p-2">
+          <!-- Botón para alternar el drawer -->
           <button
             @click="toggleDrawer"
             class="btn shadow-none bg-white border-0 text-[#545386] hover:bg-gray-100"
@@ -19,8 +21,10 @@
             ></span>
           </button>
         </div>
+        <!-- Título de la aplicación -->
         <h1 class="text-3xl font-bold tracking-tight text-[#545386]">Mantenimiento</h1>
         <div class="dropdown relative inline-flex ml-auto">
+          <!-- Botón de usuario con dropdown para opciones -->
           <button
             id="dropdown-header"
             type="button"
@@ -30,6 +34,7 @@
             aria-label="Dropdown"
             @click.stop="showDropdown = !showDropdown"
           >
+            <!-- Iniciales del usuario y nombre -->
             <div
               class="size-10 text-sm flex-none rounded-full flex items-center justify-center text-white font-bold"
               :style="{ backgroundColor: `var(--color-${cart.rol.toLowerCase()})` }"
@@ -42,6 +47,7 @@
               :class="{ 'rotate-180': showDropdown }"
             ></span>
           </button>
+          <!-- Dropdown con opciones de usuario -->
           <ul
             class="dropdown-menu absolute min-w-60 shadow bg-white z-50"
             :class="[
@@ -55,12 +61,14 @@
             data-placement="bottom-end"
           >
             <li>
+              <!-- Opción para ver el rol del usuario -->
               <a class="dropdown-item py-1.5 hover:bg-white" title="Rol">
                 <span class="icon-[solar--user-id-linear] size-6 text-[#545386] mr-1"></span>
                 {{ cart.rol }}
               </a>
             </li>
             <li v-if="disable[6]">
+              <!-- Opción para ir al administrador de usuarios -->
               <RouterLink
                 class="dropdown-item py-1.5"
                 to="users"
@@ -70,6 +78,7 @@
                 Administrar usuarios
               </RouterLink>
             </li>
+            <!--- Opción para cerrar sesion -->
             <li class="dropdown-footer gap-2">
               <a @click="cerrar" class="btn btn-error btn-soft btn-block">Cerrar sesión</a>
             </li>
@@ -77,19 +86,23 @@
         </div>
       </div>
     </header>
+    <!-- Contenedor principal del cuerpo para el menu -->
     <div class="fixed h-full transition-all duration-300" :class="isExpanded ? 'w-2/12' : 'w-20'">
       <Drawer></Drawer>
     </div>
+    <!-- Espacio para el contenido principal de la aplicación -->
     <div
       class="pt-20 transition-all duration-300"
       :class="isExpanded ? 'w-9/11 ml-auto' : 'w-11/12 ml-auto'"
     >
+      <!-- Aquí se carga el contenido principal de la aplicación -->
       <RouterView></RouterView>
     </div>
   </div>
 </template>
 
 <script setup>
+// Importaciones necesarias
 import { RouterView } from 'vue-router'
 import { ref, computed, provide, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -107,6 +120,7 @@ const toggleDrawer = () => {
   isExpanded.value = !isExpanded.value
 }
 
+// Función para obtener las iniciales del nombre del usuario
 const getInitials = (name) => {
   return name
     .split(' ')
@@ -115,6 +129,7 @@ const getInitials = (name) => {
     .toUpperCase()
 }
 
+// Función para cerrar sesión y redirigir al home
 function cerrar() {
   cart.resetCart()
   router.push({ name: 'home' })
@@ -125,6 +140,7 @@ provide('drawerState', {
   toggleDrawer,
 })
 
+// Proveer la función para cerrar sesión
 const showDropdown = ref(false)
 
 // Cierra el dropdown al hacer clic fuera
@@ -134,10 +150,12 @@ const closeDropdown = (e) => {
   }
 }
 
+// Escucha el evento de clic en el documento para cerrar el dropdown
 onMounted(() => {
   window.addEventListener('click', closeDropdown)
 })
 
+// Limpia el evento al desmontar el componente
 onUnmounted(() => {
   window.removeEventListener('click', closeDropdown)
 })

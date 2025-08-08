@@ -1,10 +1,13 @@
+/* Importaciones de Tailwind CSS */
 @import 'tailwindcss';
-@plugin "flyonui";
-@plugin "@iconify/tailwind4";
-
 @import './variants.css';
 @import './vendor/fullcalendar.css';
 @import './vendor/datatables.css';
 @import './vendor/apexcharts.css';
 
+/* Plugins necesarios de FlyonUI y tailwind */
+@plugin "flyonui";
+@plugin "@iconify/tailwind4";
+
+/* Source de FlyonUI */
 @source "/lib/flyonui/dist/index.js";

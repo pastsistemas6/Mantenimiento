@@ -1,8 +1,9 @@
 <template>
+  <!-- Componente TablaUsers.vue -->
   <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-    <!-- Filters -->
+    <!-- Filtros -->
     <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between gap-4">
-      <!-- Search -->
+      <!-- Busqueda -->
       <div class="relative flex-1 max-w-sm">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -22,9 +23,9 @@
         />
       </div>
 
-      <!-- Controls -->
+      <!-- Controles -->
       <div class="flex items-center gap-3">
-        <!-- Page Size -->
+        <!-- Tamaño de página -->
         <select
           v-model="pageSize"
           class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent"
@@ -35,7 +36,7 @@
           <option value="30">30</option>
         </select>
 
-        <!-- Estado Filter -->
+        <!-- Estado filtro -->
         <select
           v-model="estadoFilter"
           class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent"
@@ -47,7 +48,7 @@
           <option value="suspendido">Suspendido</option>
         </select>
 
-        <!-- Rol Filter -->
+        <!-- Rol filtro -->
         <select
           v-model="rolFilter"
           class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent"
@@ -60,7 +61,7 @@
           <option value="operador">Operador</option>
         </select>
 
-        <!-- Ubicación Filter -->
+        <!-- Ubicación filtro -->
         <select
           v-model="ubicacionFilter"
           class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#545386] focus:border-transparent"
@@ -73,7 +74,7 @@
       </div>
     </div>
 
-    <!-- Table -->
+    <!-- Tabla -->
     <div class="overflow-x-auto">
       <table class="w-full">
         <thead class="bg-gray-100">
@@ -86,6 +87,7 @@
                 @change="toggleSelectAll"
               />
             </th>
+            <!-- iterar sobre las columnas de la tabla -->
             <th
               v-for="column in columns"
               :key="column.key"
@@ -129,6 +131,7 @@
             </th>
           </tr>
         </thead>
+        <!-- Cuerpo de la tabla -->
         <tbody class="bg-white divide-y divide-gray-200">
           <tr v-for="usuario in paginatedItems" :key="usuario.id" class="hover:bg-gray-200">
             <td class="px-4 py-4">
@@ -139,12 +142,14 @@
                 class="h-4 w-4 text-[#545386] border-gray-300 rounded focus:ring-[#545386]"
               />
             </td>
+            <!-- nombre y correo del usuario -->
             <td class="px-4 py-4">
               <div class="flex flex-col">
                 <div class="text-sm font-medium text-gray-900">{{ usuario.nombre }}</div>
                 <div class="text-sm text-gray-500">{{ usuario.correo }}</div>
               </div>
             </td>
+            <!-- rol del usuario -->
             <td class="px-4 py-4">
               <span
                 :style="{ backgroundColor: `var(--color-${usuario.rol.toLowerCase()})` }"
@@ -154,6 +159,7 @@
               </span>
             </td>
 
+            <!-- Estado del usuario -->
             <td class="px-4 py-4">
               <span
                 :class="getEstadoBadgeClass(usuario.estado)"
@@ -162,10 +168,13 @@
                 {{ usuario.estado }}
               </span>
             </td>
+            <!-- Ubicacion del usuario -->
             <td class="px-4 py-4 text-sm text-gray-900">{{ usuario.ubicacion }}</td>
+            <!-- Última conexión del usuario -->
             <td class="px-4 py-4 text-sm text-gray-900">
               {{ formatDate(usuario.ultimaConexion) }}
             </td>
+            <!-- Acciones -->
             <td class="px-4 py-4">
               <div class="flex items-center space-x-2">
                 <button
@@ -202,7 +211,7 @@
         </tbody>
       </table>
 
-      <!-- Empty State -->
+      <!-- Mensaje si no hay usuarios -->
       <div v-if="paginatedItems.length === 0" class="text-center py-12">
         <svg
           class="mx-auto h-12 w-12 text-gray-400"
@@ -221,7 +230,7 @@
       </div>
     </div>
 
-    <!-- Pagination -->
+    <!-- Paginacion -->
     <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
       <div class="text-sm text-gray-700">
         Mostrando {{ startIndex + 1 }} a
@@ -262,10 +271,11 @@
 </template>
 
 <script setup>
+// Importaciones necesarias
 import { ref, computed, watch, onMounted } from 'vue'
 import { users as usersData, fincas as fincasData } from '../services/auth'
 
-// Reactive data
+// Variables reactivas
 const searchTerm = ref('')
 const pageSize = ref(5)
 const estadoFilter = ref('Todos')
@@ -277,11 +287,11 @@ const sortDirection = ref('asc')
 const selectedItems = ref([])
 const selectAll = ref(false)
 
-// Data sources
+// Datos de usuarios y fincas
 const users = ref([])
 const fincas = ref([])
 
-// Table columns
+// Columnas de la tabla
 const columns = [
   { key: 'nombre', label: 'Usuario' },
   { key: 'rol', label: 'Rol' },
@@ -290,17 +300,17 @@ const columns = [
   { key: 'ultimaConexion', label: 'Última Conexión' },
 ]
 
-// Load data on component mount
+// Onmounted para cargar los datos de usuarios y fincas
 onMounted(() => {
   users.value = usersData
   fincas.value = fincasData
 })
 
-// Computed properties
+// Filtros y paginación
 const filteredItems = computed(() => {
   let filtered = users.value
 
-  // Apply search filter
+  // Filtrar por término de búsqueda
   if (searchTerm.value) {
     const search = searchTerm.value.toLowerCase()
     filtered = filtered.filter(
@@ -310,28 +320,27 @@ const filteredItems = computed(() => {
     )
   }
 
-  // Apply estado filter
+  // Filtrar por estado
   if (estadoFilter.value !== 'Todos') {
     filtered = filtered.filter((usuario) => usuario.estado === estadoFilter.value)
   }
 
-  // Apply rol filter
+  // Filtrar por rol
   if (rolFilter.value !== 'Todos') {
     filtered = filtered.filter((usuario) => usuario.rol === rolFilter.value)
   }
 
-  // Apply ubicacion filter
+  // Filtrar por ubicación
   if (ubicacionFilter.value !== 'Todas') {
     filtered = filtered.filter((usuario) => usuario.ubicacion === ubicacionFilter.value)
   }
 
-  // Apply sorting
+  // Ordenar por columna y dirección
   if (sortColumn.value) {
     filtered = [...filtered].sort((a, b) => {
       let aVal = a[sortColumn.value]
       let bVal = b[sortColumn.value]
 
-      // Special handling for nested values like nombre
       if (sortColumn.value === 'ultimaConexion') {
         aVal = new Date(aVal)
         bVal = new Date(bVal)
@@ -348,16 +357,20 @@ const filteredItems = computed(() => {
   return filtered
 })
 
+// Paginación
 const totalPages = computed(() => Math.ceil(filteredItems.value.length / pageSize.value))
 
+// Índice de inicio para la paginación
 const startIndex = computed(() => (currentPage.value - 1) * pageSize.value)
 
+// Elementos paginados
 const paginatedItems = computed(() => {
   const start = startIndex.value
   const end = start + pageSize.value
   return filteredItems.value.slice(start, end)
 })
 
+// Páginas visibles para la paginación
 const visiblePages = computed(() => {
   const pages = []
   const total = totalPages.value
@@ -385,7 +398,7 @@ const visiblePages = computed(() => {
   return pages
 })
 
-// Methods
+// Metodos
 const sortBy = (column) => {
   if (sortColumn.value === column) {
     sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
@@ -396,24 +409,28 @@ const sortBy = (column) => {
   currentPage.value = 1
 }
 
+// Navegación entre páginas
 const goToPage = (page) => {
   if (page !== '...') {
     currentPage.value = page
   }
 }
 
+// Paginacion volver atrás
 const prevPage = () => {
   if (currentPage.value > 1) {
     currentPage.value--
   }
 }
 
+// Paginacion avanzar
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value++
   }
 }
 
+// Variable para manejar la selección de todos los elementos
 const toggleSelectAll = () => {
   if (selectAll.value) {
     selectedItems.value = paginatedItems.value.map((usuario) => usuario.id)
@@ -422,6 +439,7 @@ const toggleSelectAll = () => {
   }
 }
 
+// Variable para obtener la clase del badge de estado
 const getEstadoBadgeClass = (estado) => {
   switch (estado) {
     case 'activo':
@@ -437,6 +455,7 @@ const getEstadoBadgeClass = (estado) => {
   }
 }
 
+// Formatear fecha
 const formatDate = (dateString) => {
   const date = new Date(dateString)
   return date.toLocaleString('es-ES', {
@@ -448,26 +467,30 @@ const formatDate = (dateString) => {
   })
 }
 
+// Variable para editar el elemento seleccionado
 const editItem = (usuario) => {
   console.log('Editar usuario:', usuario)
   // Implementar funcionalidad de edición
 }
 
+// Variable para eliminar el elemento seleccionado
 const deleteItem = (usuario) => {
   console.log('Eliminar usuario:', usuario)
   // Implementar funcionalidad de eliminación
 }
 
+// Variable para más acciones en el elemento seleccionado
 const moreActions = (usuario) => {
   console.log('Más acciones para usuario:', usuario)
   // Implementar más acciones
 }
 
-// Watchers
+// Watch para actualizar la paginación y filtros
 watch([searchTerm, estadoFilter, rolFilter, ubicacionFilter, pageSize], () => {
   currentPage.value = 1
 })
 
+// Watch para actualizar la selección de todos los elementos
 watch(
   selectedItems,
   () => {
@@ -479,6 +502,7 @@ watch(
   { deep: true },
 )
 
+// Watch para actualizar la paginación y selección de elementos
 watch(paginatedItems, () => {
   const allSelected =
     paginatedItems.value.length > 0 &&

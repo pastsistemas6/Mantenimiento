@@ -1,10 +1,12 @@
 <template>
+  <!-- Layout para la página de administración de usuarios -->
   <div class="min-h-full">
     <div class="py-3 pr-5 pb-6">
       <div class="flex flex-col gap-4 shadow p-4 rounded-lg">
         <div class="flex gap-2 items-center">
           <h2 class="text-[#545386] font-bold text-3xl">Administración de usuarios</h2>
           <div id="dropdown-datatable-with-export" class="dropdown relative inline-flex ml-auto">
+            <!-- Botón para exportar datos -->
             <button
               id="datatable-export-dropdown"
               type="button"
@@ -26,6 +28,7 @@
                 "
               ></span>
             </button>
+            <!-- Menú desplegable para opciones de exportación -->
             <div
               :class="
                 !isOpen
@@ -36,6 +39,7 @@
               aria-orientation="vertical"
               aria-labelledby="datatable-export-dropdown"
             >
+              <!-- Copy, Print, Excel, CSV, PDF buttons -->
               <button
                 type="button"
                 class="dropdown-item"
@@ -84,6 +88,8 @@
               </button>
             </div>
           </div>
+
+          <!-- Botón para abrir el modal de nuevo usuario -->
           <button
             type="button"
             class="btn bg-[rgb(84,83,134)] shadow-none text-sm"
@@ -98,6 +104,7 @@
             </span>
           </button>
 
+          <!-- Modal para agregar un nuevo usuario -->
           <div
             id="form-modal"
             :class="
@@ -110,6 +117,7 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <h3 class="modal-title font-bold text-2xl text-[#545386]">Agregar usuario</h3>
+                  <!-- Botón para cerrar el modal -->
                   <button
                     type="button"
                     class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
@@ -122,6 +130,7 @@
                 <form>
                   <div class="modal-body pt-0">
                     <div class="mb-4">
+                      <!-- Campo de entrada para el nombre completo del usuario -->
                       <label class="label-text" for="fullName"> Usuario </label>
                       <input
                         type="text"
@@ -133,6 +142,7 @@
                     </div>
                     <div class="mb-4 flex gap-4 max-sm:flex-col">
                       <div class="w-full">
+                        <!-- Campo de entrada para el correo -->
                         <label class="label-text" for="email"> Correo </label>
                         <input
                           type="email"
@@ -143,6 +153,7 @@
                         />
                       </div>
                       <div class="w-full">
+                        <!-- Select para elegir el rol -->
                         <label class="label-text" for="favorite-simpson">Rol</label>
                         <select class="select" id="favorite-simpson" required>
                           <option selected disabled>Seleccione un rol...</option>
@@ -155,6 +166,7 @@
                       </div>
                     </div>
                     <div>
+                      <!-- Select para elegir la ubicación del usuario -->
                       <label class="label-text" for="favorite-simpson">Ubicación</label>
                       <select class="select" id="favorite-simpson" required>
                         <option selected disabled>Seleccione una finca...</option>
@@ -162,6 +174,7 @@
                       </select>
                     </div>
                   </div>
+                  <!-- Botones para cancelar o guardar el nuevo usuario -->
                   <div class="modal-footer">
                     <button type="button" class="btn btn-soft btn-secondary" @click="closeModal">
                       Cancelar
@@ -174,10 +187,12 @@
           </div>
         </div>
         <div class="flex items-center justify-evenly gap-3 mt-2">
+          <!-- Estadísticas de usuarios -->
           <div class="stat shadow-sm rounded-md">
             <div class="stat-figure">
               <span class="icon-[fa6-solid--users-viewfinder] size-11 text-[#545386]"></span>
             </div>
+            <!-- Total usuarios y valor de la estadística -->
             <div class="stat-title">Total usuarios</div>
             <div class="stat-value text-[#545386]!">{{ users.length }}</div>
           </div>
@@ -185,6 +200,7 @@
             <div class="stat-figure">
               <span class="icon-[fa6-solid--user-check] size-11 text-[#545386]"></span>
             </div>
+            <!-- Total usuarios activos y valor de la estadística -->
             <div class="stat-title">Total activos</div>
             <div class="stat-value text-[#545386]!">{{ activo }}</div>
           </div>
@@ -192,6 +208,7 @@
             <div class="stat-figure">
               <span class="icon-[fa6-solid--user-xmark] size-11 text-[#545386]"></span>
             </div>
+            <!-- Total usuarios inactivos y valor de la estadística -->
             <div class="stat-title">Total inactivos</div>
             <div class="stat-value text-[#545386]!">{{ inactivo }}</div>
           </div>
@@ -199,11 +216,13 @@
             <div class="stat-figure">
               <span class="icon-[fa6-solid--user-clock] size-11 text-[#545386]"></span>
             </div>
+            <!-- Total usuarios pendientes y valor de la estadística -->
             <div class="stat-title">Total pendientes</div>
             <div class="stat-value text-[#545386]!">{{ pendiente }}</div>
           </div>
         </div>
         <div>
+          <!-- Tabla de usuarios -->
           <TablaUsers></TablaUsers>
         </div>
       </div>
@@ -212,10 +231,12 @@
 </template>
 
 <script setup>
+// Importaciones necesarias
 import TablaUsers from '@/components/TablaUsers.vue'
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { users as usersData, fincas as fincasData } from '../services/auth'
 
+// Variables reactivas para manejar el estado del modal y la tabla
 const isOpen = ref(false)
 const isModalOpen = ref(false)
 const users = ref([])
@@ -224,6 +245,7 @@ const activo = ref(0)
 const inactivo = ref(0)
 const pendiente = ref(0)
 
+// Función para abrir o cerrar el modal de exportación
 function abrir() {
   if (isOpen.value == false) {
     isOpen.value = true
@@ -232,18 +254,22 @@ function abrir() {
   }
 }
 
+// Función para cerrar el modal de exportación
 const close = () => {
   isOpen.value = false
 }
 
+// Función para abrir el modal de nuevo usuario
 const openModal = () => {
   isModalOpen.value = true
 }
 
+// Función para cerrar el modal de nuevo usuario
 const closeModal = () => {
   isModalOpen.value = false
 }
 
+// Computed properties para manejar el estado de los usuarios
 function activos() {
   for (let index = 0; index < users.value.length; index++) {
     if (users.value[index].estado == 'activo') {
@@ -260,12 +286,14 @@ function activos() {
   }
 }
 
+// Efecto para inicializar los datos de usuarios y fincas al montar el componente
 onMounted(async () => {
   users.value = usersData
   fincas.value = fincasData
 
   activos()
 
+  // Inicializar DataTable con exportación
   const dataTable = $('#datatable-with-export table').DataTable({
     dom: 'B', // Required for buttons to work
     pageLength: 5,
@@ -308,6 +336,7 @@ onMounted(async () => {
     buttonContainer.style.display = 'none'
   })
 
+  // Add event listeners to buttons for triggering DataTable actions
   buttons.forEach((btn) => {
     const type = btn.getAttribute('data-datatable-action-type')
     btn.addEventListener('click', () => dataTable.button(`.buttons-${type}`).trigger())
